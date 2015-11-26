@@ -7,7 +7,6 @@ var Search = React.createClass({
     return (
       <div>
         Search Main<br/>
-        <Link to="/addreview">Add Review</Link>
       </div>
     );
   }
