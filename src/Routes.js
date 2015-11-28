@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, Link, IndexRoute } from 'react-router';
 
 import App from './App';
-import SearchMain from './SearchMain';
+import SearchMain from './search/SearchMain';
 import AddReviewMain from './addReview/AddReviewMain';
 import ViewReview from './ViewReview';
 

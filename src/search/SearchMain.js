@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
+import BookReview2 from './BookReview';
 
 var data = {
   "key1": {
@@ -10,7 +11,7 @@ var data = {
     title: "Dragon",
     sexRating: "T",
     swearRating: "B",
-    violenceRatign: "LV",
+    violenceRating: "LV",
     recommendRating: "4",
     genre: "Fantasy",
     imageUrl: "http://d.gr-assets.com/books/1417024668l/23620393.jpg",
@@ -23,7 +24,7 @@ var data = {
     title: "Smokescreen",
     sexRating: "",
     swearRating: "",
-    violenceRatign: "",
+    violenceRating: "",
     recommendRating: "8",
     genre: "Fiction",
     imageUrl: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRZ9ZtRc4zKk2-u4exKM9m1TLBgu1kjUS_PYf0P5yqNg3n_5Y12",
@@ -38,7 +39,7 @@ var data = {
     title: "Defender of the Empire",
     sexRating: "T",
     swearRating: "B",
-    violenceRatign: "FV",
+    violenceRating: "FV",
     recommendRating: "8",
     genre: "",
     imageUrl: "http://ecx.images-amazon.com/images/I/51RjCiygDjL._SX310_BO1,204,203,200_.jpg",
@@ -57,12 +58,13 @@ var data = {
 
 var Search = React.createClass({
   render: function() {
+    var books = Object.keys(data).map((key) => {
+      var book = data[key];
+      return <BookReview2 key={key} book={book}/>
+    })
     return (
       <div>
-        <h2>Books</h2>
-        <div className={"row"}>
-          ROW
-        </div>
+        {books}
       </div>
     );
   }
