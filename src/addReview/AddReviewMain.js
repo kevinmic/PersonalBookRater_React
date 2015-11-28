@@ -67,10 +67,10 @@ var AddReviewMain = React.createClass({
             <label htmlFor="bookLocation">Location of Book: </label>
             <input type="text" className="form-control" id="bookLocation"/>
           </div>
-          <RatingOptions id="overallRating" label="Overall Rating" rateList={Scales.RATING_SCALE}/>
-          <RatingOptions id="profanityRating" label="Profanity Rating" rateList={Scales.PROFANITY_SCALE}/>
-          <RatingOptions id="sexualRating" label="Sexual Rating" rateList={Scales.SEXUAL_SCALE}/>
-          <RatingOptions id="violenceRating" label="Violence Rating" rateList={Scales.VIOLENCE_SCALE}/>
+          <RatingOptions id="overallRating" label="Overall Rating" rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}/>
+          <RatingOptions id="profanityRating" label="Profanity Rating" rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}/>
+          <RatingOptions id="sexualRating" label="Sexual Rating" rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}/>
+          <RatingOptions id="violenceRating" label="Violence Rating" rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}/>
           <div className="form-group">
             <label htmlFor="reviewDescription">Review: </label>
             <textarea className="form-control" rows="5" id="reviewDescrption"/>
