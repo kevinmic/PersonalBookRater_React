@@ -58,7 +58,7 @@ var AddReviewMain = React.createClass({
             <input type="text" className="form-control" id="series"/>
           </FormField>
           <FormField label="Book Number" id="bookNum">
-            <input type="text" className="form-control" id="bookNum"/>
+            <input type="number" className="form-control" id="bookNum"/>
           </FormField>
           <FormField label="Image Url" id="imageUrl">
             <input type="text" className="form-control" id="imageUrl"/>

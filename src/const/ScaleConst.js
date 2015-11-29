@@ -36,7 +36,7 @@ const PROFANITY_SCALE = {
 
 const SEXUAL_SCALE = {
   "G": {key:"G",  labelType:"label-success", description:"No offensive Sexual Content"},
-  "T": {key:"T",  labelType:"label-success", description:"Teen: Rougher than G, Less than T"},  // T took new description
+  "T": {key:"T",  labelType:"label-success", description:"Teen: Rougher than G, Less than PG"},  // T took new description
   "PG": {key:"PG", labelType:"label-warning", description:"Sexual Tension or Sex Implied"},     // PG moved to T
   "M": {key:"M",  labelType:"label-warning", description:"Mature: Some undescribed Sexual Encounters"},  // M took PG's spot
   "R": {key:"R",  labelType:"label-danger", description:"Sexual Encounters described in detail with intent to tittilate"},
