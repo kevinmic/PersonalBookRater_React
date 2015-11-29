@@ -14,22 +14,33 @@ const helpers = {
 var RatingOptions = React.createClass({
   propTypes: {
     rateList: React.PropTypes.arrayOf(Scales.SCALE_PROPTYPE).isRequired,
-    id : React.PropTypes.string.isRequired,
-    label : React.PropTypes.string.isRequired
+    id : React.PropTypes.string.isRequired
   },
   render: function() {
     return (
-        <div className="form-group">
-          <label htmlFor={this.props.id}>{this.props.label}:</label>
-          <br />
           <select id={this.props.id}>
             <option>Please Select</option>
             {helpers.ratingToOption(this.props.rateList)}
           </select>
-        </div>
     );
   }
+});
 
+var FormField = React.createClass({
+  propTypes: {
+    label : React.PropTypes.string.isRequired,
+    id : React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return (
+      <div className="form-group">
+        <label htmlFor={this.props.id} className="col-sm-2 control-label">{this.props.label}: </label>
+        <div className="col-sm-10">
+          {this.props.children}
+        </div>
+      </div>
+    )
+  }
 });
 
 module.exports = RatingOptions;
@@ -38,45 +49,49 @@ var AddReviewMain = React.createClass({
   render: function() {
     return (
       <div>
-        <form role="form">
-          <div className="form-group">
-            <label htmlFor="title">Title: </label>
+        <h2>Book Review</h2>
+        <form className="form-horizontal">
+          <FormField label="Title" id="title">
             <input type="text" className="form-control" id="title"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="series">Series: </label>
+          </FormField>
+          <FormField label="Series" id="series">
             <input type="text" className="form-control" id="series"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="bookNum">Book Number: </label>
+          </FormField>
+          <FormField label="Book Number" id="bookNum">
             <input type="text" className="form-control" id="bookNum"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="imageUrl">Image Url: </label>
+          </FormField>
+          <FormField label="Image Url" id="imageUrl">
             <input type="text" className="form-control" id="imageUrl"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="author">Author: </label>
+          </FormField>
+          <FormField label="Author" id="author">
             <input type="text" className="form-control" id="author"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="genre">Genre: </label>
+          </FormField>
+          <FormField label="Genre" id="genre">
             <input type="text" className="form-control" id="genre"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="bookLocation">Location of Book: </label>
+          </FormField>
+          <FormField label="Location of Book" id="bookLocation">
             <input type="text" className="form-control" id="bookLocation"/>
-          </div>
-          <RatingOptions id="overallRating" label="Overall Rating" rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}/>
-          <RatingOptions id="profanityRating" label="Profanity Rating" rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}/>
-          <RatingOptions id="sexualRating" label="Sexual Rating" rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}/>
-          <RatingOptions id="violenceRating" label="Violence Rating" rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}/>
-          <div className="form-group">
-            <label htmlFor="reviewDescription">Review: </label>
+          </FormField>
+          <FormField label="Overall Rating" id="overallRating">
+            <RatingOptions id="overallRating" rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}/>
+          </FormField>
+          <FormField label="Profanity Rating" id="profanityRating">
+            <RatingOptions id="profanityRating" rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}/>
+          </FormField>
+          <FormField label="Sexual Rating" id="sexualRating">
+            <RatingOptions id="sexualRating" rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}/>
+          </FormField>
+          <FormField label="Violence Rating" id="violenceRating">
+            <RatingOptions id="violenceRating" rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}/>
+          </FormField>
+          <FormField label="Review" id="reviewDescription">
             <textarea className="form-control" rows="5" id="reviewDescrption"/>
+          </FormField>
+          <div className="form-group">
+            <div className="col-sm-offset-2 col-sm-10">
+              <button type="submit" className="btn btn-default">Submit</button>
+            </div>
           </div>
-
-          <button type="submit" className="btn btn-default">Submit</button>
         </form>
       </div>
     );
