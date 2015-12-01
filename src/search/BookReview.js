@@ -28,7 +28,7 @@ var BookReview = React.createClass({
     if (book.seriesBookNumber) {
       var seriesBookNumber = <InnerRow label="Book Number" value={book.seriesBookNumber}/>
     }
-    
+
     if (book.reviews && book.reviews.length > 0) {
       var review = book.reviews[0];
     }
