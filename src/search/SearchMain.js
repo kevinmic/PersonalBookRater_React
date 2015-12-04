@@ -80,7 +80,7 @@ var Search = React.createClass({
   render: function() {
     var books = Object.keys(data).map((key) => {
       var book = data[key];
-      return <div><BookReview2 key={key} book={book}/><hr/></div>
+      return <div key={key}><BookReview2 key={key} book={book}/><hr/></div>
     })
     return (
       <div>

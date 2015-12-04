@@ -22,7 +22,7 @@ var RatingOptions = React.createClass({
   render: function() {
     return (
         <FormField label={this.props.label} id={this.props.id}>
-          <select id={this.props.id} onChange={this.props.onChange}>
+          <select id={this.props.id} className="form-control" onChange={this.props.onChange}>
             <option>Please Select</option>
             {helpers.ratingToOption(this.props.rateList)}
           </select>
