@@ -55,12 +55,13 @@ var AddReviewMain = React.createClass({
       profanityRating:"",
       sexualRating:"",
       violenceRating:"",
-      reviewDescription:""
+      reviewDescription:"",
+      showError: false,
     };
   },
   addReview: function() {
     console.log("Add Review");
-    console.log($);
+    this.setState({showError: true});
   },
   onChange: function(prop) {
     var data = {};
@@ -90,10 +91,10 @@ var AddReviewMain = React.createClass({
     return (
       <div>
         <h2>Book Review</h2>
-        <form className="form-horizontal" onSubmit={this.addReview}>
-          <AutoSuggestFormField label="Title" id="title" suggestions={getTitleSuggestions} onChange={this.onChangeWithValue}/>
-          <AutoSuggestFormField label="Series" id="series" suggestions={getSeriesSuggestions} onChange={this.onChangeWithValue}/>
-          <FormField label="Book Number" id="bookNum">
+        <form className="form-horizontal" onSubmit={this.addReview} onkeypress="if(event.keyCode == 13) addReview(this); return false;">
+          <AutoSuggestFormField required={true} data={this.state} label="Title" id="title" suggestions={getTitleSuggestions} onChange={this.onChangeWithValue}/>
+          <AutoSuggestFormField required={this.state.bookNum != ""} data={this.state} label="Series" id="series" suggestions={getSeriesSuggestions} onChange={this.onChangeWithValue}/>
+          <FormField required={this.state.series != ""} data={this.state} label="Book Number" id="bookNum">
             <input type="number" className="form-control" id="bookNum" onChange={this.onChange}/>
           </FormField>
           <FormField label="Image Url" id="imageUrl">
