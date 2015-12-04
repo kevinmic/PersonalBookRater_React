@@ -17,13 +17,15 @@ var RatingOptions = React.createClass({
     rateList: React.PropTypes.arrayOf(Scales.SCALE_PROPTYPE).isRequired,
     label: React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    isValid: React.PropTypes.func,
   },
   render: function() {
+    var {rateList, onChange, ...other} = this.props;
     return (
-        <FormField label={this.props.label} id={this.props.id}>
+        <FormField {...other} label={this.props.label} id={this.props.id}>
           <select id={this.props.id} className="form-control" onChange={this.props.onChange}>
-            <option>Please Select</option>
+            <option value="">Please Select</option>
             {helpers.ratingToOption(this.props.rateList)}
           </select>
         </FormField>

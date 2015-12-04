@@ -1,8 +1,9 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
-import {AutoSuggestFormField, FormField} from './FormField';
+import {AutoSuggestFormField, FormField, FormFieldInput} from './FormField';
 import RatingOptions from './RatingOptions';
 var PropTypes = React.PropTypes;
+var alertify = require('alertify-webpack');
 
 const authors = ['Sanderson, Brandon', 'Smith, Johsnon', 'Sankers, Jack', 'Dodge, Kevin'];
 const titles = ['Title 1', 'Title 2', 'Title 3'];
@@ -44,33 +45,72 @@ function showAlways() {
 var AddReviewMain = React.createClass({
   getInitialState: function() {
     return {
-      title:"",
-      series:"",
-      bookNum:"",
-      imageUrl:"",
-      author:"",
-      genre:"",
-      bookLocation:"",
-      overallRating:"",
-      profanityRating:"",
-      sexualRating:"",
-      violenceRating:"",
-      reviewDescription:"",
-      showError: false,
+      values: {
+        title:"",
+        series:"",
+        bookNum:"",
+        imageUrl:"",
+        author:"",
+        genre:"",
+        bookLocation:"",
+        overallRating:"",
+        profanityRating:"",
+        sexualRating:"",
+        violenceRating:"",
+        reviewDescription:"",
+        showError: false,
+        required: {
+          title: showAlways,
+          series: function(values) {
+            return values.bookNum != ""
+          },
+          bookNum: function(values) {
+            return values.series != ""
+          },
+          author: showAlways,
+          genre: showAlways,
+          overallRating: showAlways
+        }
+      },
     };
   },
   addReview: function() {
     console.log("Add Review");
-    this.setState({showError: true});
+    var {values} = this.state;
+
+    var isValid = true;
+    Object.keys(values.required).map((key) => {
+      if (!this.isValid(key)) {
+        isValid = false;
+      }
+    });
+    console.log("VALID - " + isValid);
+
+    this.setState({values:{...values, showError: !isValid}});
+    if (isValid) {
+      alertify.log.success("HURRAY!!!");
+    }
+    else {
+      alertify.log.error("Your form is not filled out.");
+    }
   },
-  onChange: function(prop) {
-    var data = {};
-    data[prop.target.id] = prop.target.value;
+  isValid: function(id) {
+      var {values} = this.state;
+      if (values.required[id] && values.required[id](values) && values[id] == "") {
+        return false;
+      }
+      return true;
+  },
+  onChange: function(prop, valid) {
+    var data = {values:{...this.state.values}};
+    data.values[prop.target.id] = prop.target.value;
+    // data.formValid[prop.target.id] = valid;
     this.setState(data);
   },
-  onChangeWithValue: function(id, value) {
-    var data = {};
-    data[id] = value;
+  onChangeWithValue: function(id, value, valid) {
+    var data = {values:{...this.state.values}};
+    data.values[id] = value;
+    // data.formValid[id] = valid;
     this.setState(data);
   },
   render: function() {
@@ -88,42 +128,112 @@ var AddReviewMain = React.createClass({
         </div>
       </div>
     }
+
+    var values = this.state.values;
     return (
       <div>
         <h2>Book Review</h2>
         <form className="form-horizontal" onSubmit={this.addReview} onkeypress="if(event.keyCode == 13) addReview(this); return false;">
-          <AutoSuggestFormField required={true} data={this.state} label="Title" id="title" suggestions={getTitleSuggestions} onChange={this.onChangeWithValue}/>
-          <AutoSuggestFormField required={this.state.bookNum != ""} data={this.state} label="Series" id="series" suggestions={getSeriesSuggestions} onChange={this.onChangeWithValue}/>
-          <FormField required={this.state.series != ""} data={this.state} label="Book Number" id="bookNum">
-            <input type="number" className="form-control" id="bookNum" onChange={this.onChange}/>
-          </FormField>
-          <FormField label="Image Url" id="imageUrl">
-            <input type="text" className="form-control" id="imageUrl" onChange={this.onChange}/>
-          </FormField>
+          <AutoSuggestFormField
+            label="Title" id="title"
+            suggestions={getTitleSuggestions}
+            data={values}
+            onChange={this.onChangeWithValue}
+            isValid={this.isValid}
+            />
+
+          <AutoSuggestFormField
+            label="Series" id="series"
+            suggestions={getSeriesSuggestions}
+            data={values}
+            onChange={this.onChangeWithValue}
+            isValid={this.isValid}
+            />
+
+          <FormFieldInput
+            inputType="number"
+            label="Book Number" id="bookNum"
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
+
+          <FormFieldInput
+            inputType="text"
+            label="Image Url" id="imageUrl"
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
           {imageUrl}
 
-          <AutoSuggestFormField label="Author" id="author" suggestions={getAuthorSuggestions} onChange={this.onChangeWithValue}/>
           <AutoSuggestFormField
-            label="Genre"
-            id="genre"
+            label="Author" id="author"
+            suggestions={getAuthorSuggestions}
+            data={values}
+            onChange={this.onChangeWithValue}
+            isValid={this.isValid}
+            />
+
+          <AutoSuggestFormField
+            label="Genre" id="genre"
             suggestions={getGenreSuggestions}
+            showWhen={showAlways}
+            data={values}
             onChange={this.onChangeWithValue}
-            showWhen={function() {return true}}
+            isValid={this.isValid}
             />
+
           <AutoSuggestFormField
-            label="Location of Book"
-            id="bookLocation"
+            label="Location of Book" id="bookLocation"
             suggestions={getLocationOfBookSuggestions}
+            showWhen={showAlways}
+            data={values}
             onChange={this.onChangeWithValue}
-            showWhen={function() {return true}}
+            isValid={this.isValid}
             />
-          <RatingOptions label="Overall Rating"id="overallRating" rateList={Scales.scaleMapToList(Scales.RATING_SCALE)} onChange={this.onChange}/>
-          <RatingOptions label="Profanity Rating" id="profanityRating" rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)} onChange={this.onChange}/>
-          <RatingOptions label="Sexual Rating" id="sexualRating" rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)} onChange={this.onChange}/>
-          <RatingOptions label="Violence Rating" id="violenceRating" rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)} onChange={this.onChange}/>
-          <FormField label="Review" id="reviewDescription">
-            <textarea className="form-control" rows="5" id="reviewDescrption" onChange={this.onChange}/>
+
+          <RatingOptions
+            label="Overall Rating"id="overallRating"
+            rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
+
+          <RatingOptions
+            label="Profanity Rating" id="profanityRating"
+            rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
+
+          <RatingOptions
+             label="Sexual Rating" id="sexualRating"
+             rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
+             data={values}
+             onChange={this.onChange}
+            isValid={this.isValid}
+             />
+
+          <RatingOptions
+            label="Violence Rating" id="violenceRating"
+            rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
+
+          <FormField data={values} label="Review" id="reviewDescription" isValid={this.isValid}>
+            <textarea
+              className="form-control"
+              value={this.state.reviewDescription}
+              rows="5"
+              id="reviewDescription"
+              onChange={this.onChange}/>
           </FormField>
+
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
               <button type="submit" className="btn btn-default">Submit</button>

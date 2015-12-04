@@ -10,8 +10,8 @@ var FormField = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
-    required: React.PropTypes.bool,
-    data: React.PropTypes.object
+    data: React.PropTypes.object,
+    isValid: React.PropTypes.func,
   },
   getDefaultProps: function() {
     return {
@@ -21,17 +21,40 @@ var FormField = React.createClass({
   },
   render: function() {
     var errorStyle = {};
-    if (this.props.data && this.props.data.showError && this.props.required && this.props.data[this.props.id] == "") {
-      errorStyle = ERROR_STYLE;
+    var {id, label, data, isValid} = this.props;
+
+    if (!isValid(id)) {
+      if (data.showError && data[id] == "") {
+        errorStyle = ERROR_STYLE;
+      }
     }
 
     return (
       <div className="form-group">
-        <label htmlFor={this.props.id} style={errorStyle} className="col-sm-2 control-label">{this.props.label}: </label>
+        <label htmlFor={id} style={errorStyle} className="col-sm-2 control-label">{label}: </label>
         <div className="col-sm-10">
           {this.props.children}
         </div>
       </div>
+    )
+  }
+});
+
+var FormFieldInput = React.createClass({
+  propTypes: {
+    label : React.PropTypes.string.isRequired,
+    id : React.PropTypes.string.isRequired,
+    inputType: React.PropTypes.string.isRequired,
+    data: React.PropTypes.object,
+    onChange: React.PropTypes.func,
+    isValid: React.PropTypes.func,
+  },
+  render: function() {
+    var {inputType, onChange, ...other} = this.props;
+    return (
+          <FormField {...other}>
+            <input type={inputType} className="form-control" id={this.props.id} onChange={onChange}/>
+          </FormField>
     )
   }
 });
@@ -42,9 +65,8 @@ var AutoSuggestFormField = React.createClass({
     id : React.PropTypes.string.isRequired,
     suggestions: React.PropTypes.func,
     onChange: React.PropTypes.func,
+    isValid: React.PropTypes.func,
     showWhen: React.PropTypes.func,
-    required: React.PropTypes.bool,
-    showError: React.PropTypes.bool
   },
   onChange: function(value) {
     if (this.props.onChange) {
@@ -56,6 +78,7 @@ var AutoSuggestFormField = React.createClass({
     return (
         <FormField {...other}>
             <Autosuggest
+              value={this.props.data[this.props.id]}
               suggestions={this.props.suggestions}
               inputAttributes={{ id: this.props.id, className: "form-control", onChange:value => this.onChange(value)}}
               showWhen={this.props.showWhen} />
@@ -64,4 +87,4 @@ var AutoSuggestFormField = React.createClass({
   }
 });
 
-module.exports = {FormField: FormField, AutoSuggestFormField: AutoSuggestFormField};
+module.exports = {FormFieldInput: FormFieldInput, FormField: FormField, AutoSuggestFormField: AutoSuggestFormField};
