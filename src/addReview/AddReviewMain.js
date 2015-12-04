@@ -60,29 +60,29 @@ function showAlways() {
 const INITIAL_STATE = {
     values: {
       title:"",
-      series:"",
-      bookNum:"",
+      seriesTitle:"",
+      seriesBookNumber:"",
       imageUrl:"",
       author:"",
       genre:"",
       bookLocation:"",
-      overallRating:"",
+      recommendRating:"",
       profanityRating:"",
-      sexualRating:"",
+      sexRating:"",
       violenceRating:"",
       reviewDescription:"",
       showError: false,
       required: {
         title: showAlways,
-        series: function(values) {
-          return values.bookNum != ""
+        seriesTitle: function(values) {
+          return values.seriesBookNumber != ""
         },
-        bookNum: function(values) {
-          return values.series != ""
+        seriesBookNumber: function(values) {
+          return values.seriesTitle != ""
         },
         author: showAlways,
         genre: showAlways,
-        overallRating: showAlways
+        recommendRating: showAlways
       }
     },
 }
@@ -110,8 +110,8 @@ var AddReviewMain = React.createClass({
     if (isValid) {
       var book = {
         title: values.title,
-        seriesTitle: values.series,
-        seriesBookNumber: values.bookNum,
+        seriesTitle: values.seriesTitle,
+        seriesBookNumber: values.seriesBookNumber,
         imageUrl: values.imageUrl,
         author: values.author,
         genre: values.genre,
@@ -119,9 +119,9 @@ var AddReviewMain = React.createClass({
       };
 
       var review = {
-        recommendRating: values.overallRating,
+        recommendRating: values.recommendRating,
         profanityRating: values.profanityRating,
-        sexRating: values.sexualRating,
+        sexRating: values.sexRating,
         violenceRating: values.violenceRating,
         review: values.reviewDescription,
       }
@@ -155,13 +155,15 @@ var AddReviewMain = React.createClass({
     this.setState(data);
   },
   render: function() {
+    var values = this.state.values;
+
     var imageUrl = "";
-    if (this.state.imageUrl) {
+    if (values.imageUrl) {
       imageUrl = <div>
         <div className="row">
           <div className="col-sm-2"></div>
           <div className="col-sm-2">
-            <img className="img-responsive" src={this.state.imageUrl} />
+            <img className="img-responsive" src={values.imageUrl} />
           </div>
         </div>
         <div className="row">
@@ -170,7 +172,6 @@ var AddReviewMain = React.createClass({
       </div>
     }
 
-    var values = this.state.values;
     return (
       <div>
         <h2>Book Review</h2>
@@ -184,7 +185,7 @@ var AddReviewMain = React.createClass({
             />
 
           <AutoSuggestFormField
-            label="Series" id="series"
+            label="Series" id="seriesTitle"
             suggestions={getSeriesSuggestions}
             data={values}
             onChange={this.onChangeWithValue}
@@ -193,7 +194,7 @@ var AddReviewMain = React.createClass({
 
           <FormFieldInput
             inputType="number"
-            label="Book Number" id="bookNum"
+            label="Book Number" id="seriesBookNumber"
             data={values}
             onChange={this.onChange}
             isValid={this.isValid}
@@ -235,7 +236,7 @@ var AddReviewMain = React.createClass({
             />
 
           <RatingOptions
-            label="Overall Rating"id="overallRating"
+            label="Overall Rating"id="recommendRating"
             rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
             data={values}
             onChange={this.onChange}
@@ -251,7 +252,7 @@ var AddReviewMain = React.createClass({
             />
 
           <RatingOptions
-             label="Sexual Rating" id="sexualRating"
+             label="Sexual Rating" id="sexRating"
              rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
              data={values}
              onChange={this.onChange}
