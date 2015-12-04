@@ -38,6 +38,17 @@ function getSuggestions(list, input, callback) {
   setTimeout(() => callback(null, suggestions), 300); // Emulate API call
 }
 
+function stopEnterSubmitting(e) {
+    if (e.charCode == 13) {
+        var src = e.srcElement || e.target;
+        if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+        }
+    }
+}
+
 function showAlways() {
   return true;
 }
@@ -137,7 +148,7 @@ var AddReviewMain = React.createClass({
     return (
       <div>
         <h2>Book Review</h2>
-        <form className="form-horizontal" onSubmit={this.addReview} onkeypress="if(event.keyCode == 13) addReview(this); return false;">
+        <form className="form-horizontal" onSubmit={this.addReview} onKeyPress={stopEnterSubmitting}>
           <AutoSuggestFormField
             label="Title" id="title"
             suggestions={getTitleSuggestions}
