@@ -51,9 +51,10 @@ var FormFieldInput = React.createClass({
   },
   render: function() {
     var {inputType, onChange, ...other} = this.props;
+    var {id, data} = this.props;
     return (
           <FormField {...other}>
-            <input type={inputType} className="form-control" id={this.props.id} onChange={onChange}/>
+            <input type={inputType} className="form-control" value={data[id]} id={id} onChange={onChange}/>
           </FormField>
     )
   }

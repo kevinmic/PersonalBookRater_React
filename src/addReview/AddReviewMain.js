@@ -42,36 +42,40 @@ function showAlways() {
   return true;
 }
 
+const INITIAL_STATE = {
+    values: {
+      title:"",
+      series:"",
+      bookNum:"",
+      imageUrl:"",
+      author:"",
+      genre:"",
+      bookLocation:"",
+      overallRating:"",
+      profanityRating:"",
+      sexualRating:"",
+      violenceRating:"",
+      reviewDescription:"",
+      showError: false,
+      required: {
+        title: showAlways,
+        series: function(values) {
+          return values.bookNum != ""
+        },
+        bookNum: function(values) {
+          return values.series != ""
+        },
+        author: showAlways,
+        genre: showAlways,
+        overallRating: showAlways
+      }
+    },
+}
+
 var AddReviewMain = React.createClass({
   getInitialState: function() {
     return {
-      values: {
-        title:"",
-        series:"",
-        bookNum:"",
-        imageUrl:"",
-        author:"",
-        genre:"",
-        bookLocation:"",
-        overallRating:"",
-        profanityRating:"",
-        sexualRating:"",
-        violenceRating:"",
-        reviewDescription:"",
-        showError: false,
-        required: {
-          title: showAlways,
-          series: function(values) {
-            return values.bookNum != ""
-          },
-          bookNum: function(values) {
-            return values.series != ""
-          },
-          author: showAlways,
-          genre: showAlways,
-          overallRating: showAlways
-        }
-      },
+      ...INITIAL_STATE
     };
   },
   addReview: function() {
@@ -84,13 +88,13 @@ var AddReviewMain = React.createClass({
         isValid = false;
       }
     });
-    console.log("VALID - " + isValid);
 
-    this.setState({values:{...values, showError: !isValid}});
     if (isValid) {
+      this.setState(INITIAL_STATE);
       alertify.log.success("HURRAY!!!");
     }
     else {
+      this.setState({values:{...values, showError: !isValid}});
       alertify.log.error("Your form is not filled out.");
     }
   },
@@ -214,7 +218,7 @@ var AddReviewMain = React.createClass({
              rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
              data={values}
              onChange={this.onChange}
-            isValid={this.isValid}
+             isValid={this.isValid}
              />
 
           <RatingOptions
@@ -228,7 +232,7 @@ var AddReviewMain = React.createClass({
           <FormField data={values} label="Review" id="reviewDescription" isValid={this.isValid}>
             <textarea
               className="form-control"
-              value={this.state.reviewDescription}
+              value={values.reviewDescription}
               rows="5"
               id="reviewDescription"
               onChange={this.onChange}/>
