@@ -10,7 +10,7 @@ var FormField = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
-    data: React.PropTypes.object,
+    data: React.PropTypes.object.isRequired,
     isValid: React.PropTypes.func,
   },
   getDefaultProps: function() {
@@ -74,15 +74,19 @@ var AutoSuggestFormField = React.createClass({
       this.props.onChange(this.props.id, value);
     }
   },
+  suggestionsWithId: function(input, callback) {
+    this.props.suggestions(this.props.id, input, callback);
+  },
   render: function() {
     var {suggestions, onChange, showWhen, ...other} = this.props;
     return (
         <FormField {...other}>
             <Autosuggest
               value={this.props.data[this.props.id]}
-              suggestions={this.props.suggestions}
+              suggestions={this.suggestionsWithId}
               inputAttributes={{ id: this.props.id, className: "form-control", onChange:value => this.onChange(value)}}
-              showWhen={this.props.showWhen} />
+              showWhen={showWhen}
+              />
         </FormField>
     )
   }

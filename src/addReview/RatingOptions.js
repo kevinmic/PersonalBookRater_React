@@ -7,7 +7,7 @@ const helpers = {
   ratingToOption: function(ratingList) {
     return ratingList.map((rating) => {
       const {key, description} = rating;
-      return <option key={key}>{key + ' - ' + description}</option>;
+      return <option key={key} value={key}>{key + ' - ' + description}</option>;
     });
   }
 }

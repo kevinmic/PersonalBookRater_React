@@ -11,31 +11,35 @@ const series = ['Series 1', 'Series 2', 'Series 3'];
 const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
 const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
 
-function getTitleSuggestions(input, callback) {
-  getSuggestions(titles, input, callback);
+function getTitleSuggestions(id, input, callback) {
+  getSuggestions(id, titles, input, callback);
 }
 
-function getSeriesSuggestions(input, callback) {
-  getSuggestions(series, input, callback);
+function getSeriesSuggestions(id, input, callback) {
+  getSuggestions(id, series, input, callback);
 }
 
-function getAuthorSuggestions(input, callback) {
-  getSuggestions(authors, input, callback);
+function getAuthorSuggestions(id, input, callback) {
+  getSuggestions(id, authors, input, callback);
 }
 
-function getGenreSuggestions(input, callback) {
-  getSuggestions(genres, input, callback);
+function getGenreSuggestions(id, input, callback) {
+  getSuggestions(id, genres, input, callback);
 }
 
-function getLocationOfBookSuggestions(input, callback) {
-  getSuggestions(locations, input, callback);
+function getLocationOfBookSuggestions(id, input, callback) {
+  getSuggestions(id, locations, input, callback);
 }
 
-function getSuggestions(list, input, callback) {
+function getSuggestions(id, list, input, callback) {
   const regex = new RegExp('^' + input, 'i');
   const suggestions = list.filter(suburb => regex.test(suburb));
 
-  setTimeout(() => callback(null, suggestions), 300); // Emulate API call
+  setTimeout(() => {
+    if (document.activeElement && document.activeElement.id == id) {
+      callback(null, suggestions)
+    }
+  }, 500); // Emulate API call
 }
 
 function stopEnterSubmitting(e) {
@@ -84,6 +88,9 @@ const INITIAL_STATE = {
 }
 
 var AddReviewMain = React.createClass({
+  propTypes: {
+    addReview: React.PropTypes.func.isRequired
+  },
   getInitialState: function() {
     return {
       ...INITIAL_STATE
@@ -101,6 +108,25 @@ var AddReviewMain = React.createClass({
     });
 
     if (isValid) {
+      var book = {
+        title: values.title,
+        seriesTitle: values.series,
+        seriesBookNumber: values.bookNum,
+        imageUrl: values.imageUrl,
+        author: values.author,
+        genre: values.genre,
+        locationOfBook: values.bookLocation,
+      };
+
+      var review = {
+        recommendRating: values.overallRating,
+        profanityRating: values.profanityRating,
+        sexRating: values.sexualRating,
+        violenceRating: values.violenceRating,
+        review: values.reviewDescription,
+      }
+
+      this.props.addReview(book, review);
       this.setState(INITIAL_STATE);
       alertify.log.success("HURRAY!!!");
     }
