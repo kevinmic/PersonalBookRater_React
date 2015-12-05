@@ -3,11 +3,12 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    './src/index'
-  ],
+  context: __dirname + "/src",
+
+  entry: {
+    javascript: "./index.js",
+    html: "./index.html",
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -25,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader"
+        loader: "style!css-loader"
       },
       {
         test: /\.html$/,
