@@ -7,7 +7,7 @@ module.exports = {
 
   entry: {
     javascript: "./index.js",
-    html: "./index.html",
+    html: "../index.html",
   },
   output: {
     path: path.join(__dirname, 'dist'),
