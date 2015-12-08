@@ -7,7 +7,6 @@ var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 
 const titles = ['Title 1', 'Title 2', 'Title 3'];
-const series = ['Series 1', 'Series 2', 'Series 3'];
 const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
 const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
 
