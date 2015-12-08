@@ -1,5 +1,6 @@
 import React from 'react';
 import {AutoSuggestFormField, FormField, FormFieldInput} from '../util/FormField';
+import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 
@@ -80,6 +81,7 @@ const INITIAL_STATE = {
 }
 
 var AddReviewMain = React.createClass({
+  mixins: [History],
   propTypes: {
     addBook: React.PropTypes.func.isRequired
   },
@@ -110,9 +112,10 @@ var AddReviewMain = React.createClass({
         locationOfBook: values.bookLocation,
       };
 
-      this.props.addBook(book);
+      var bookId = this.props.addBook(book);
       this.setState(INITIAL_STATE);
       alertify.log.success("HURRAY Book added!!!");
+      this.history.pushState(null, "/review/" + bookId + "/new");
     }
     else {
       this.setState({values:{...values, showError: !isValid}});
@@ -221,7 +224,7 @@ var AddReviewMain = React.createClass({
 
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
-              <button type="submit" className="btn btn-default">Submit</button>
+              <button type="button" onClick={this.addBook} className="btn btn-default">Submit</button>
             </div>
           </div>
         </form>

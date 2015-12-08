@@ -13,12 +13,11 @@ import BookReview2 from './BookReview';
 
 var Search = React.createClass({
   propTypes: {
-    data: React.PropTypes.object.isRequired
+    books: React.PropTypes.object.isRequired
   },
   render: function() {
-    var {data} = this.props;
-    var books = Object.keys(data).map((key) => {
-      var book = data[key];
+    var books = Object.keys(this.props.books).map((key) => {
+      var book = this.props.books[key];
       return <div key={key}><BookReview2 key={key} book={book}/><hr/></div>
     })
     return (

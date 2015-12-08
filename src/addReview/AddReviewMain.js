@@ -1,6 +1,7 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormFieldInput} from '../util/FormField';
+import { History} from 'react-router';
 import RatingOptions from '../util/RatingOptions';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
@@ -37,12 +38,14 @@ const INITIAL_STATE = {
 }
 
 var AddReviewMain = React.createClass({
+  mixins: [History],
   propTypes: {
-    book: React.PropTypes.object.isRequired,
+    books: React.PropTypes.object.isRequired,
     addReview: React.PropTypes.func.isRequired
   },
   getInitialState: function() {
     return {
+      book: {},
       ...INITIAL_STATE
     };
   },
@@ -66,10 +69,10 @@ var AddReviewMain = React.createClass({
         review: values.reviewDescription,
       }
 
-      console.log("Check Book", this.props.book);
-      this.props.addReview(this.props.book.bookId, review);
+      this.props.addReview(this.state.book.bookId, review);
       this.setState(INITIAL_STATE);
       alertify.log.success("HURRAY, Review Added!!!");
+      this.history.pushState(null, "/review/search");
     }
     else {
       this.setState({values:{...values, showError: !isValid}});
@@ -95,9 +98,15 @@ var AddReviewMain = React.createClass({
     // data.formValid[id] = valid;
     this.setState(data);
   },
+  componentDidMount: function() {
+    console.log("DidMount2:", this.props);
+    const bookId = this.props.params.bookId
+    this.setState({ book: this.props.books[bookId]});
+  },
   render: function() {
+    console.log("Render:", this.props);
     var values = this.state.values;
-    var book = this.props.book;
+    var book = this.state.book;
     return (
       <div>
         <BookImage book={book}/>
