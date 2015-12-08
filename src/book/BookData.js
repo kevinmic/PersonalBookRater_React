@@ -36,6 +36,7 @@ var BookData = React.createClass({
           <InnerRow label="Author" value={book.author}/>
           {series}
           {seriesBookNumber}
+          <InnerRow label="Genre" value={book.genre}/>
           <InnerRow label="Location" value={book.locationOfBook}/>
         </div>
       </div>

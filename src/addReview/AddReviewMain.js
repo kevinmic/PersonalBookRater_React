@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
 import FormValidationMixins from '../util/FormValidationMixins';
@@ -16,8 +17,8 @@ const INITIAL_STATE = {
       sexRating:"",
       violenceRating:"",
       reviewDescription:"",
-      showError: false,
     },
+    showError: false,
     required: {
       recommendRating: () => true,
     }
@@ -36,28 +37,19 @@ var AddReviewMain = React.createClass({
     };
   },
   addReview: function() {
-    console.log("Add Review");
-    var {values, required} = this.state;
-
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var review = {
-        recommendRating: values.recommendRating,
-        profanityRating: values.profanityRating,
-        sexRating: values.sexRating,
-        violenceRating: values.violenceRating,
-        review: values.reviewDescription,
-      }
+      var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
 
       this.props.addReview(this.state.book.bookId, review);
       this.setState(INITIAL_STATE);
-      alertify.log.success("HURRAY, Review Added!!!");
+      alertify.log.success("Review Added for book " + this.state.book.title + "!!!");
       this.history.pushState(null, "/review/search");
     }
     else {
-      this.setState({values:{...values, showError: !isValid}});
-      alertify.log.error("Your form is not filled out.");
+      this.setState({showError: !isValid});
+      alertify.log.error("Please fill out required fields.");
     }
   },
   componentDidMount: function() {

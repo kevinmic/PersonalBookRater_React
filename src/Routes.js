@@ -28,7 +28,7 @@ var Routes = React.createClass({
   },
   createElement: function(Component, props) {
     var addProps = {
-      books: books,
+      books,
       addBook: this.addBook,
       addReview: this.addReview
     }

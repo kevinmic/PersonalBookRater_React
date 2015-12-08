@@ -33,7 +33,7 @@ var BookReview = React.createClass({
             <ScaleBadge rateTypeKey="v" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
             <BookData book={book}/>
             <div className="row">
-              <div className="col-sm-12">{review.review}</div>
+              <div className="col-sm-12">{review.reviewDescription}</div>
             </div>
           </div>
         </div>

@@ -33,6 +33,7 @@
     "alertify-webpack": "^0.2.0",
     "bootstrap": "^3.3.6",
     "history": "^1.13.1",
+    "lodash": "^3.10.1",
     "react": "^0.14.0",
     "react-autosuggest": "^2.2.0",
     "react-dom": "^0.14.0",

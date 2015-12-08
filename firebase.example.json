@@ -1,0 +1,29 @@
+{
+  books: {
+    bookId: {
+      bookId: "bookId",
+      author: "author",
+      seriesTitle: "series",
+      seriesBookNumber: 1,
+      title: "title",
+      genre: "genre",
+      imageUrl: "url",
+      locationOfBook: "location",
+      reviews: [{
+        sexRating: "T",
+        profanityRating: "B",
+        violenceRating: "LV",
+        recommendRating: "4",
+        reviewDate: timestmap,
+        reviewedBy: "reverDodge",
+        reviewDescription: "Description",
+      }]
+    }
+  }
+  suggestedGenres: [
+    "Fantasy", "Sci Fi", ...
+  ],
+  suggestedLocations: [
+    "Dons Kindle", "Dons Audible", ...
+  ],
+}

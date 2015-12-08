@@ -26,8 +26,7 @@ var FormField = React.createClass({
   },
   getDefaultProps: function() {
     return {
-      required: false,
-      showError: false
+      required: false
     }
   },
   render: function() {
@@ -35,9 +34,7 @@ var FormField = React.createClass({
     var {id, label, data, isValid} = this.props;
 
     if (!isValid(id)) {
-      if (data.showError && data[id] == "") {
-        errorStyle = ERROR_STYLE;
-      }
+      errorStyle = ERROR_STYLE;
     }
 
     return (
@@ -55,10 +52,15 @@ var FormFieldInput = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
-    inputType: React.PropTypes.string.isRequired,
+    inputType: React.PropTypes.string,
     data: React.PropTypes.object,
     onChange: React.PropTypes.func,
     isValid: React.PropTypes.func,
+  },
+  getDefaultProps: function() {
+    return {
+      inputType: "text"
+    }
   },
   render: function() {
     var {inputType, onChange, ...other} = this.props;
@@ -104,8 +106,8 @@ var AutoSuggestFormField = React.createClass({
 });
 
 module.exports = {
-  FormFieldInput: FormFieldInput,
-  FormField: FormField,
-  AutoSuggestFormField: AutoSuggestFormField,
-  stopEnterSubmitting: stopEnterSubmitting,
+  FormFieldInput,
+  FormField,
+  AutoSuggestFormField,
+  stopEnterSubmitting,
 };

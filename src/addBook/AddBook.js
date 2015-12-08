@@ -1,11 +1,11 @@
 import React from 'react';
+import _ from 'lodash';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
 import FormValidationMixins from '../util/FormValidationMixins';
 import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 
-const authors = ['Sanderson, Brandon', 'Smith, Johsnon', 'Sankers, Jack', 'Dodge, Kevin'];
 const titles = ['Title 1', 'Title 2', 'Title 3'];
 const series = ['Series 1', 'Series 2', 'Series 3'];
 const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
@@ -13,14 +13,6 @@ const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
 
 function getTitleSuggestions(id, input, callback) {
   getSuggestions(id, titles, input, callback);
-}
-
-function getSeriesSuggestions(id, input, callback) {
-  getSuggestions(id, series, input, callback);
-}
-
-function getAuthorSuggestions(id, input, callback) {
-  getSuggestions(id, authors, input, callback);
 }
 
 function getGenreSuggestions(id, input, callback) {
@@ -34,12 +26,7 @@ function getLocationOfBookSuggestions(id, input, callback) {
 function getSuggestions(id, list, input, callback) {
   const regex = new RegExp('^' + input, 'i');
   const suggestions = list.filter(suburb => regex.test(suburb));
-
-  setTimeout(() => {
-    if (document.activeElement && document.activeElement.id == id) {
-      callback(null, suggestions)
-    }
-  }, 500); // Emulate API call
+  callback(null, suggestions)
 }
 
 const INITIAL_STATE = {
@@ -50,9 +37,10 @@ const INITIAL_STATE = {
       imageUrl:"",
       author:"",
       genre:"",
-      bookLocation:"",
+      locationOfBook:"",
       showError: false,
     },
+    showError: false,
     required: {
       title: () => true,
       seriesTitle: function(values) {
@@ -69,7 +57,8 @@ const INITIAL_STATE = {
 var AddReviewMain = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
-    addBook: React.PropTypes.func.isRequired
+    addBook: React.PropTypes.func.isRequired,
+    books: React.PropTypes.object.isRequired,
   },
   getInitialState: function() {
     return {
@@ -77,29 +66,20 @@ var AddReviewMain = React.createClass({
     };
   },
   addBook: function() {
-    var {values} = this.state;
-
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var book = {
-        title: values.title,
-        seriesTitle: values.seriesTitle,
-        seriesBookNumber: values.seriesBookNumber,
-        imageUrl: values.imageUrl,
-        author: values.author,
-        genre: values.genre,
-        locationOfBook: values.bookLocation,
-      };
+      var {values} = this.state;
+      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook');
 
       var bookId = this.props.addBook(book);
       this.setState(INITIAL_STATE);
-      alertify.log.success("HURRAY Book added!!!");
+      alertify.log.success("Book " + book.title + " added!");
       this.history.pushState(null, "/review/" + bookId + "/new");
     }
     else {
-      this.setState({values:{...values, showError: !isValid}});
-      alertify.log.error("Your form is not filled out.");
+      this.setState({showError: true});
+      alertify.log.error("Please fill out missing required fields.");
     }
   },
   render: function() {
@@ -132,11 +112,10 @@ var AddReviewMain = React.createClass({
             isValid={this.isValid}
             />
 
-          <AutoSuggestFormField
+          <FormFieldInput
             label="Series" id="seriesTitle"
-            suggestions={getSeriesSuggestions}
             data={values}
-            onChange={this.onChangeWithValue}
+            onChange={this.onChange}
             isValid={this.isValid}
             />
 
@@ -149,7 +128,7 @@ var AddReviewMain = React.createClass({
             />
 
           <FormFieldInput
-            inputType="text"
+            inputType="url"
             label="Image Url" id="imageUrl"
             data={values}
             onChange={this.onChange}
@@ -157,11 +136,10 @@ var AddReviewMain = React.createClass({
             />
           {imageUrl}
 
-          <AutoSuggestFormField
+          <FormFieldInput
             label="Author" id="author"
-            suggestions={getAuthorSuggestions}
             data={values}
-            onChange={this.onChangeWithValue}
+            onChange={this.onChange}
             isValid={this.isValid}
             />
 
@@ -175,7 +153,7 @@ var AddReviewMain = React.createClass({
             />
 
           <AutoSuggestFormField
-            label="Location of Book" id="bookLocation"
+            label="Location of Book" id="locationOfBook"
             suggestions={getLocationOfBookSuggestions}
             showWhen={() => true}
             data={values}
