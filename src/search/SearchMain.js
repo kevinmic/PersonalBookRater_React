@@ -16,7 +16,6 @@ var Search = React.createClass({
     data: React.PropTypes.object.isRequired
   },
   render: function() {
-    console.log(this.props);
     var {data} = this.props;
     var books = Object.keys(data).map((key) => {
       var book = data[key];

@@ -1,12 +1,15 @@
 import React from 'react';
-import { Router, Route, Link, IndexRoute } from 'react-router';
+import { Router, Route, Link, IndexRoute, History} from 'react-router';
+var PropTypes = React.PropTypes;
 
 import App from './App';
 import SearchMain from './search/SearchMain';
 import AddReviewMain from './addReview/AddReviewMain';
+import AddBook from './addBook/AddBook';
 
-var data = {
+var books = {
   "key1": {
+    bookId: "key1",
     author: "Aaron, Finley",
     seriesTitle: "Dragon Eye",
     seriesBookNumber: 1,
@@ -25,6 +28,7 @@ var data = {
     }]
   },
   "key2": {
+    bookId: "key2",
     author: "Abramson, Traci Hunter",
     title: "Smokescreen",
     genre: "Fiction",
@@ -41,6 +45,7 @@ var data = {
     }]
   },
   "key3": {
+    bookId: "key3",
     author: "Beery, Catherine",
     seriesTitle: "Facades",
     seriesBookNumber: 2,
@@ -59,6 +64,7 @@ var data = {
     }]
   },
   "key4": {
+    bookId: "key4",
     author: "Sanderson, Brandon",
     seriesTitle: "Alcatraz",
     seriesBookNumber: 1,
@@ -73,25 +79,50 @@ var data = {
 
 var SearchMainWrapper = React.createClass({
   render: function() {
-    return <SearchMain data={data}/>
+    return <SearchMain data={books}/>
   }
 });
 
 var key = 5;
 var AddReviewMainWrapper = React.createClass({
   getInitialState: function() {
-    return {data: data};
+    return {
+      book: {},
+    };
   },
-  addReview: function(book, review) {
+  mixins: [History],
+  componentDidMount: function() {
+    const bookId = this.props.params.bookId
+    this.setState({ book: books[bookId]});
+  },
+  addReview: function(bookId, review) {
+    console.log("TRYING TO ADD REVIEW", bookId, review, books[bookId]);
+    var book = books[bookId];
+    if (!book.reviews) {
+      book.reviews = [];
+    }
+    book.reviews.push(review);
+    this.history.pushState(null, "/review/search");
+  },
+  render: function() {
+    console.log("addReviewMainWrapper:", this.state.book);
+    return <AddReviewMain book={this.state.book} addReview={this.addReview}/>
+  }
+});
+
+var AddBookWrapper = React.createClass({
+  getInitialState: function() {
+    return {data: books};
+  },
+  addBook: function(book) {
     key = key+1;
-    book.reviews = [review];
     var newData = this.state.data;
-    console.log(this.state);
+    book.bookId = key;
     newData["key" + key] = book;
     this.setState(newData);
   },
   render: function() {
-    return <AddReviewMain addReview={this.addReview}/>
+    return <AddBook addBook={this.addBook}/>
   }
 });
 
@@ -103,7 +134,8 @@ var Routes = React.createClass({
         <Route path="/" component={App}>
           <IndexRoute component={SearchMainWrapper}/>
           <Route path="review/search" component={SearchMainWrapper}/>
-          <Route path="review/new" component={AddReviewMainWrapper}/>
+          <Route path="review/:bookId/new" component={AddReviewMainWrapper}/>
+          <Route path="book/new" component={AddBookWrapper}/>
         </Route>
       </Router>
     );

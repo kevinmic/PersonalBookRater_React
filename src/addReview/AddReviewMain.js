@@ -1,46 +1,11 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
-import {AutoSuggestFormField, FormField, FormFieldInput} from './FormField';
-import RatingOptions from './RatingOptions';
+import {AutoSuggestFormField, FormField, FormFieldInput} from '../util/FormField';
+import RatingOptions from '../util/RatingOptions';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
-
-const authors = ['Sanderson, Brandon', 'Smith, Johsnon', 'Sankers, Jack', 'Dodge, Kevin'];
-const titles = ['Title 1', 'Title 2', 'Title 3'];
-const series = ['Series 1', 'Series 2', 'Series 3'];
-const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
-const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
-
-function getTitleSuggestions(id, input, callback) {
-  getSuggestions(id, titles, input, callback);
-}
-
-function getSeriesSuggestions(id, input, callback) {
-  getSuggestions(id, series, input, callback);
-}
-
-function getAuthorSuggestions(id, input, callback) {
-  getSuggestions(id, authors, input, callback);
-}
-
-function getGenreSuggestions(id, input, callback) {
-  getSuggestions(id, genres, input, callback);
-}
-
-function getLocationOfBookSuggestions(id, input, callback) {
-  getSuggestions(id, locations, input, callback);
-}
-
-function getSuggestions(id, list, input, callback) {
-  const regex = new RegExp('^' + input, 'i');
-  const suggestions = list.filter(suburb => regex.test(suburb));
-
-  setTimeout(() => {
-    if (document.activeElement && document.activeElement.id == id) {
-      callback(null, suggestions)
-    }
-  }, 500); // Emulate API call
-}
+import BookData from '../book/BookData';
+import BookImage from '../book/BookImage';
 
 function stopEnterSubmitting(e) {
     if (e.charCode == 13) {
@@ -59,13 +24,6 @@ function showAlways() {
 
 const INITIAL_STATE = {
     values: {
-      title:"",
-      seriesTitle:"",
-      seriesBookNumber:"",
-      imageUrl:"",
-      author:"",
-      genre:"",
-      bookLocation:"",
       recommendRating:"",
       profanityRating:"",
       sexRating:"",
@@ -73,15 +31,6 @@ const INITIAL_STATE = {
       reviewDescription:"",
       showError: false,
       required: {
-        title: showAlways,
-        seriesTitle: function(values) {
-          return values.seriesBookNumber != ""
-        },
-        seriesBookNumber: function(values) {
-          return values.seriesTitle != ""
-        },
-        author: showAlways,
-        genre: showAlways,
         recommendRating: showAlways
       }
     },
@@ -89,6 +38,7 @@ const INITIAL_STATE = {
 
 var AddReviewMain = React.createClass({
   propTypes: {
+    book: React.PropTypes.object.isRequired,
     addReview: React.PropTypes.func.isRequired
   },
   getInitialState: function() {
@@ -108,16 +58,6 @@ var AddReviewMain = React.createClass({
     });
 
     if (isValid) {
-      var book = {
-        title: values.title,
-        seriesTitle: values.seriesTitle,
-        seriesBookNumber: values.seriesBookNumber,
-        imageUrl: values.imageUrl,
-        author: values.author,
-        genre: values.genre,
-        locationOfBook: values.bookLocation,
-      };
-
       var review = {
         recommendRating: values.recommendRating,
         profanityRating: values.profanityRating,
@@ -126,9 +66,10 @@ var AddReviewMain = React.createClass({
         review: values.reviewDescription,
       }
 
-      this.props.addReview(book, review);
+      console.log("Check Book", this.props.book);
+      this.props.addReview(this.props.book.bookId, review);
       this.setState(INITIAL_STATE);
-      alertify.log.success("HURRAY!!!");
+      alertify.log.success("HURRAY, Review Added!!!");
     }
     else {
       this.setState({values:{...values, showError: !isValid}});
@@ -156,132 +97,64 @@ var AddReviewMain = React.createClass({
   },
   render: function() {
     var values = this.state.values;
-
-    var imageUrl = "";
-    if (values.imageUrl) {
-      imageUrl = <div>
-        <div className="row">
-          <div className="col-sm-2"></div>
-          <div className="col-sm-2">
-            <img className="img-responsive" src={values.imageUrl} />
-          </div>
-        </div>
-        <div className="row">
-          &nbsp;
-        </div>
-      </div>
-    }
-
+    var book = this.props.book;
     return (
       <div>
-        <h2>Book Review</h2>
-        <form className="form-horizontal" onSubmit={this.addReview} onKeyPress={stopEnterSubmitting}>
-          <AutoSuggestFormField
-            label="Title" id="title"
-            suggestions={getTitleSuggestions}
-            data={values}
-            onChange={this.onChangeWithValue}
-            isValid={this.isValid}
-            />
+        <BookImage book={book}/>
+        <div className="col-sm-10">
+          <h2>Book Review:</h2>
+          <h3>{book.title}</h3>
+          <BookData book={book}/>
+          <hr/>
+          <form className="form-horizontal" onSubmit={this.addReview} onKeyPress={stopEnterSubmitting}>
+            <RatingOptions
+              label="Overall Rating"id="recommendRating"
+              rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
+              data={values}
+              onChange={this.onChange}
+              isValid={this.isValid}
+              />
 
-          <AutoSuggestFormField
-            label="Series" id="seriesTitle"
-            suggestions={getSeriesSuggestions}
-            data={values}
-            onChange={this.onChangeWithValue}
-            isValid={this.isValid}
-            />
+            <RatingOptions
+              label="Profanity Rating" id="profanityRating"
+              rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}
+              data={values}
+              onChange={this.onChange}
+              isValid={this.isValid}
+              />
 
-          <FormFieldInput
-            inputType="number"
-            label="Book Number" id="seriesBookNumber"
-            data={values}
-            onChange={this.onChange}
-            isValid={this.isValid}
-            />
+            <RatingOptions
+               label="Sexual Rating" id="sexRating"
+               rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
+               data={values}
+               onChange={this.onChange}
+               isValid={this.isValid}
+               />
 
-          <FormFieldInput
-            inputType="text"
-            label="Image Url" id="imageUrl"
-            data={values}
-            onChange={this.onChange}
-            isValid={this.isValid}
-            />
-          {imageUrl}
+            <RatingOptions
+              label="Violence Rating" id="violenceRating"
+              rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
+              data={values}
+              onChange={this.onChange}
+              isValid={this.isValid}
+              />
 
-          <AutoSuggestFormField
-            label="Author" id="author"
-            suggestions={getAuthorSuggestions}
-            data={values}
-            onChange={this.onChangeWithValue}
-            isValid={this.isValid}
-            />
+            <FormField data={values} label="Review" id="reviewDescription" isValid={this.isValid}>
+              <textarea
+                className="form-control"
+                value={values.reviewDescription}
+                rows="5"
+                id="reviewDescription"
+                onChange={this.onChange}/>
+            </FormField>
 
-          <AutoSuggestFormField
-            label="Genre" id="genre"
-            suggestions={getGenreSuggestions}
-            showWhen={showAlways}
-            data={values}
-            onChange={this.onChangeWithValue}
-            isValid={this.isValid}
-            />
-
-          <AutoSuggestFormField
-            label="Location of Book" id="bookLocation"
-            suggestions={getLocationOfBookSuggestions}
-            showWhen={showAlways}
-            data={values}
-            onChange={this.onChangeWithValue}
-            isValid={this.isValid}
-            />
-
-          <RatingOptions
-            label="Overall Rating"id="recommendRating"
-            rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
-            data={values}
-            onChange={this.onChange}
-            isValid={this.isValid}
-            />
-
-          <RatingOptions
-            label="Profanity Rating" id="profanityRating"
-            rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}
-            data={values}
-            onChange={this.onChange}
-            isValid={this.isValid}
-            />
-
-          <RatingOptions
-             label="Sexual Rating" id="sexRating"
-             rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
-             data={values}
-             onChange={this.onChange}
-             isValid={this.isValid}
-             />
-
-          <RatingOptions
-            label="Violence Rating" id="violenceRating"
-            rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
-            data={values}
-            onChange={this.onChange}
-            isValid={this.isValid}
-            />
-
-          <FormField data={values} label="Review" id="reviewDescription" isValid={this.isValid}>
-            <textarea
-              className="form-control"
-              value={values.reviewDescription}
-              rows="5"
-              id="reviewDescription"
-              onChange={this.onChange}/>
-          </FormField>
-
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button type="submit" className="btn btn-default">Submit</button>
+            <div className="form-group">
+              <div className="col-sm-offset-2 col-sm-10">
+                <button type="button" onClick={this.addReview} className="btn btn-default">Submit</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }

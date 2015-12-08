@@ -14,7 +14,7 @@ var NavBar = React.createClass({
           <h1>NAV BAR</h1>
           <ul className="nav nav-tabs">
             <Tab to="/" onlyActiveOnIndex={true}>Search</Tab>
-            <Tab to="/review/new">Add Review</Tab>
+            <Tab to="/book/new">Add Book</Tab>
           </ul>
       </div>
     );
