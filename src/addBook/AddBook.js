@@ -1,5 +1,6 @@
 import React from 'react';
-import {AutoSuggestFormField, FormField, FormFieldInput} from '../util/FormField';
+import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import FormValidationMixins from '../util/FormValidationMixins';
 import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
@@ -41,21 +42,6 @@ function getSuggestions(id, list, input, callback) {
   }, 500); // Emulate API call
 }
 
-function stopEnterSubmitting(e) {
-    if (e.charCode == 13) {
-        var src = e.srcElement || e.target;
-        if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
-            if (e.preventDefault) {
-                e.preventDefault();
-            }
-        }
-    }
-}
-
-function showAlways() {
-  return true;
-}
-
 const INITIAL_STATE = {
     values: {
       title:"",
@@ -66,22 +52,22 @@ const INITIAL_STATE = {
       genre:"",
       bookLocation:"",
       showError: false,
-      required: {
-        title: showAlways,
-        seriesTitle: function(values) {
-          return values.seriesBookNumber != ""
-        },
-        seriesBookNumber: function(values) {
-          return values.seriesTitle != ""
-        },
-        author: showAlways,
-        genre: showAlways,
-      }
     },
+    required: {
+      title: () => true,
+      seriesTitle: function(values) {
+        return values.seriesBookNumber != ""
+      },
+      seriesBookNumber: function(values) {
+        return values.seriesTitle != ""
+      },
+      author: () => true,
+      genre: () => true,
+    }
 }
 
 var AddReviewMain = React.createClass({
-  mixins: [History],
+  mixins: [History, FormValidationMixins],
   propTypes: {
     addBook: React.PropTypes.func.isRequired
   },
@@ -91,15 +77,9 @@ var AddReviewMain = React.createClass({
     };
   },
   addBook: function() {
-    console.log("Add Book");
     var {values} = this.state;
 
-    var isValid = true;
-    Object.keys(values.required).map((key) => {
-      if (!this.isValid(key)) {
-        isValid = false;
-      }
-    });
+    var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
       var book = {
@@ -122,25 +102,6 @@ var AddReviewMain = React.createClass({
       alertify.log.error("Your form is not filled out.");
     }
   },
-  isValid: function(id) {
-      var {values} = this.state;
-      if (values.required[id] && values.required[id](values) && values[id] == "") {
-        return false;
-      }
-      return true;
-  },
-  onChange: function(prop, valid) {
-    var data = {values:{...this.state.values}};
-    data.values[prop.target.id] = prop.target.value;
-    // data.formValid[prop.target.id] = valid;
-    this.setState(data);
-  },
-  onChangeWithValue: function(id, value, valid) {
-    var data = {values:{...this.state.values}};
-    data.values[id] = value;
-    // data.formValid[id] = valid;
-    this.setState(data);
-  },
   render: function() {
     var values = this.state.values;
 
@@ -161,7 +122,7 @@ var AddReviewMain = React.createClass({
 
     return (
       <div>
-        <h2>Book Review</h2>
+        <h2>Add Book</h2>
         <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
           <AutoSuggestFormField
             label="Title" id="title"
@@ -207,7 +168,7 @@ var AddReviewMain = React.createClass({
           <AutoSuggestFormField
             label="Genre" id="genre"
             suggestions={getGenreSuggestions}
-            showWhen={showAlways}
+            showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
             isValid={this.isValid}
@@ -216,7 +177,7 @@ var AddReviewMain = React.createClass({
           <AutoSuggestFormField
             label="Location of Book" id="bookLocation"
             suggestions={getLocationOfBookSuggestions}
-            showWhen={showAlways}
+            showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
             isValid={this.isValid}

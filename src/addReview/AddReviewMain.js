@@ -1,27 +1,13 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
-import {AutoSuggestFormField, FormField, FormFieldInput} from '../util/FormField';
+import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import FormValidationMixins from '../util/FormValidationMixins';
 import { History} from 'react-router';
 import RatingOptions from '../util/RatingOptions';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
-
-function stopEnterSubmitting(e) {
-    if (e.charCode == 13) {
-        var src = e.srcElement || e.target;
-        if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
-            if (e.preventDefault) {
-                e.preventDefault();
-            }
-        }
-    }
-}
-
-function showAlways() {
-  return true;
-}
 
 const INITIAL_STATE = {
     values: {
@@ -31,14 +17,14 @@ const INITIAL_STATE = {
       violenceRating:"",
       reviewDescription:"",
       showError: false,
-      required: {
-        recommendRating: showAlways
-      }
     },
+    required: {
+      recommendRating: () => true,
+    }
 }
 
 var AddReviewMain = React.createClass({
-  mixins: [History],
+  mixins: [History, FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object.isRequired,
     addReview: React.PropTypes.func.isRequired
@@ -51,14 +37,9 @@ var AddReviewMain = React.createClass({
   },
   addReview: function() {
     console.log("Add Review");
-    var {values} = this.state;
+    var {values, required} = this.state;
 
-    var isValid = true;
-    Object.keys(values.required).map((key) => {
-      if (!this.isValid(key)) {
-        isValid = false;
-      }
-    });
+    var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
       var review = {
@@ -79,34 +60,14 @@ var AddReviewMain = React.createClass({
       alertify.log.error("Your form is not filled out.");
     }
   },
-  isValid: function(id) {
-      var {values} = this.state;
-      if (values.required[id] && values.required[id](values) && values[id] == "") {
-        return false;
-      }
-      return true;
-  },
-  onChange: function(prop, valid) {
-    var data = {values:{...this.state.values}};
-    data.values[prop.target.id] = prop.target.value;
-    // data.formValid[prop.target.id] = valid;
-    this.setState(data);
-  },
-  onChangeWithValue: function(id, value, valid) {
-    var data = {values:{...this.state.values}};
-    data.values[id] = value;
-    // data.formValid[id] = valid;
-    this.setState(data);
-  },
   componentDidMount: function() {
-    console.log("DidMount2:", this.props);
     const bookId = this.props.params.bookId
     this.setState({ book: this.props.books[bookId]});
   },
   render: function() {
-    console.log("Render:", this.props);
     var values = this.state.values;
     var book = this.state.book;
+
     return (
       <div>
         <BookImage book={book}/>

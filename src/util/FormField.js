@@ -6,6 +6,17 @@ const ERROR_STYLE = {
   color: 'red'
 }
 
+function stopEnterSubmitting(e) {
+    if (e.charCode == 13) {
+        var src = e.srcElement || e.target;
+        if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+        }
+    }
+}
+
 var FormField = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
@@ -92,4 +103,9 @@ var AutoSuggestFormField = React.createClass({
   }
 });
 
-module.exports = {FormFieldInput: FormFieldInput, FormField: FormField, AutoSuggestFormField: AutoSuggestFormField};
+module.exports = {
+  FormFieldInput: FormFieldInput,
+  FormField: FormField,
+  AutoSuggestFormField: AutoSuggestFormField,
+  stopEnterSubmitting: stopEnterSubmitting,
+};
