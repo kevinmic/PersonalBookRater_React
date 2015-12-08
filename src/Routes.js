@@ -9,22 +9,6 @@ import AddBook from './addBook/AddBook';
 import books from './defaultData';
 
 var BOOK_SEQ = 5;
-var AddReviewMainWrapper = React.createClass({
-  getInitialState: function() {
-    return {
-      book: {},
-    };
-  },
-  mixins: [History],
-  componentDidMount: function() {
-    console.log("DidMount:", this.props);
-    const bookId = this.props.params.bookId
-    this.setState({ book: books[bookId]});
-  },
-  render: function() {
-    return <AddReviewMain books={this.props.books} bookId={this.state.book} addReview={this.addReview}/>
-  }
-});
 
 var Routes = React.createClass({
   addBook: function(book) {
