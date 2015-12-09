@@ -104,7 +104,7 @@ var AutoSuggestFormField = React.createClass({
             allowCreate={true}
             value={this.props.data[this.props.id]}
             onChange={(values) => {
-              this.props.onChange(this.props.id, values.map((value) => value.value).join(", "));
+              this.props.onChange(this.props.id, values.map((value) => value.value).join(","));
             }}
             />
         </FormField>
