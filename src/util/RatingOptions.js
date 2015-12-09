@@ -1,6 +1,9 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
 import {FormField} from './FormField';
+import _ from 'lodash';
+import RSelect from 'react-select';
+import '../react-select.css';
 var PropTypes = React.PropTypes;
 
 const helpers = {
@@ -24,12 +27,15 @@ var RatingOptions = React.createClass({
   render: function() {
     var {rateList, onChange, ...other} = this.props;
     var {label, id, data} = this.props;
+
+    var mappedValues = rateList.map((rate) => {return {value:rate.key, label:rate.key + " - " + rate.description}});
     return (
         <FormField {...other} label={label} id={id}>
-          <select id={id} value={data[id]} className="form-control" onChange={onChange}>
-            <option value="">Please Select</option>
-            {helpers.ratingToOption(rateList)}
-          </select>
+          <RSelect
+            options={mappedValues}
+            value={data[this.props.id]}
+            onChange={(value, value2) => { this.props.onChange(id, value.value); }}
+            />
         </FormField>
     );
   }

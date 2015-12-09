@@ -5,27 +5,17 @@ import FormValidationMixins from '../util/FormValidationMixins';
 import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
+import BookImage from '../book/BookImage';
 
-const titles = ['Title 1', 'Title 2', 'Title 3'];
 const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
 const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
 
-function getTitleSuggestions(id, input, callback) {
-  getSuggestions(id, titles, input, callback);
-}
-
 function getGenreSuggestions(id, input, callback) {
-  getSuggestions(id, genres, input, callback);
+  return genres;
 }
 
 function getLocationOfBookSuggestions(id, input, callback) {
-  getSuggestions(id, locations, input, callback);
-}
-
-function getSuggestions(id, list, input, callback) {
-  const regex = new RegExp('^' + input, 'i');
-  const suggestions = list.filter(suburb => regex.test(suburb));
-  callback(null, suggestions)
+  return locations;
 }
 
 const INITIAL_STATE = {
@@ -86,28 +76,23 @@ var AddReviewMain = React.createClass({
 
     var imageUrl = "";
     if (values.imageUrl) {
-      imageUrl = <div>
-        <div className="row">
-          <div className="col-sm-2"></div>
-          <div className="col-sm-2">
-            <img className="img-responsive" src={values.imageUrl} />
+      imageUrl = (<div>
+          <BookImage book={values}/>
+          <div className="row">
+            &nbsp;
           </div>
         </div>
-        <div className="row">
-          &nbsp;
-        </div>
-      </div>
+      )
     }
 
     return (
       <div>
         <h2>Add Book</h2>
         <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
-          <AutoSuggestFormField
+          <FormFieldInput
             label="Title" id="title"
-            suggestions={getTitleSuggestions}
             data={values}
-            onChange={this.onChangeWithValue}
+            onChange={this.onChange}
             isValid={this.isValid}
             />
 

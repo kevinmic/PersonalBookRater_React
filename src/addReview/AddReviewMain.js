@@ -73,7 +73,7 @@ var AddReviewMain = React.createClass({
               label="Overall Rating"id="recommendRating"
               rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
               data={values}
-              onChange={this.onChange}
+              onChange={this.onChangeWithValue}
               isValid={this.isValid}
               />
 
@@ -81,7 +81,7 @@ var AddReviewMain = React.createClass({
               label="Profanity Rating" id="profanityRating"
               rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}
               data={values}
-              onChange={this.onChange}
+              onChange={this.onChangeWithValue}
               isValid={this.isValid}
               />
 
@@ -89,7 +89,7 @@ var AddReviewMain = React.createClass({
                label="Sexual Rating" id="sexRating"
                rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
                data={values}
-               onChange={this.onChange}
+               onChange={this.onChangeWithValue}
                isValid={this.isValid}
                />
 
@@ -97,7 +97,7 @@ var AddReviewMain = React.createClass({
               label="Violence Rating" id="violenceRating"
               rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
               data={values}
-              onChange={this.onChange}
+              onChange={this.onChangeWithValue}
               isValid={this.isValid}
               />
 

@@ -1,5 +1,7 @@
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
+import _ from 'lodash';
+import RSelect from 'react-select';
+import '../react-select.css';
 var PropTypes = React.PropTypes;
 
 const ERROR_STYLE = {
@@ -82,24 +84,29 @@ var AutoSuggestFormField = React.createClass({
     isValid: React.PropTypes.func,
     showWhen: React.PropTypes.func,
   },
-  onChange: function(value) {
-    if (this.props.onChange) {
-      this.props.onChange(this.props.id, value);
-    }
+  getInitialState: function() {
+    return {
+      checkValue: ""
+    };
   },
   suggestionsWithId: function(input, callback) {
     this.props.suggestions(this.props.id, input, callback);
   },
   render: function() {
     var {suggestions, onChange, showWhen, ...other} = this.props;
+
+    var options = suggestions().map((value) => {return {value:value, label:value}});
     return (
         <FormField {...other}>
-            <Autosuggest
-              value={this.props.data[this.props.id]}
-              suggestions={this.suggestionsWithId}
-              inputAttributes={{ id: this.props.id, className: "form-control", onChange:value => this.onChange(value)}}
-              showWhen={showWhen}
-              />
+          <RSelect
+            options={options}
+            multi={true}
+            allowCreate={true}
+            value={this.props.data[this.props.id]}
+            onChange={(values) => {
+              this.props.onChange(this.props.id, values.map((value) => value.value).join(", "));
+            }}
+            />
         </FormField>
     )
   }

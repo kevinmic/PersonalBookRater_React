@@ -21,6 +21,8 @@ var Routes = React.createClass({
   addReview: function(bookId, review) {
     console.log("TRYING TO ADD REVIEW", bookId, review, books[bookId]);
     var book = books[bookId];
+    review.reviewedBy = "Not Implemented";
+    review.reviewDate = new Date().getTime();
     if (!book.reviews) {
       book.reviews = [];
     }

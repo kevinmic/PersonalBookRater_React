@@ -3,7 +3,7 @@ var FormValidationMixins = {
       var {values, required, showError} = this.state;
 
       if (showError || ignoreShowError) {
-        if (required[id] && required[id](values) && values[id] == "") {
+        if (required[id] && required[id](values) && !values[id]) {
           return false;
         }
       }
@@ -26,9 +26,9 @@ var FormValidationMixins = {
   },
 
   onChangeWithValue: function(id, value) {
+    // console.log("CHANGED With Value - ", id, value);
     var data = {values:{...this.state.values}};
     data.values[id] = value;
-    // console.log("CHANGED With Value - ", id, value, data.values);
     // data.formValid[id] = valid;
     this.setState(data);
   },
