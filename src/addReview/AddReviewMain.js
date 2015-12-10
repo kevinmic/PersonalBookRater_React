@@ -27,8 +27,8 @@ const INITIAL_STATE = {
 var AddReviewMain = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
-    books: React.PropTypes.object.isRequired,
-    addReview: React.PropTypes.func.isRequired
+    books: React.PropTypes.object,
+    addReview: React.PropTypes.func,
   },
   getInitialState: function() {
     return {
@@ -42,7 +42,7 @@ var AddReviewMain = React.createClass({
     if (isValid) {
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
 
-      this.props.addReview(this.state.book.bookId, review);
+      this.props.addReview(this.state.bookId, review);
       this.setState(INITIAL_STATE);
       alertify.log.success("Review Added for book " + this.state.book.title + "!!!");
       this.history.pushState(null, "/review/search");
@@ -54,11 +54,19 @@ var AddReviewMain = React.createClass({
   },
   componentDidMount: function() {
     const bookId = this.props.params.bookId
-    this.setState({ book: this.props.books[bookId]});
+    this.setState({ book: this.props.books[bookId], bookId: bookId});
   },
   render: function() {
     var values = this.state.values;
     var book = this.state.book;
+
+    if (!book) {
+      return (
+        <div>
+          This book does not exist.
+        </div>
+      )
+    }
 
     return (
       <div>

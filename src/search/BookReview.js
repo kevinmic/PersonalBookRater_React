@@ -5,13 +5,18 @@ import Scales from '../const/ScaleConst';
 import ScaleBadge from './ScaleBadge';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
+import _ from 'lodash';
 
 var BookReview = React.createClass({
+  propTypes: {
+    book: React.PropTypes.object.isRequired,
+    bookId: React.PropTypes.string.isRequired,
+  },
   render: function() {
-    var book = this.props.book;
+    var {book, bookId} = this.props;
 
-    if (book.reviews && book.reviews.length > 0) {
-      var review = book.reviews[0];
+    if (book.reviews) {
+      var review = _.values(book.reviews)[0];
     }
     else {
       review = {};
@@ -26,7 +31,7 @@ var BookReview = React.createClass({
               <ScaleBadge rateTypeKey="" rateType="Recommendation" rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
             </h3>
             <div className="row">
-                <Link to={"review/" + book.bookId + "/new"}>Add Review</Link>
+                <Link to={"review/" + bookId + "/new"}>Add Review</Link>
             </div>
             <ScaleBadge rateTypeKey="s" rateType="Sex" rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
             <ScaleBadge rateTypeKey="p" rateType="Profanity" rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>

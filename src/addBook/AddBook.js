@@ -46,8 +46,8 @@ const INITIAL_STATE = {
 var AddReviewMain = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
-    addBook: React.PropTypes.func.isRequired,
-    books: React.PropTypes.object.isRequired,
+    addBook: React.PropTypes.func,
+    books: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
