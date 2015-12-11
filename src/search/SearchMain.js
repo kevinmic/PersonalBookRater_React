@@ -2,14 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import BookReview2 from './BookReview';
-
-
-      // <ol>
-      //   <li>Title</li>
-      //   <li>Author</li>
-      //   <li>Series</li>
-      //   <li>Overall Rating</li>
-      // </ol>
+import SearchFilter from './SearchFilter';
 
 var Search = React.createClass({
   propTypes: {
@@ -22,7 +15,12 @@ var Search = React.createClass({
     })
     return (
       <div>
-        {books}
+        <div className="col-sm-3">
+          <SearchFilter/>
+        </div>
+        <div className="col-sm-9">
+          {books}
+        </div>
       </div>
     );
   }

@@ -6,52 +6,42 @@ import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 import BookImage from '../book/BookImage';
+import Login from '../Login';
+import firebaseInfo from '../../config/firebase-info.js';
 
-const genres = ['Fantasy', 'Fiction', 'Sci Fi'];
-const locations = ['Dons Kindle', 'Dons Audible', 'Library', 'Keiths Audible'];
-
-function getGenreSuggestions(id, input, callback) {
-  return genres;
-}
-
-function getLocationOfBookSuggestions(id, input, callback) {
-  return locations;
-}
-
-const INITIAL_STATE = {
-    values: {
-      title:"",
-      seriesTitle:"",
-      seriesBookNumber:"",
-      imageUrl:"",
-      author:"",
-      genre:"",
-      locationOfBook:"",
-      showError: false,
-    },
-    showError: false,
-    required: {
-      title: () => true,
-      seriesTitle: function(values) {
-        return values.seriesBookNumber != ""
-      },
-      seriesBookNumber: function(values) {
-        return values.seriesTitle != ""
-      },
-      author: () => true,
-      genre: () => true,
-    }
-}
-
-var AddReviewMain = React.createClass({
+var AddBook = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
     addBook: React.PropTypes.func,
     books: React.PropTypes.object,
+    auth: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
-      ...INITIAL_STATE
+      values: {
+        title:"",
+        seriesTitle:"",
+        seriesBookNumber:"",
+        imageUrl:"",
+        author:"",
+        genre:"",
+        locationOfBook:"",
+        showError: false,
+      },
+      showError: false,
+      required: {
+        title: () => true,
+        seriesTitle: function(values) {
+          return values.seriesBookNumber != ""
+        },
+        seriesBookNumber: function(values) {
+          return values.seriesTitle != ""
+        },
+        author: () => true,
+        genre: () => true,
+      },
+      previousGenres: [],
+      previousLocations: [],
     };
   },
   addBook: function() {
@@ -61,17 +51,41 @@ var AddReviewMain = React.createClass({
       var {values} = this.state;
       var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook');
 
-      var bookId = this.props.addBook(book);
-      this.setState(INITIAL_STATE);
-      alertify.log.success("Book " + book.title + " added!");
-      this.history.pushState(null, "/review/" + bookId + "/new");
+      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      book.reviews = {};
+
+      var bookRef = firebaseRef.push();
+      book.bookId = bookRef.key();
+      bookRef.set(book, (error) => {
+        if (error) {
+          alertify.log.error("Book " + book.title + " was not saved! Reason: " + error);
+        }
+        else {
+          alertify.log.success("Book " + book.title + " added!");
+          this.history.pushState(null, "/review/" + book.bookId + "/new");
+        }
+      });
+
     }
     else {
       this.setState({showError: true});
       alertify.log.error("Please fill out missing required fields.");
     }
   },
+  componentWillMount: function() {
+    var firebase = new Firebase(firebaseInfo.firebaseurl);
+    firebase.child("genres").on("value", (ref => {
+      this.setState({previousGenres: _.values(ref.val())})
+    }));
+    firebase.child("bookLocations").on("value", (ref => {
+      this.setState({previousLocations: _.values(ref.val())})
+    }));
+  },
   render: function() {
+    if (!this.props.auth.loggedIn) {
+      return <Login redirect={false} message="You must login in order to add a book."/>;
+    }
+
     var values = this.state.values;
 
     var imageUrl = "";
@@ -129,7 +143,7 @@ var AddReviewMain = React.createClass({
 
           <AutoSuggestFormField
             label="Genre" id="genre"
-            suggestions={getGenreSuggestions}
+            suggestions={() => this.state.previousGenres}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
@@ -138,7 +152,7 @@ var AddReviewMain = React.createClass({
 
           <AutoSuggestFormField
             label="Location of Book" id="locationOfBook"
-            suggestions={getLocationOfBookSuggestions}
+            suggestions={() => this.state.previousLocations}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
@@ -156,4 +170,4 @@ var AddReviewMain = React.createClass({
   }
 });
 
-module.exports = AddReviewMain;
+module.exports = AddBook;

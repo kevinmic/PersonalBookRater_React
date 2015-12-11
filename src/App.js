@@ -6,18 +6,9 @@ import firebaseInfo from '../config/firebase-info.js';
 var App = React.createClass({
   getInitialState: function() {
     return {
-      books : {}
+      books : {},
+      auth: {},
     };
-  },
-  addBook: function(book) {
-    book.reviews = {};
-    var bookRef = this.firebaseRef.push(book);
-    return bookRef.key();
-  },
-  addReview: function(bookId, review, callback) {
-    review.reviewedBy = "Don Dodge";
-    review.reviewDate = new Date().getTime();
-    this.firebaseRef.child(bookId).child("reviews").push(review);
   },
   loadBookFromFirebase: function(dataSnapshot) {
       var books = {...this.state.books};
@@ -31,6 +22,16 @@ var App = React.createClass({
 
     this.firebaseRef.on("child_added", this.loadBookFromFirebase);
     this.firebaseRef.on("child_changed", this.loadBookFromFirebase);
+    this.firebaseRef.onAuth((val, val2) => {
+      if (val) {
+        var email = val.password.email;
+        var userid = val.uid;
+        this.setState({auth: {loggedIn: true, username: email, userid: userid}});
+      }
+      else {
+        this.setState({auth: {}});
+      }
+    });
   },
   componentWillUnMount: function() {
     this.firebaseRef.off();
@@ -39,16 +40,14 @@ var App = React.createClass({
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
         books: this.state.books,
-        addBook: this.addBook,
-        addReview: this.addReview
+        auth: this.state.auth,
       });
     }.bind(this))
   },
   render() {
-
     return (
       <div>
-        <NavBar/>
+        <NavBar auth={this.state.auth} setAuthData={this.setAuthData} />
         {this.renderChildren()}
       </div>
     );

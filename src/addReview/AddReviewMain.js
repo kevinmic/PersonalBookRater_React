@@ -9,31 +9,29 @@ var PropTypes = React.PropTypes;
 var alertify = require('alertify-webpack');
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
-
-const INITIAL_STATE = {
-    values: {
-      recommendRating:"",
-      profanityRating:"",
-      sexRating:"",
-      violenceRating:"",
-      reviewDescription:"",
-    },
-    showError: false,
-    required: {
-      recommendRating: () => true,
-    }
-}
+import firebaseInfo from '../../config/firebase-info.js';
+import Login from '../Login';
 
 var AddReviewMain = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object,
-    addReview: React.PropTypes.func,
+    auth: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
+      values: {
+        recommendRating:"",
+        profanityRating:"",
+        sexRating:"",
+        violenceRating:"",
+        reviewDescription:"",
+      },
+      showError: false,
+      required: {
+        recommendRating: () => true,
+      },
       book: {},
-      ...INITIAL_STATE
     };
   },
   addReview: function() {
@@ -42,10 +40,19 @@ var AddReviewMain = React.createClass({
     if (isValid) {
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
 
-      this.props.addReview(this.state.bookId, review);
-      this.setState(INITIAL_STATE);
-      alertify.log.success("Review Added for book " + this.state.book.title + "!!!");
-      this.history.pushState(null, "/review/search");
+      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      review.reviewedBy = "Don Dodge";
+      review.reviewDate = new Date().getTime();
+      firebaseRef.child(this.state.bookId).child("reviews").push(review, (error) => {
+        if (error) {
+          alertify.log.error("Review was not saved!  Reason: " + error);
+        }
+        else {
+          alertify.log.success("Review Added for book " + this.state.book.title + "!!!");
+          this.history.pushState(null, "/review/search");
+        }
+      });
+
     }
     else {
       this.setState({showError: !isValid});
@@ -57,6 +64,11 @@ var AddReviewMain = React.createClass({
     this.setState({ book: this.props.books[bookId], bookId: bookId});
   },
   render: function() {
+    if (!this.props.auth.loggedIn) {
+      return <Login redirect={false} message="You must login in order to add a review."/>;
+    }
+
+
     var values = this.state.values;
     var book = this.state.book;
 
