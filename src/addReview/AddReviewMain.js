@@ -41,7 +41,7 @@ var AddReviewMain = React.createClass({
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
-      review.reviewedBy = "Don Dodge";
+      review.reviewedBy = this.props.auth.username;
       review.reviewDate = new Date().getTime();
       firebaseRef.child(this.state.bookId).child("reviews").push(review, (error) => {
         if (error) {

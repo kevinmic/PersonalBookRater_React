@@ -5,7 +5,7 @@ var PropTypes = React.PropTypes;
 import App from './App';
 import SearchMain from './search/SearchMain';
 import AddReviewMain from './addReview/AddReviewMain';
-import AddBook from './addBook/AddBook';
+import LookupBook from './addBook/LookupBook';
 import Login from './Login';
 
 var Routes = React.createClass({
@@ -16,7 +16,7 @@ var Routes = React.createClass({
           <IndexRoute component={SearchMain}/>
           <Route path="review/search" component={SearchMain}/>
           <Route path="review/:bookId/new" component={AddReviewMain}/>
-          <Route path="book/new" component={AddBook}/>
+          <Route path="book/new" component={LookupBook}/>
           <Route path="login" component={Login}/>
         </Route>
       </Router>

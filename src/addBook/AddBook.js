@@ -12,12 +12,15 @@ import firebaseInfo from '../../config/firebase-info.js';
 var AddBook = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
-    addBook: React.PropTypes.func,
     books: React.PropTypes.object,
-    auth: React.PropTypes.object,
+    initBook: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
+      search: {
+        books: {},
+        manual: false,
+      },
       values: {
         title:"",
         seriesTitle:"",
@@ -43,6 +46,12 @@ var AddBook = React.createClass({
       previousGenres: [],
       previousLocations: [],
     };
+  },
+  componentDidMount: function() {
+    const book = this.props.initBook;
+    if (book) {
+      this.setState({values: book});
+    }
   },
   addBook: function() {
     var isValid = this.validateAllRequiredFields();
@@ -82,10 +91,6 @@ var AddBook = React.createClass({
     }));
   },
   render: function() {
-    if (!this.props.auth.loggedIn) {
-      return <Login redirect={false} message="You must login in order to add a book."/>;
-    }
-
     var values = this.state.values;
 
     var imageUrl = "";
@@ -99,9 +104,17 @@ var AddBook = React.createClass({
       )
     }
 
+    if (values.title && this.props.books) {
+      var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title);
+      if (matchingBooks.length > 0) {
+        var titleDuplicate = (<div style={{color: "red"}}>A book with this title already exists</div>)
+      }
+    }
+
     return (
       <div>
         <h2>Add Book</h2>
+        <a onClick={this.goodreadsSearch}>Search</a>
         <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
           <FormFieldInput
             label="Title" id="title"
@@ -109,6 +122,7 @@ var AddBook = React.createClass({
             onChange={this.onChange}
             isValid={this.isValid}
             />
+          {titleDuplicate}
 
           <FormFieldInput
             label="Series" id="seriesTitle"

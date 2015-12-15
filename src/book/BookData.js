@@ -4,7 +4,9 @@ var PropTypes = React.PropTypes;
 var InnerRow = React.createClass({
   defaultProps: {
     label: "",
-    value: ""
+    value: "",
+    showExtra: true,
+    showTitle: false,
   },
   render: function() {
     return (
@@ -30,14 +32,24 @@ var BookData = React.createClass({
       var seriesBookNumber = <InnerRow label="Book Number" value={book.seriesBookNumber}/>
     }
 
+    if (this.props.showTitle) {
+      var title = <InnerRow label="Title" value={book.title}/>
+    }
+
+    if (this.props.showExtra) {
+      var genre = <InnerRow label="Genre" value={book.genre}/>
+      var location = <InnerRow label="Location" value={book.locationOfBook}/>
+    }
+
     return (
       <div className="row">
         <div className="col-sm-8">
+          {title}
           <InnerRow label="Author" value={book.author}/>
           {series}
           {seriesBookNumber}
-          <InnerRow label="Genre" value={book.genre}/>
-          <InnerRow label="Location" value={book.locationOfBook}/>
+          {genre}
+          {location}
         </div>
       </div>
     );
