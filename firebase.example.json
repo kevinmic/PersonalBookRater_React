@@ -21,6 +21,17 @@
       }
     }
   }
-  suggestedGenres: "Fantasy, Sci Fi, ...",
-  suggestedLocations: "Dons Kindle,Dons Audible,...",
+  genres: {
+    "key1":"Fantasy",
+    "key2":"Sci Fi",
+    ...,
+  },
+  bookLocations: {
+    "key1":"Dons Kindle",
+    "key2": "Dons Audible",
+    ...,
+  },
+  secureData: {
+    "goodreads_url": "goodreads_webtask_url"
+  }
 }
