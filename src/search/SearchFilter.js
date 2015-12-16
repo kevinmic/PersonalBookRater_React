@@ -29,7 +29,9 @@ var SearchFilter = React.createClass({
     }, 700);
   },
   changeSort: function(valueObj) {
-    this.props.changeSort(valueObj.target.value);
+    var value = valueObj.target.value
+    this.setState({sortType: value});
+    this.props.changeSort(value);
   },
   render: function() {
     var sortList = this.props.sortOptions.map((option) => {
