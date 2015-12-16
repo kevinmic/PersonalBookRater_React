@@ -107,7 +107,11 @@ var AddBook = React.createClass({
     if (values.title && this.props.books) {
       var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title);
       if (matchingBooks.length > 0) {
-        var titleDuplicate = (<div style={{color: "red"}}>A book with this title already exists</div>)
+        var titleDuplicate = (
+          <div style={{color: "red"}}>
+            A book with this title already exists
+          </div>
+        )
       }
     }
 

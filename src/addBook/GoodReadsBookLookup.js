@@ -2,15 +2,24 @@ var x2js = new X2JS();
 import firebaseInfo from '../../config/firebase-info.js';
 var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/secureData/goodreads_url");
 
+var patternList = [
+  /^(.+)\s+\((.+)[,:;]\s*\#(\d+)\)$/,
+  /^(.+)\s+\((.+)[,:;]\s*Book\s+(\d+)\)$/,
+  /^(.+)\s+\((.+)[,:;]\s*Book\s+(One|Two|Three|Four|Five|Six|Seven|Eight|Nine)\)$/,
+  /^(.+)\s+\((.+)\s+Book\s+(\d+)\)$/,
+  /^(.+)\s+\((.+)\s*\#(\d+)\)$/,
+];
+
 var parseTitle = function(title) {
-  var regex = /^(.+)\s+\((.+)\,\s+\#(\d+)\)$/
-  var match = title.match(regex);
-  if (match) {
-    return {title: match[1], seriesTitle:match[2], seriesBookNumber:match[3]}
+  for (var i = 0; i < patternList.length; i++) {
+    var regex = patternList[i];
+    var match = title.match(regex);
+    if (match) {
+      // console.log("MATCH", regex, title);
+      return {title: match[1], seriesTitle:match[2], seriesBookNumber:match[3]}
+    }
   }
-  else {
-    return {title: title, seriesTitle:"", seriesBookNumber:""}
-  }
+  return {title: title, seriesTitle:"", seriesBookNumber:""}
 };
 
 var parseAuthor = function(author) {
@@ -35,7 +44,6 @@ var parseImage = function(image) {
 var lookupBook = function(name, callback) {
   firebaseRef.on("value", (ref => {
     var url = ref.val() + "&q=" + name;
-    console.log(url);
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", (param) => {
       if (oReq.status == 200) {
@@ -48,15 +56,15 @@ var lookupBook = function(name, callback) {
           books = search.GoodreadsResponse.search.results.work
             .map((book) => book.best_book)
             .map((book) => {
-            var {title, author, small_image_url, id} = book
+                // console.log(book);
+              var {title, author, small_image_url, id} = book
 
-            return {
-              ...parseTitle(title),
-              ...parseAuthor(author),
-              imageUrl:parseImage(small_image_url),
-              bookUrl: "",
-              author:author.name,
-            };
+              return {
+                ...parseTitle(title),
+                ...parseAuthor(author),
+                imageUrl:parseImage(small_image_url),
+                author:author.name,
+              };
           });
         }
         else {

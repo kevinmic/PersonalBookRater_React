@@ -64,7 +64,6 @@ var LookupBook = React.createClass({
     }
   },
   chooseBook: function(book) {
-    console.log("BOOK", book);
     this.setState({book: book, isManualEntry: true});
   },
   render: function() {
