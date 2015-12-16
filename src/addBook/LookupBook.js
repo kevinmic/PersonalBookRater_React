@@ -3,6 +3,7 @@ import lookupBook from './GoodReadsBookLookup';
 import AddBook from './AddBook';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
+import Login from '../Login';
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
 var alertify = require('alertify-webpack');
@@ -109,7 +110,8 @@ var LookupBook = React.createClass({
             onChange={this.onChange}
             isValid={() => true}
             />
-          <button type="button" onClick={this.searchBooks}>Search</button>
+          <button type="button" onClick={this.searchBooks}>Search</button>&nbsp;
+          <button type="button" onClick={this.chooseBook}>Manually Add Book</button>
         </form>
         <hr/>
         {searchResults}
