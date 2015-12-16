@@ -10,7 +10,11 @@ var filterBooks = function(filterStr, books) {
       // console.log("filter", filter);
       if (filter.isValid) {
         books = books.filter((book) => {
-          return validFilterTypes[filter.type](book, filter.filter);
+          var includeIt = validFilterTypes[filter.type](book, filter.filter);
+          if (filter.negate) {
+            return !includeIt;
+          }
+          return includeIt;
         });
       }
     }
@@ -58,6 +62,8 @@ var parseFilter = function(filter) {
   }
   filter = filter.trim();
 
+  var retFilter = {isValid: true, type: "all", filter: filter, negate: false};
+
   var match = filter.match(/(.+):\s*(.*)/);
   if (match) {
     var type = match[1];
@@ -71,11 +77,13 @@ var parseFilter = function(filter) {
         alertify.log.error("Invalid Search Prefix: " + type);
       }
     }
-    return retFilter;
   }
-  else {
-    return {isValid: true, type: "all", filter: filter};
+
+  if (retFilter.filter.indexOf("-") == 0) {
+    retFilter.negate=true;
+    retFilter.filter=retFilter.filter.slice(1);
   }
+  return retFilter;
 }
 
 const validFilterTypes = {
