@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import NavBar from './NavBar';
 import firebaseInfo from '../config/firebase-info.js';
+import _ from 'lodash';
 
 var App = React.createClass({
   getInitialState: function() {
@@ -11,16 +12,31 @@ var App = React.createClass({
     };
   },
   loadBookFromFirebase: function(dataSnapshot) {
-      var books = {...this.state.books};
-      books[dataSnapshot.key()] = dataSnapshot.val();
-      this.setState({
-        books: books
-      });
+      var bookId = dataSnapshot.key();
+      var newBook = dataSnapshot.val();
+      if (!this.state.books[bookId] || !_.isEqual(this.state.books[bookId], newBook)) {
+        // console.log("add book")
+        var books = {...this.state.books};
+
+        books[bookId] = newBook;
+        this.setState({
+          books: books
+        });
+      }
+      else {
+        // console.log("ignore book")
+      }
   },
   componentWillMount: function() {
     this.firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
 
-    this.firebaseRef.on("child_added", this.loadBookFromFirebase);
+
+    this.firebaseRef.once("value", (dataSnapshot) => {
+        this.setState({
+          books: dataSnapshot.val()
+        });
+        this.firebaseRef.on("child_added", this.loadBookFromFirebase);
+    });
     this.firebaseRef.on("child_changed", this.loadBookFromFirebase);
     this.firebaseRef.onAuth((val, val2) => {
       if (val) {

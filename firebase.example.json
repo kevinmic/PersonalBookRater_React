@@ -1,21 +1,25 @@
 {
   books: {
     bookId: {
+      bookId: "bookId"
       author: "author",
-      seriesTitle: "series",
-      seriesBookNumber: 1,
       title: "title",
-      genre: "genre",
+      seriesTitle: "series",
+      seriesBookNumber: "1",
       imageUrl: "url",
+      genre: "genre",
       locationOfBook: "location",
+      goodreadsId: "Goodreads_bookId",
+      synopsis: "synopsis",
       reviews: {
         reviewId: {
+          reviewId: "reviewId",
+          reviewDate: timestmap,
+          reviewedBy: "reverDodge",
+          recommendRating: "4",
           sexRating: "T",
           profanityRating: "B",
           violenceRating: "LV",
-          recommendRating: "4",
-          reviewDate: timestmap,
-          reviewedBy: "reverDodge",
           reviewDescription: "Description",
         }
       }

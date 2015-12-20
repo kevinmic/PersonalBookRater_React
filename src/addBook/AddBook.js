@@ -29,6 +29,7 @@ var AddBook = React.createClass({
         author:"",
         genre:"",
         locationOfBook:"",
+        synopsis: "",
         showError: false,
       },
       showError: false,
@@ -176,6 +177,15 @@ var AddBook = React.createClass({
             onChange={this.onChangeWithValue}
             isValid={this.isValid}
             />
+
+          <FormField data={values} label="Synopsis" id="synopsis" isValid={this.isValid}>
+              <textarea
+                className="form-control"
+                value={values.synopsis}
+                rows="5"
+                id="synopsis"
+                onChange={this.onChange}/>
+            </FormField>
 
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
