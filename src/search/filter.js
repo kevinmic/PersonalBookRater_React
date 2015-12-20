@@ -1,4 +1,3 @@
-import _ from 'lodash';
 var alertify = require('alertify-webpack');
 
 var filterBooks = function(filterStr, books) {

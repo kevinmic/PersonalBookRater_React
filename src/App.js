@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import NavBar from './NavBar';
 import firebaseInfo from '../config/firebase-info.js';
-import _ from 'lodash';
 
 var App = React.createClass({
   getInitialState: function() {

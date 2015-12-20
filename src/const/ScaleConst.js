@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 var PropTypes = React.PropTypes;
 
 const SCALE_PROPTYPE = PropTypes.shape({

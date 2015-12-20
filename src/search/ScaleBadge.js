@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ManualBadge from './ManualBadge';
 var PropTypes = React.PropTypes;
 
 var ScaleBadge = React.createClass({
@@ -23,15 +24,11 @@ var ScaleBadge = React.createClass({
     }
 
     return (
-      <span
-        className={"label label-as-badge " + rate.labelType}
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title={this.props.rateType + " Rating: " + rate.description}
-        style={{marginRight:1}}
-        >
-          {this.props.rateTypeKey?this.props.rateTypeKey + ":":""}{rate.key}
-        </span>
+      <ManualBadge
+        labelType={rate.labelType}
+        description={rate.description}
+        label={this.props.rateTypeKey}
+        value={rate.key}/>
     )
   }
 });

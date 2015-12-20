@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
 import FormValidationMixins from '../util/FormValidationMixins';
 import { History} from 'react-router';

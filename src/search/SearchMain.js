@@ -3,11 +3,21 @@ import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import BookReview2 from './BookReview';
 import SearchFilter from './SearchFilter';
-import _ from 'lodash';
 import sortIt from './sort.js';
 import filterBooks from './filter.js';
 
 const sortOptions = [{name:"title", asc: true}, {name:"author", asc: true}, {name:"reviewDate", asc: false}, {name:"overallRating", asc: false}]
+
+var setupOverallRating = function(books) {
+  return books.map((book) => {
+    var reviews = _.values(book.reviews);
+    if (reviews && reviews.length > 0) {
+      var value = _.sum(reviews, (review) => review.recommendRating) / reviews.length;
+      book.overallRating = (Math.round(value * 10)/10).toString();
+    }
+    return book;
+  });
+};
 
 var Search = React.createClass({
   propTypes: {
@@ -18,12 +28,16 @@ var Search = React.createClass({
       sortType: "reviewDate",
       sortAsc: true,
       filterObj: "",
+      rating: "",
       showNumberOfBooks: 5,
     };
   },
   changeSort: function(value) {
     var asc = sortOptions.filter((option) => option.name == value)[0].asc;
     this.setState({sortType: value, sortAsc: asc});
+  },
+  changeRating: function(value) {
+    this.setState({rating: value});
   },
   changeFilter: function(value) {
       if (this.state.filter != value) {
@@ -34,9 +48,18 @@ var Search = React.createClass({
     this.setState({showNumberOfBooks: this.state.showNumberOfBooks + 10})
   },
   render: function() {
-    var filteredBooks = filterBooks(this.state.filter, _.values(this.props.books));
-    var books = sortIt(filteredBooks, this.state.sortType, this.state.sortAsc).map((book) => {
-      return <div key={book.bookId}><BookReview2 bookId={book.bookId} book={book}/><hr/></div>
+    var books = setupOverallRating(_.values(this.props.books));
+    if (this.state.rating) {
+      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(this.state.rating));
+    }
+    books = filterBooks(this.state.filter, books);
+    books = sortIt(books, this.state.sortType, this.state.sortAsc).map((book) => {
+      return (
+        <div key={book.bookId}>
+          <BookReview2 bookId={book.bookId} book={book} auth={this.props.auth}/>
+          <hr/>
+        </div>
+      );
     })
 
     var showMoreBooks;
@@ -47,20 +70,19 @@ var Search = React.createClass({
 
     return (
       <div>
-        <div className="col-sm-3">
           <SearchFilter
             sortType={this.state.sortType}
+            rating={this.state.rating}
             changeSort={this.changeSort}
+            changeRating={this.changeRating}
             sortOptions={sortOptions.map((option) => option.name)}
             filter={this.state.filter}
             changeFilter={this.changeFilter}
             />
-        </div>
-        <div className="col-sm-9">
+          <hr/>
           {books}
-        </div>
-        {showMoreBooks}
-      </div>
+          {showMoreBooks}
+       </div>
     );
   }
 });

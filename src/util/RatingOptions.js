@@ -1,7 +1,6 @@
 import React from 'react';
 import Scales from '../const/ScaleConst';
 import {FormField} from './FormField';
-import _ from 'lodash';
 import RSelect from 'react-select';
 import '../react-select.css';
 var PropTypes = React.PropTypes;

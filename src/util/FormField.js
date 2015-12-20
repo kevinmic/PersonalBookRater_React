@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import RSelect from 'react-select';
 import '../react-select.css';
 var PropTypes = React.PropTypes;
@@ -41,8 +40,8 @@ var FormField = React.createClass({
 
     return (
       <div className="form-group">
-        <label htmlFor={id} style={errorStyle} className="col-sm-2 control-label">{label}: </label>
-        <div className="col-sm-10">
+        <label htmlFor={id} style={{...errorStyle, }} className="col-sm-3 control-label">{label}: </label>
+        <div className="col-sm-9">
           {this.props.children}
         </div>
       </div>
