@@ -13,7 +13,6 @@
       synopsis: "synopsis",
       reviews: {
         reviewId: {
-          reviewId: "reviewId",
           reviewDate: timestmap,
           reviewedBy: "reverDodge",
           recommendRating: "4",

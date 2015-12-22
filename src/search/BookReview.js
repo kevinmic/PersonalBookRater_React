@@ -2,17 +2,17 @@ import React from 'react';
 import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import Scales from '../const/ScaleConst';
-import ScaleBadge from './ScaleBadge';
 import ManualBadge from './ManualBadge';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
 import AddReviewForm from '../addReview/AddReviewForm';
+import ReviewInfo from './ReviewInfo';
 
 var lookupRatingData = function(overallRating) {
    return _.values(Scales.RATING_SCALE).filter((rate) => {
      var rateValue = parseInt(rate.key);
      return rateValue <= overallRating && rateValue + 1 > overallRating;
-   })[0]
+   })[0];
 };
 
 var loadCombinedRating = function(book) {
@@ -36,17 +36,7 @@ var getArrowClass = function(checkIt) {
 }
 
 var loadReviews = function(reviews) {
-    return reviews.map((review) => {
-      return (
-        <div key={review.reviewId}>
-          <ScaleBadge rateTypeKey="" rateType="Recommendation" rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
-          <ScaleBadge rateTypeKey="Sex" rateType="Sex" rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
-          <ScaleBadge rateTypeKey="Profanity" rateType="Profanity" rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
-          <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
-          {review.reviewedBy}
-        </div>
-      );
-    });
+    return reviews.map((review) => <ReviewInfo key={review.reviewedBy} review={review}/> );
 }
 
 var BookReview = React.createClass({
@@ -81,9 +71,8 @@ var BookReview = React.createClass({
 
     if (this.state.expanded) {
       expandedBookUI = (
-        <div>
-            <BookData book={book}/>
-            <div className="col-sm-12">{book.synopsis}</div>
+        <div style={{marginLeft: '20px' }}>
+            <BookData showExtra={true} book={book}/>
         </div>
       )
     }

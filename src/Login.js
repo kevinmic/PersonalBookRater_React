@@ -8,9 +8,11 @@ import firebaseInfo from '../config/firebase-info.js';
 
 var Login = React.createClass({
   mixins: [History, FormValidationMixins],
-  defaultProps: {
-    redirect: true,
-    message: "",
+  getDefaultProps: function() {
+    return {
+      redirect: true,
+      message: "",
+    }
   },
   getInitialState: function() {
     return {

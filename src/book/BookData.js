@@ -1,12 +1,26 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
 
+var loadExtra = function(book) {
+    var genre = book.genre?<InnerRow label="Genre" value={book.genre}/>:"";
+    var location = book.location?<InnerRow label="Location" value={book.locationOfBook}/>:"";
+    var synopsis= book.synopsis?<InnerRow label="Synopsis" value={book.synopsis}/>:"";
+    return (<div>
+      {genre}
+      {location}
+      {synopsis}
+    </div>)
+
+}
+
 var InnerRow = React.createClass({
-  defaultProps: {
-    label: "",
-    value: "",
-    showExtra: true,
-    showTitle: false,
+  getDefaultProps: function() {
+    return {
+      label: "",
+      value: "",
+      showExtra: true,
+      showTitle: false,
+    }
   },
   render: function() {
     return (
@@ -36,21 +50,14 @@ var BookData = React.createClass({
       var title = <InnerRow label="Title" value={book.title}/>
     }
 
-    if (this.props.showExtra) {
-      var genre = <InnerRow label="Genre" value={book.genre}/>
-      var location = <InnerRow label="Location" value={book.locationOfBook}/>
-    }
-
     return (
-      <div className="row">
-        <div className="col-sm-8">
+      <div>
           {title}
           <InnerRow label="Author" value={book.author}/>
           {series}
           {seriesBookNumber}
-          {genre}
-          {location}
-        </div>
+          {this.props.showExtra?loadExtra(book):""}
+          {this.props.children}
       </div>
     );
   }

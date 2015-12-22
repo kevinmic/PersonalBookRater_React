@@ -1,10 +1,12 @@
 var FormValidationMixins = {
   isValid: function(id, ignoreShowError) {
-      var {values, required, showError} = this.state;
+      var {values, required, showError, validators} = this.state;
 
       if (showError || ignoreShowError) {
-        if (required[id] && required[id](values) && !values[id]) {
-          return false;
+        if (required[id] && required[id](values)) {
+          if (!values[id] || (validators && validators[id] && !validators[id](values[id]))) {
+            return false;
+          }
         }
       }
       return true;

@@ -7,6 +7,7 @@ import SearchMain from './search/SearchMain';
 import AddReviewMain from './addReview/AddReviewMain';
 import LookupBook from './addBook/LookupBook';
 import Login from './Login';
+import AddUser from './addUser/AddUser.js';
 
 var Routes = React.createClass({
   render: function() {
@@ -17,6 +18,7 @@ var Routes = React.createClass({
           <Route path="review/search" component={SearchMain}/>
           <Route path="review/:bookId/new" component={AddReviewMain}/>
           <Route path="book/new" component={LookupBook}/>
+          <Route path="user/new" component={AddUser}/>
           <Route path="login" component={Login}/>
         </Route>
       </Router>

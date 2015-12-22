@@ -41,6 +41,7 @@ var LookupBook = React.createClass({
        alertify.log.error("Search in progress");
     }
     else if (search.length > 0) {
+      alertify.log.info("Searching");
       this.setState({searchedBooks: [], searching: true});
 
       var searchText = search.join(" and ");
@@ -81,11 +82,12 @@ var LookupBook = React.createClass({
       var searchResults = searchedBooks.map((book, index) => {
         return (
           <div key={index}>
-            <div className="col-sm-1">
-              <button type="button" onClick={() => this.chooseBook(book)}>Choose Book</button>
+            <div style={{display: 'flex'}}>
+              <BookImage book={book} />
+              <BookData book={book} showExtra={false} showTitle={true}>
+                <button type="button" onClick={() => this.chooseBook(book)}>Choose Book</button>
+              </BookData>
             </div>
-            <BookImage book={book} />
-            <BookData book={book} showExtra={false} showTitle={true}/>
             <hr/>
           </div>
         )
@@ -96,7 +98,7 @@ var LookupBook = React.createClass({
     return (
       <div>
       <h3>Lookup Book in GoodReads</h3>
-        <form className="form-horizontal" onSubmit={this.searchBooks} onKeyPress={stopEnterSubmitting}>
+        <form className="form-horizontal" onSubmit={this.searchBooks} >
           <FormFieldInput
             label="Author" id="author"
             data={values}
@@ -109,7 +111,7 @@ var LookupBook = React.createClass({
             onChange={this.onChange}
             isValid={() => true}
             />
-          <button type="button" onClick={this.searchBooks}>Search</button>&nbsp;
+          <button type="submit">Search</button>&nbsp;
           <button type="button" onClick={this.chooseBook}>Manually Add Book</button>
         </form>
         <hr/>

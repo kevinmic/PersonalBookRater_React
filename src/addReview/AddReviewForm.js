@@ -37,12 +37,17 @@ var AddReviewForm = React.createClass({
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
-      review.reviewedBy = this.props.auth.username;
+
+      if (this.props.auth.name) {
+        review.reviewedBy = this.props.auth.name;
+      }
+      else {
+        review.reviewedBy = this.props.auth.username;
+      }
       review.reviewDate = new Date().getTime();
 
-      var reviewRef = firebaseRef.child(this.props.book.bookId).child("reviews").push();
-      review.reviewId = reviewRef.key();
-      reviewRef.set(review, (error) => {
+      review.reviewId = this.props.auth.userid;
+      firebaseRef.child(this.props.book.bookId).child("reviews").child(this.props.auth.userid).set(review, (error) => {
         if (error) {
           alertify.log.error("Review was not saved!  Reason: " + error);
         }
@@ -58,6 +63,13 @@ var AddReviewForm = React.createClass({
     else {
       this.setState({showError: !isValid});
       alertify.log.error("Please fill out required fields.");
+    }
+  },
+  componentDidMount: function() {
+    var {reviews} = this.props.book;
+    var {userid} = this.props.auth;
+    if (reviews && reviews[userid]) {
+      this.setState({values: reviews[userid]});
     }
   },
   render: function() {

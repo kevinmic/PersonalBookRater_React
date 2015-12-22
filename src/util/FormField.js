@@ -57,6 +57,7 @@ var FormFieldInput = React.createClass({
     data: React.PropTypes.object,
     onChange: React.PropTypes.func,
     isValid: React.PropTypes.func,
+    placeholder: React.PropTypes.string,
   },
   getDefaultProps: function() {
     return {
@@ -64,11 +65,11 @@ var FormFieldInput = React.createClass({
     }
   },
   render: function() {
-    var {inputType, onChange, ...other} = this.props;
+    var {inputType, onChange, placeholder, ...other} = this.props;
     var {id, data} = this.props;
     return (
           <FormField {...other}>
-            <input type={inputType} className="form-control" value={data[id]} id={id} onChange={onChange}/>
+            <input type={inputType} placeholder={placeholder} className="form-control" value={data[id]} id={id} onChange={onChange}/>
           </FormField>
     )
   }

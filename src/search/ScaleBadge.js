@@ -8,7 +8,8 @@ var ScaleBadge = React.createClass({
     rateList: React.PropTypes.object.isRequired,
     rateKey: React.PropTypes.string,
     rateType: React.PropTypes.string,
-    rateTypeKey: React.PropTypes.string
+    rateTypeKey: React.PropTypes.string,
+    expanded: React.PropTypes.bool,
   },
   render: function() {
     const rateKey = this.props.rateKey;
@@ -23,13 +24,33 @@ var ScaleBadge = React.createClass({
       rate = rateList[rateKey];
     }
 
-    return (
-      <ManualBadge
-        labelType={rate.labelType}
-        description={rate.description}
-        label={this.props.rateTypeKey}
-        value={rate.key}/>
-    )
+    if (this.props.expanded) {
+      if (rate.key == "?") { // Override the description if unknown
+        rate.description = "";
+      }
+      return (
+        <div>
+          <div style={{float:'left', textAlign:'right', width: '15%'}}>
+            <b>{this.props.rateTypeKey} :&nbsp;</b>
+          </div>
+          <ManualBadge
+              labelType={rate.labelType}
+              value={rate.key}/>
+          &nbsp;
+          {rate.description}
+        </div>
+      );
+
+    }
+    else {
+      return (
+        <ManualBadge
+          labelType={rate.labelType}
+          description={rate.description}
+          label={this.props.rateTypeKey}
+          value={rate.key}/>
+      );
+    }
   }
 });
 

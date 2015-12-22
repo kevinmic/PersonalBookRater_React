@@ -17,7 +17,8 @@ var LoginInfo = React.createClass({
     var {auth} = this.props;
     if (auth.loggedIn) {
       return (
-        <div className="pull-right">{auth.username}
+        <div className="pull-right">
+          {auth.username}&nbsp;
           <a onClick={this.unAuth}>Sign Out</a>
         </div>
       );
@@ -33,14 +34,24 @@ var NavBar = React.createClass({
     auth : React.PropTypes.object
   },
   render: function() {
+    var addUser = "";
+    if (this.props.auth.loggedIn) {
+        addUser = (
+          <ul id="rightnav" className="nav nav-tabs" style={{float:'right', borderBottom:'none'}}>
+            <Tab to="/user/new">Add User</Tab>
+          </ul>
+        )
+    }
     return (
-      <div>
+      <div >
           <LoginInfo auth={this.props.auth} />
           <h1>NAV BAR</h1>
-          <ul className="nav nav-tabs">
+          {addUser}
+          <ul id="mainnav" className="nav nav-tabs">
             <Tab to="/" onlyActiveOnIndex={true}>Search</Tab>
             <Tab to="/book/new">Add Book</Tab>
           </ul>
+          <br/>
       </div>
     );
   }

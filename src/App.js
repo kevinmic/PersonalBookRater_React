@@ -42,6 +42,10 @@ var App = React.createClass({
         var email = val.password.email;
         var userid = val.uid;
         this.setState({auth: {loggedIn: true, username: email, userid: userid}});
+
+        this.firebaseRef.root().child("users").child(userid).once("value", (data) => {
+          this.setState({auth: {loggedIn: true, username: email, userid: userid, name: data.val()}});
+        });
       }
       else {
         this.setState({auth: {}});

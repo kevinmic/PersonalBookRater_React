@@ -19,13 +19,15 @@ var BookImage = React.createClass({
   },
   render: function() {
     var {book} = this.props;
-    var image = <img style={imgStyle} height="150px;" src={book.imageUrl} />
+    var image = <img style={imgStyle} width="120px;" src={book.imageUrl} />
+    if (!book.imageUrl) {
+      image = <div className="fa fa-ban fa-5x" style={{color: '#FA9D9D', paddingTop: '30px', paddingBottom: '30px', width: '120px', verticalAlign: 'center'}}></div>
+    }
+
     if (book.goodreadsId) {
       image = (
           <a href={"https://www.goodreads.com/book/show/" + book.goodreadsId}>
               {image}
-              <div style={{display: 'block'}}>goodreads</div>
-
           </a>
       );
     }

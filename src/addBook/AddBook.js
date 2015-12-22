@@ -43,8 +43,8 @@ var AddBook = React.createClass({
         author: () => true,
         genre: () => true,
       },
-      previousGenres: [],
-      previousLocations: [],
+      genres: [],
+      locations: [],
     };
   },
   componentDidMount: function() {
@@ -58,7 +58,7 @@ var AddBook = React.createClass({
 
     if (isValid) {
       var {values} = this.state;
-      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook');
+      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook', 'synopsis');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
       book.reviews = {};
@@ -82,13 +82,19 @@ var AddBook = React.createClass({
     }
   },
   componentWillMount: function() {
-    var firebase = new Firebase(firebaseInfo.firebaseurl);
-    firebase.child("genres").on("value", (ref => {
-      this.setState({previousGenres: _.values(ref.val())})
-    }));
-    firebase.child("bookLocations").on("value", (ref => {
-      this.setState({previousLocations: _.values(ref.val())})
-    }));
+    this.firebase = new Firebase(firebaseInfo.firebaseurl);
+
+    this.firebase.child("genres").on("child_added", (ref) => {
+      this.state.genres.push(ref.val());
+      this.setState({genres: this.state.genres});
+    });
+    this.firebase.child("bookLocations").on("child_added", (ref) => {
+      this.state.locations.push(ref.val());
+      this.setState({locations: this.state.locations})
+    });
+  },
+  componentWillUnMount: function() {
+    this.firebase.off();
   },
   render: function() {
     var values = this.state.values;
@@ -118,7 +124,6 @@ var AddBook = React.createClass({
     return (
       <div>
         <h2>Add Book</h2>
-        <a onClick={this.goodreadsSearch}>Search</a>
         <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
           <FormFieldInput
             label="Title" id="title"
@@ -161,7 +166,7 @@ var AddBook = React.createClass({
 
           <AutoSuggestFormField
             label="Genre" id="genre"
-            suggestions={() => this.state.previousGenres}
+            suggestions={() => this.state.genres}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
@@ -170,7 +175,7 @@ var AddBook = React.createClass({
 
           <AutoSuggestFormField
             label="Location of Book" id="locationOfBook"
-            suggestions={() => this.state.previousLocations}
+            suggestions={() => this.state.locations}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}
