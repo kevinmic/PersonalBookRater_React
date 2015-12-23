@@ -24,10 +24,10 @@ var InnerRow = React.createClass({
   },
   render: function() {
     return (
-      <div className="row">
-        <div className="col-sm-3"><b>{this.props.label}:</b></div>
-        <div className="col-sm-9">{this.props.value}</div>
-      </div>
+      <tr>
+        <td style={{whiteSpace:'nowrap', width:'10%', textAlign:'right', paddingRight:'10px'}} ><b>{this.props.label}:</b></td>
+        <td>{this.props.value}</td>
+      </tr>
     );
   }
 });
@@ -51,14 +51,15 @@ var BookData = React.createClass({
     }
 
     return (
-      <div>
+      <table>
+        <tbody>
           {title}
           <InnerRow label="Author" value={book.author}/>
           {series}
           {seriesBookNumber}
           {this.props.showExtra?loadExtra(book):""}
-          {this.props.children}
-      </div>
+        </tbody>
+      </table>
     );
   }
 

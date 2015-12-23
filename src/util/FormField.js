@@ -40,8 +40,8 @@ var FormField = React.createClass({
 
     return (
       <div className="form-group">
-        <label htmlFor={id} style={{...errorStyle, }} className="col-sm-3 control-label">{label}: </label>
-        <div className="col-sm-9">
+        <label htmlFor={id} style={{...errorStyle, }} className="col-sm-2 control-label">{label}: </label>
+        <div className="col-sm-10">
           {this.props.children}
         </div>
       </div>

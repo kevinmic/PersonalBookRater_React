@@ -94,7 +94,6 @@ var LookupBook = React.createClass({
       })
     }
 
-
     return (
       <div>
       <h3>Lookup Book in GoodReads</h3>
@@ -113,6 +112,7 @@ var LookupBook = React.createClass({
             />
           <button type="submit">Search</button>&nbsp;
           <button type="button" onClick={this.chooseBook}>Manually Add Book</button>
+
         </form>
         <hr/>
         {searchResults}

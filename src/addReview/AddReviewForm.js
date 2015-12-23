@@ -14,6 +14,7 @@ var AddReviewForm = React.createClass({
     auth: React.PropTypes.object,
     book: React.PropTypes.object,
     callback: React.PropTypes.func,
+    style: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
@@ -89,7 +90,7 @@ var AddReviewForm = React.createClass({
     }
 
     return (
-        <div className="col-sm-12">
+        <div style={this.props.style} className="col-sm-12">
           <form className="form-horizontal" onSubmit={this.addReview} onKeyPress={stopEnterSubmitting}>
             <RatingOptions
               label="Overall Rating"id="recommendRating"

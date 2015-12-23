@@ -7,6 +7,7 @@ import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
 import AddReviewForm from '../addReview/AddReviewForm';
 import ReviewInfo from './ReviewInfo';
+import sharedStyles from './Styles';
 
 var lookupRatingData = function(overallRating) {
    return _.values(Scales.RATING_SCALE).filter((rate) => {
@@ -71,7 +72,7 @@ var BookReview = React.createClass({
 
     if (this.state.expanded) {
       expandedBookUI = (
-        <div style={{marginLeft: '20px' }}>
+        <div style={sharedStyles.box}>
             <BookData showExtra={true} book={book}/>
         </div>
       )
@@ -79,10 +80,7 @@ var BookReview = React.createClass({
 
     if (this.state.addReviewDirect) {
       addReviewUI = (
-        <div>
-          <hr/>
-          <AddReviewForm book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>
-        </div>
+        <AddReviewForm style={sharedStyles.box} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>
       );
     }
 
@@ -101,7 +99,7 @@ var BookReview = React.createClass({
             <a onClick={this.toggleExpanded} className={getArrowClass(this.state.expanded)}>Book Info</a>
             {expandedBookUI}
             <div>
-              <a onClick={this.toggleAddReviewExpanded} className={getArrowClass(this.state.addReviewDirect)}>Add Review</a>
+              {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} className={getArrowClass(this.state.addReviewDirect)}>Add Review</a>:""}
             </div>
             {addReviewUI}
           </td>

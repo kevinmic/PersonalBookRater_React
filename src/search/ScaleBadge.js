@@ -30,9 +30,6 @@ var ScaleBadge = React.createClass({
       }
       return (
         <div>
-          <div style={{float:'left', textAlign:'right', width: '15%'}}>
-            <b>{this.props.rateTypeKey} :&nbsp;</b>
-          </div>
           <ManualBadge
               labelType={rate.labelType}
               value={rate.key}/>

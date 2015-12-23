@@ -2,6 +2,16 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 import ScaleBadge from './ScaleBadge';
 import Scales from '../const/ScaleConst';
+import sharedStyles from './Styles';
+
+var styles = {
+  tdLeft: {
+    width:'10%',
+    textAlign:'right',
+    fontWeight: 'bold',
+    paddingRight: '10px',
+  }
+};
 
 var printDate = function(date) {
   return date.toISOString()
@@ -16,6 +26,20 @@ var printDate = function(date) {
           ].join('-') // Stitch together
       });
 };
+
+var ReviewRow = React.createClass({
+  propTypes: {
+    header: PropTypes.string.isRequired
+  },
+  render: function() {
+    return (
+      <tr>
+        <td style={styles.tdLeft}>{this.props.header}:</td>
+        <td> {this.props.children} </td>
+      </tr>
+  )
+  }
+})
 
 var ReviewInfo = React.createClass({
   propTypes: {
@@ -36,37 +60,26 @@ var ReviewInfo = React.createClass({
       return (
         <div key={review.reviewId}>
           <a onClick={this.toggleShow} className="fa fa-caret-down">Hide</a>
-          <div style={{marginLeft: '20px'}}>
-            <div>
-              <div style={{float:'left', textAlign:'right', width: '15%'}}>
-                <b>Reviewed By:&nbsp;</b>
-              </div>
-              {review.reviewedBy}
-            </div>
-            <div>
-              <div style={{float:'left', textAlign:'right', width: '15%'}}>
-                <b>Review Date:&nbsp;</b>
-              </div>
-              {printDate(new Date(review.reviewDate))}
-            </div>
-            <div>
-              <ScaleBadge rateTypeKey="Recommendation" rateType="Recommendation" expanded={true}rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
-            </div>
-            <div>
-              <ScaleBadge rateTypeKey="Sex" rateType="Sex" expanded={true} rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
-            </div>
-            <div>
-              <ScaleBadge rateTypeKey="Profanity" rateType="Profanity" expanded={true} rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
-            </div>
-            <div>
-              <ScaleBadge rateTypeKey="Violence" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
-            </div>
-            <div>
-              <div style={{float:'left', textAlign:'right', width: '15%'}}>
-                <b>Review:&nbsp;</b>
-              </div>
-              {review.reviewDescription}&nbsp;
-            </div>
+          <div style={sharedStyles.box}>
+            <table width="100%">
+              <tbody>
+                <ReviewRow header="Reviewed By">{review.reviewedBy}</ReviewRow>
+                <ReviewRow header="Review Date">{printDate(new Date(review.reviewDate))}</ReviewRow>
+                <ReviewRow header="Recommendation">
+                    <ScaleBadge rateTypeKey="" rateType="Recommendation" expanded={true}rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
+                </ReviewRow>
+                <ReviewRow header="Sex">
+                  <ScaleBadge rateTypeKey="" rateType="Sex" expanded={true} rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
+                </ReviewRow>
+                <ReviewRow header="Profanity">
+                  <ScaleBadge rateTypeKey="" rateType="Profanity" expanded={true} rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
+                </ReviewRow>
+                <ReviewRow header="Violence">
+                  <ScaleBadge rateTypeKey="" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
+                </ReviewRow>
+                <ReviewRow header="Review">{review.reviewDescription}</ReviewRow>
+              </tbody>
+            </table>
           </div>
         </div>
       )
@@ -85,6 +98,7 @@ var ReviewInfo = React.createClass({
             <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
             &nbsp;
             {review.reviewedBy}
+            {review.reviewDescription?<span className="fa fa-info-circle" style={{marginLeft:'10px', color:'#009933'}}/>:""}
           </div>
         );
       }
