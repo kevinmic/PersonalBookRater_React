@@ -2,11 +2,12 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 
 import Scales from '../const/ScaleConst';
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
 import firebaseInfo from '../../config/firebase-info.js';
 import Login from '../Login';
+import TableStyles from '../styles/TableStyles';
 
 var AddReviewForm = React.createClass({
   mixins: [FormValidationMixins],
@@ -90,8 +91,8 @@ var AddReviewForm = React.createClass({
     }
 
     return (
-        <div style={this.props.style} className="col-sm-12">
-          <form className="form-horizontal" onSubmit={this.addReview} onKeyPress={stopEnterSubmitting}>
+        <div style={this.props.style} >
+          <FormTable onSubmit={this.addReview}>
             <RatingOptions
               label="Overall Rating"id="recommendRating"
               rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
@@ -133,12 +134,8 @@ var AddReviewForm = React.createClass({
                 onChange={this.onChange}/>
             </FormField>
 
-            <div className="form-group">
-              <div className="col-sm-offset-2 col-sm-10">
-                <button type="button" onClick={this.addReview} className="btn btn-default">Submit</button>
-              </div>
-            </div>
-          </form>
+            <FormFieldSubmit onClick={this.addReview} label="Submit" />
+          </FormTable>
         </div>
     );
   }

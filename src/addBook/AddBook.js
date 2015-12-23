@@ -3,10 +3,11 @@ import React from 'react';
 import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import BookImage from '../book/BookImage';
 import Login from '../Login';
+import TableStyles from '../styles/TableStyles';
 import firebaseInfo from '../../config/firebase-info.js';
 
 var AddBook = React.createClass({
@@ -110,14 +111,16 @@ var AddBook = React.createClass({
   render: function() {
     var values = this.state.values;
 
-    var imageUrl = "";
+    var imageUrl;
     if (values.imageUrl) {
-      imageUrl = (<div>
-          <BookImage book={values}/>
-          <div className="row">
-            &nbsp;
-          </div>
-        </div>
+      imageUrl = (
+          <tr>
+            <td>
+            </td>
+            <td>
+              <BookImage book={values}/>
+            </td>
+          </tr>
       )
     }
 
@@ -125,9 +128,13 @@ var AddBook = React.createClass({
       var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title);
       if (matchingBooks.length > 0) {
         var titleDuplicate = (
-          <div style={{color: "red"}}>
-            A book with this title already exists
-          </div>
+          <tr>
+            <td>
+            </td>
+            <td style={{color: "red"}}>
+              A book with this title already exists
+            </td>
+          </tr>
         )
       }
     }
@@ -135,7 +142,7 @@ var AddBook = React.createClass({
     return (
       <div>
         <h2>Add Book</h2>
-        <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
+        <FormTable onSumbit={this.addBook}>
           <FormFieldInput
             label="Title" id="title"
             data={values}
@@ -183,9 +190,11 @@ var AddBook = React.createClass({
             onChange={this.onChangeWithValue}
             isValid={this.isValid}
             />
-          <div className="col-sm-12" style={{textAlign:'right', paddingBottom:'10px'}}>
-            <a onClick={this.addGenre}>add genre</a>
-          </div>
+          <tr>
+            <td colSpan="100%" style={{textAlign:'right'}}>
+              <a onClick={this.addGenre}>add genre</a>
+            </td>
+          </tr>
 
           <AutoSuggestFormField
             label="Location of Book" id="locationOfBook"
@@ -203,14 +212,10 @@ var AddBook = React.createClass({
                 rows="5"
                 id="synopsis"
                 onChange={this.onChange}/>
-            </FormField>
+          </FormField>
 
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button type="button" onClick={this.addBook} className="btn btn-default">Submit</button>
-            </div>
-          </div>
-        </form>
+          <FormFieldSubmit onClick={this.addBook} label="Submit"/>
+        </FormTable>
       </div>
     );
   }

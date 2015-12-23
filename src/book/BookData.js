@@ -5,7 +5,6 @@ var loadExtra = function(book) {
     var genre = book.genre?<InnerRow key="genre" label="Genre" value={book.genre}/>:null;
     var location = book.location?<InnerRow key="loc" label="Location" value={book.locationOfBook}/>:null;
     var synopsis= book.synopsis?<InnerRow key="synopsis" label="Synopsis" value={book.synopsis}/>:null;
-    // return [genre, location, synopsis,]
     return [genre, location, synopsis];
 }
 
@@ -46,6 +45,11 @@ var BookData = React.createClass({
       var title = <InnerRow label="Title" value={book.title}/>
     }
 
+    var children;
+    if (this.props.children) {
+      children = <tr><td colSpan="100%">{this.props.children}</td></tr>
+    }
+
     return (
       <table>
         <tbody>
@@ -53,7 +57,8 @@ var BookData = React.createClass({
           <InnerRow label="Author" value={book.author}/>
           {series}
           {seriesBookNumber}
-          {this.props.showExtra?loadExtra(book):""}
+          {this.props.showExtra?loadExtra(book):null}
+          {children}
         </tbody>
       </table>
     );

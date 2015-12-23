@@ -2,7 +2,7 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 import { History} from 'react-router';
 
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from './util/FormField';
+import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';
 import firebaseInfo from '../config/firebase-info.js';
 
@@ -58,15 +58,13 @@ var Login = React.createClass({
     return (
       <div>
         {message}
-        <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
+        <FormTable>
           <FormFieldInput
             label="Email" id="email"
             data={values}
             onChange={this.onChange}
             isValid={this.isValid}
             />
-        </form>
-        <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
           <FormFieldInput
             label="Password" id="password"
             inputType="password"
@@ -74,12 +72,8 @@ var Login = React.createClass({
             onChange={this.onChange}
             isValid={this.isValid}
             />
-          <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
-              <button type="button" onClick={this.login} className="btn btn-default">Login</button>
-            </div>
-          </div>
-        </form>
+          <FormFieldSubmit label="Login" onClick={this.login}/>
+        </FormTable>
       </div>
     )
   }

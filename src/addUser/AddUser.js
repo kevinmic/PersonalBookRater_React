@@ -2,8 +2,9 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 
 import FormValidationMixins from '../util/FormValidationMixins';
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import firebaseInfo from '../../config/firebase-info.js';
+import TableStyles from '../styles/TableStyles';
 
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -81,7 +82,7 @@ var AddUser = React.createClass({
 
     return (
       <div>
-        <form className="form-horizontal" onSubmit={this.addBook} onKeyPress={stopEnterSubmitting}>
+        <FormTable onSubmit={this.addBook}>
           <FormFieldInput
             label="Name" id="name"
             data={values}
@@ -105,12 +106,8 @@ var AddUser = React.createClass({
             onChange={this.onChange}
             isValid={this.isValid}
             />
-        </form>
-        <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-10">
-            <button type="button" onClick={this.addUser} className="btn btn-default">Submit</button>
-          </div>
-        </div>
+          <FormFieldSubmit label="Submit" onClick={this.addUser}/>
+        </FormTable>
       </div>
     );
   }

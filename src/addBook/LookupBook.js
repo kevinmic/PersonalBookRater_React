@@ -6,7 +6,8 @@ import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
 import Login from '../Login';
 import FormValidationMixins from '../util/FormValidationMixins';
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import TableStyles from '../styles/TableStyles';
+import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 
 var LookupBook = React.createClass({
   mixins: [FormValidationMixins],
@@ -85,7 +86,7 @@ var LookupBook = React.createClass({
             <div style={{display: 'flex'}}>
               <BookImage book={book} />
               <BookData book={book} showExtra={false} showTitle={true}>
-                <button type="button" onClick={() => this.chooseBook(book)}>Choose Book</button>
+                <button type="button" className="btn btn-default" onClick={() => this.chooseBook(book)}>Choose Book</button>
               </BookData>
             </div>
             <hr/>
@@ -97,7 +98,7 @@ var LookupBook = React.createClass({
     return (
       <div>
       <h3>Lookup Book in GoodReads</h3>
-        <form className="form-horizontal" onSubmit={this.searchBooks} >
+        <FormTable onSumbit={this.searchBooks} allowEnter={true}>
           <FormFieldInput
             label="Author" id="author"
             data={values}
@@ -110,10 +111,10 @@ var LookupBook = React.createClass({
             onChange={this.onChange}
             isValid={() => true}
             />
-          <button type="submit">Search</button>&nbsp;
-          <button type="button" onClick={this.chooseBook}>Manually Add Book</button>
-
-        </form>
+          <FormFieldSubmit  btnType="submit" label="Search">
+              <button type="button" onClick={this.chooseBook} className="btn btn-default">Manually Add Book</button>
+          </FormFieldSubmit>
+        </FormTable>
         <hr/>
         {searchResults}
       </div>
