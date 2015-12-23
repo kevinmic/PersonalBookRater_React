@@ -96,6 +96,16 @@ var AddBook = React.createClass({
   componentWillUnMount: function() {
     this.firebase.off();
   },
+  addGenre: function() {
+    alertify.dialog.prompt("New Genre", function (e, str) {
+        // str is the input text
+        if (e) {
+            // user clicked "ok"
+        } else {
+            // user clicked "cancel"
+        }
+    }, "Default Value");
+  },
   render: function() {
     var values = this.state.values;
 
@@ -172,6 +182,9 @@ var AddBook = React.createClass({
             onChange={this.onChangeWithValue}
             isValid={this.isValid}
             />
+          <div className="col-sm-12" style={{textAlign:'right', paddingBottom:'10px'}}>
+            <a onClick={this.addGenre}>add genre</a>
+          </div>
 
           <AutoSuggestFormField
             label="Location of Book" id="locationOfBook"

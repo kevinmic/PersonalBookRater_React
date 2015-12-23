@@ -80,8 +80,9 @@ var BookReview = React.createClass({
 
     if (this.state.addReviewDirect) {
       addReviewUI = (
-        <AddReviewForm style={sharedStyles.box} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>
+        <AddReviewForm style={_.merge({backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>
       );
+
     }
 
     return (

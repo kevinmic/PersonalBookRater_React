@@ -2,15 +2,11 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 
 var loadExtra = function(book) {
-    var genre = book.genre?<InnerRow label="Genre" value={book.genre}/>:"";
-    var location = book.location?<InnerRow label="Location" value={book.locationOfBook}/>:"";
-    var synopsis= book.synopsis?<InnerRow label="Synopsis" value={book.synopsis}/>:"";
-    return (<div>
-      {genre}
-      {location}
-      {synopsis}
-    </div>)
-
+    var genre = book.genre?<InnerRow key="genre" label="Genre" value={book.genre}/>:null;
+    var location = book.location?<InnerRow key="loc" label="Location" value={book.locationOfBook}/>:null;
+    var synopsis= book.synopsis?<InnerRow key="synopsis" label="Synopsis" value={book.synopsis}/>:null;
+    // return [genre, location, synopsis,]
+    return [genre, location, synopsis];
 }
 
 var InnerRow = React.createClass({

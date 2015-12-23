@@ -10,6 +10,7 @@ var styles = {
     textAlign:'right',
     fontWeight: 'bold',
     paddingRight: '10px',
+    verticalAlign: 'top',
   }
 };
 

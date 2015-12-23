@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import NavBar from './NavBar';
+import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
 
 var App = React.createClass({
@@ -68,6 +69,7 @@ var App = React.createClass({
       <div>
         <NavBar auth={this.state.auth} setAuthData={this.setAuthData} />
         {this.renderChildren()}
+        <Footer/>
       </div>
     );
   }
