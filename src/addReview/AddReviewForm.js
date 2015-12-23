@@ -1,10 +1,10 @@
 import React from 'react';
+var PropTypes = React.PropTypes;
+
 import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
 import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
-var PropTypes = React.PropTypes;
-var alertify = require('alertify-webpack');
 import firebaseInfo from '../../config/firebase-info.js';
 import Login from '../Login';
 
@@ -50,10 +50,10 @@ var AddReviewForm = React.createClass({
       review.reviewId = this.props.auth.userid;
       firebaseRef.child(this.props.book.bookId).child("reviews").child(this.props.auth.userid).set(review, (error) => {
         if (error) {
-          alertify.log.error("Review was not saved!  Reason: " + error);
+          alertify.error("Review was not saved!  Reason: " + error);
         }
         else {
-          alertify.log.success("Review Added for book " + this.props.book.title + "!!!");
+          alertify.success("Review Added for book " + this.props.book.title + "!!!");
           if (this.props.callback) {
             this.props.callback(review);
           }
@@ -63,7 +63,7 @@ var AddReviewForm = React.createClass({
     }
     else {
       this.setState({showError: !isValid});
-      alertify.log.error("Please fill out required fields.");
+      alertify.error("Please fill out required fields.");
     }
   },
   componentDidMount: function() {

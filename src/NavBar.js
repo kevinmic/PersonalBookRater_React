@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
 var PropTypes = React.PropTypes;
-import Tab from './util/Tab';
+
 import firebaseInfo from '../config/firebase-info.js';
-var alertify = require('alertify-webpack');
+import Tab from './util/Tab';
 
 var LoginInfo = React.createClass({
   propTypes: {
@@ -11,7 +11,7 @@ var LoginInfo = React.createClass({
   },
   unAuth: function() {
     new Firebase(firebaseInfo.firebaseurl).unauth();
-    alertify.log.success("You are now logged out!");
+    alertify.success("You are now logged out!");
   },
   render: function() {
     var {auth} = this.props;

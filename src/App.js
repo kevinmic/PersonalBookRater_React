@@ -4,6 +4,8 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
 
+alertify.logPosition("bottom right");
+
 var App = React.createClass({
   getInitialState: function() {
     return {

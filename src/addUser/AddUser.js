@@ -1,8 +1,8 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
+
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
-var alertify = require('alertify-webpack');
 import firebaseInfo from '../../config/firebase-info.js';
 
 function validateEmail(email) {
@@ -45,23 +45,23 @@ var AddUser = React.createClass({
         if (error) {
           switch (error.code) {
             case "EMAIL_TAKEN":
-              alertify.log.error("Email already in use!!!");
+              alertify.error("Email already in use!!!");
               break;
             case "INVALID_EMAIL":
-              alertify.log.error("Invlaid Email Address!!!");
+              alertify.error("Invlaid Email Address!!!");
               break;
             default:
-              alertify.log.error("Error creating user!!!");
+              alertify.error("Error creating user!!!");
               break;
           }
         }
         else {
           firebaseRef.child(successInfo.uid).set(name, (error) => {
             if (error) {
-              alertify.log.error("Error saving users name, but the user was created");
+              alertify.error("Error saving users name, but the user was created");
             }
             else {
-              alertify.log.success("User:" + email + " Created");
+              alertify.success("User:" + email + " Created");
               this.setState({values:{}});
             }
           });

@@ -1,4 +1,3 @@
-var alertify = require('alertify-webpack');
 
 var filterBooks = function(filterStr, books) {
   if (filterStr) {
@@ -73,7 +72,7 @@ var parseFilter = function(filter) {
         retFilter.isValid = true;
       }
       else {
-        alertify.log.error("Invalid Search Prefix: " + type);
+        alertify.error("Invalid Search Prefix: " + type);
       }
     }
   }

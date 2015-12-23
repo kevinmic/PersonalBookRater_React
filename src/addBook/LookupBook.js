@@ -1,4 +1,5 @@
 import React from 'react';
+
 import lookupBook from './GoodReadsBookLookup';
 import AddBook from './AddBook';
 import BookData from '../book/BookData';
@@ -6,7 +7,6 @@ import BookImage from '../book/BookImage';
 import Login from '../Login';
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
-var alertify = require('alertify-webpack');
 
 var LookupBook = React.createClass({
   mixins: [FormValidationMixins],
@@ -38,30 +38,30 @@ var LookupBook = React.createClass({
     }
 
     if (searching) {
-       alertify.log.error("Search in progress");
+       alertify.error("Search in progress");
     }
     else if (search.length > 0) {
-      alertify.log.info("Searching");
+      alertify.log("Searching");
       this.setState({searchedBooks: [], searching: true});
 
       var searchText = search.join(" and ");
       lookupBook(searchText, (error, foundBooks) => {
         if (error) {
-          alertify.log.error("Error Querying GoodReads - " + error);
+          alertify.error("Error Querying GoodReads - " + error);
           this.setState({searchedBooks: [], searching: false});
         }
         else if (!foundBooks) {
-          alertify.log.error("No Books Found");
+          alertify.error("No Books Found");
           this.setState({searchedBooks: [], searching: false});
         }
         else {
-          alertify.log.success(foundBooks.length + " books found!");
+          alertify.success(foundBooks.length + " books found!");
           this.setState({searchedBooks: foundBooks, searching: false});
         }
       });
     }
     else {
-       alertify.log.error("You must fill in title and/or author");
+       alertify.error("You must fill in title and/or author");
     }
   },
   chooseBook: function(book) {

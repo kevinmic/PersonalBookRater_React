@@ -1,9 +1,10 @@
 import React from 'react';
-import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
-import FormValidationMixins from '../util/FormValidationMixins';
+
 import { History} from 'react-router';
 var PropTypes = React.PropTypes;
-var alertify = require('alertify-webpack');
+
+import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from '../util/FormField';
+import FormValidationMixins from '../util/FormValidationMixins';
 import BookImage from '../book/BookImage';
 import Login from '../Login';
 import firebaseInfo from '../../config/firebase-info.js';
@@ -67,10 +68,10 @@ var AddBook = React.createClass({
       book.bookId = bookRef.key();
       bookRef.set(book, (error) => {
         if (error) {
-          alertify.log.error("Book " + book.title + " was not saved! Reason: " + error);
+          alertify.error("Book " + book.title + " was not saved! Reason: " + error);
         }
         else {
-          alertify.log.success("Book " + book.title + " added!");
+          alertify.success("Book " + book.title + " added!");
           this.history.pushState(null, "/review/" + book.bookId + "/new");
         }
       });
@@ -78,7 +79,7 @@ var AddBook = React.createClass({
     }
     else {
       this.setState({showError: true});
-      alertify.log.error("Please fill out missing required fields.");
+      alertify.error("Please fill out missing required fields.");
     }
   },
   componentWillMount: function() {
@@ -97,7 +98,7 @@ var AddBook = React.createClass({
     this.firebase.off();
   },
   addGenre: function() {
-    alertify.dialog.prompt("New Genre", function (e, str) {
+    alertify.prompt("New Genre", function (e, str) {
         // str is the input text
         if (e) {
             // user clicked "ok"

@@ -1,9 +1,9 @@
 import React from 'react';
-import { History} from 'react-router';
 var PropTypes = React.PropTypes;
+import { History} from 'react-router';
+
 import {AutoSuggestFormField, FormField, FormFieldInput, stopEnterSubmitting} from './util/FormField';
 import FormValidationMixins from './util/FormValidationMixins';
-var alertify = require('alertify-webpack');
 import firebaseInfo from '../config/firebase-info.js';
 
 var Login = React.createClass({
@@ -33,19 +33,19 @@ var Login = React.createClass({
     if (isValid) {
       new Firebase(firebaseInfo.firebaseurl).authWithPassword(this.state.values, (error, successInfo) => {
         if (successInfo) {
-          alertify.log.success("You are now logged in!");
+          alertify.success("You are now logged in!");
           if (this.props.redirect) {
             this.history.pushState(null, "/review/search");
           }
         }
         else {
-          alertify.log.error("Login Failed!");
+          alertify.error("Login Failed!");
         }
       });
     }
     else {
       this.setState({showError: true});
-      alertify.log.error("Please fill out missing required fields.");
+      alertify.error("Please fill out missing required fields.");
     }
   },
   render: function() {
