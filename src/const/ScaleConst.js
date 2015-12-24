@@ -50,6 +50,12 @@ const VIOLENCE_SCALE = {
   "VB": {key:"VB", order:4, labelType:"label-danger", description:"Violent, bloody, or shocking, well described mayhem"},
 };
 
+const AGE_SCALE = {
+  "C": {key:"CHILD", order:1, labelType:"label-success", description:"Children Will Like this"},
+  "PT": {key:"PT", order:2, labelType:"label-success", description:"Pre"},
+
+}
+
 module.exports = {
   scaleMapToList,
   SCALE_PROPTYPE,

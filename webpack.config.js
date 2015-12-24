@@ -31,6 +31,10 @@ module.exports = {
         test: /\.html$/,
         loader: "file?name=[name].[ext]",
       },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$/, 
+        loader: "file"
+      },
     ]
   }
 };

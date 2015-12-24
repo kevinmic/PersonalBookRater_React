@@ -97,10 +97,14 @@ var BookReview = React.createClass({
               {combinedRatingUI}
             </h4>
             {reviewsUI}
-            <a onClick={this.toggleExpanded} className={getArrowClass(this.state.expanded)}>Book Info</a>
+            <span className={getArrowClass(this.state.expanded)}>
+              <a onClick={this.toggleExpanded} >Book Info</a>
+            </span>
             {expandedBookUI}
             <div>
-              {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} className={getArrowClass(this.state.addReviewDirect)}>Add Review</a>:""}
+              <span className={getArrowClass(this.state.addReviewDirect)}>
+                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >Add Review</a>:""}
+              </span>
             </div>
             {addReviewUI}
           </td>

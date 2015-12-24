@@ -126,10 +126,10 @@ var Search = React.createClass({
     }
 
     return (
-      <table>
+      <table width="100%">
         <tbody>
         <tr>
-          <td style={{verticalAlign: 'top', paddingLeft:'15px', paddingRight:'25px'}}>
+          <td style={{width: '20%', verticalAlign: 'top', paddingLeft:'15px', paddingRight:'25px'}}>
             <SearchFilter
               filterOptions={this.state.filterOptions}
               sortOptions={sortOptions}
@@ -138,7 +138,7 @@ var Search = React.createClass({
               changeFilter={this.changeFilter}
               />
           </td>
-          <td>
+          <td style={{paddingLeft:'25px'}}>
             {books}
             {showMoreBooks}
           </td>

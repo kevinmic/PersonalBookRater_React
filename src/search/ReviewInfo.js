@@ -60,23 +60,33 @@ var ReviewInfo = React.createClass({
     if (this.state.expanded) {
       return (
         <div key={review.reviewId}>
-          <a onClick={this.toggleShow} className="fa fa-caret-down">Hide</a>
+          <span className="fa fa-caret-down">
+            <a onClick={this.toggleShow} >Hide</a>
+          </span>
           <div style={sharedStyles.box}>
             <table width="100%">
               <tbody>
                 <ReviewRow header="Reviewed By">{review.reviewedBy}</ReviewRow>
                 <ReviewRow header="Review Date">{printDate(new Date(review.reviewDate))}</ReviewRow>
                 <ReviewRow header="Recommendation">
-                    <ScaleBadge rateTypeKey="" rateType="Recommendation" expanded={true}rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
+                  <span className="fa fa-caret-right">
+                    <ScaleBadge rateTypeKey="" rateType="Recommendation" expanded={true} rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
+                  </span>
                 </ReviewRow>
                 <ReviewRow header="Sex">
-                  <ScaleBadge rateTypeKey="" rateType="Sex" expanded={true} rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
+                  <span className="fa fa-caret-right">
+                    <ScaleBadge rateTypeKey="" rateType="Sex" expanded={true} rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
+                  </span>
                 </ReviewRow>
                 <ReviewRow header="Profanity">
-                  <ScaleBadge rateTypeKey="" rateType="Profanity" expanded={true} rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
+                  <span className="fa fa-caret-right">
+                    <ScaleBadge rateTypeKey="" rateType="Profanity" expanded={true} rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
+                  </span>
                 </ReviewRow>
                 <ReviewRow header="Violence">
-                  <ScaleBadge rateTypeKey="" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
+                  <span className="fa fa-caret-right">
+                    <ScaleBadge rateTypeKey="" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
+                  </span>
                 </ReviewRow>
                 <ReviewRow header="Review">{review.reviewDescription}</ReviewRow>
               </tbody>
@@ -88,15 +98,25 @@ var ReviewInfo = React.createClass({
     else {
       return(
           <div key={review.reviewId}>
-            <a onClick={this.toggleShow} className="fa fa-caret-right">Show</a>
+            <span className="fa fa-caret-right">
+              <a onClick={this.toggleShow} >Show</a>
+            </span>
             &nbsp;
-            <ScaleBadge rateTypeKey="" rateType="Recommendation" rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
+            <span className="miniBadge">
+              <ScaleBadge rateTypeKey="" rateType="Recommendation" rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
+            </span>
             &nbsp;
-            <ScaleBadge rateTypeKey="Sex" rateType="Sex" rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
+            <span className="miniBadge">
+              <ScaleBadge rateTypeKey="Sex" rateType="Sex" rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
+            </span>
             &nbsp;
-            <ScaleBadge rateTypeKey="Profanity" rateType="Profanity" rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
+            <span className="miniBadge">
+              <ScaleBadge rateTypeKey="Profanity" rateType="Profanity" rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
+            </span>
             &nbsp;
-            <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
+            <span className="miniBadge">
+              <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
+            </span>
             &nbsp;
             {review.reviewedBy}
             {review.reviewDescription?<span className="fa fa-info-circle" style={{marginLeft:'10px', color:'#009933'}}/>:""}

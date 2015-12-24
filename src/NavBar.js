@@ -47,7 +47,7 @@ var NavBar = React.createClass({
     return (
       <div style={{marginBottom:'20px'}}>
         <div className="hfColor" style={{height:'15px'}}/>
-        <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+        <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
           <image src={logoIMG} />
           <ul id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
             <LinkTab to="/">LIBRARY</LinkTab>
