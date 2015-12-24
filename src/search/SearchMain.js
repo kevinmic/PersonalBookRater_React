@@ -6,6 +6,7 @@ import SearchFilter from './SearchFilter';
 import sortIt from './sort.js';
 import filterBooks from './filter.js';
 import Scales from '../const/ScaleConst';
+import Pagin from './Pagination';
 
 const sortOptions = [
   {label: "Title", name:"title", asc: true},
@@ -13,6 +14,8 @@ const sortOptions = [
   {label: "DateReviewed", name:"reviewDate", asc: false},
   {label: "Overall Rating", name:"overallRating", asc: false},
 ]
+
+const PAGE_SIZE = 20;
 
 var setupOverallRating = function(books) {
   return books.map((book) => {
@@ -81,6 +84,19 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     return books;
 }
 
+var filterBooksForPagination = function(books, startIndex, pageSize) {
+    var endIndex = startIndex + pageSize;
+    if (endIndex > books.length) {
+      endIndex = books.length;
+    }
+    if (startIndex < endIndex) {
+      return books.slice(startIndex, endIndex);
+    }
+    else {
+      return [];
+    }
+}
+
 var Search = React.createClass({
   propTypes: {
     books: React.PropTypes.object
@@ -94,8 +110,8 @@ var Search = React.createClass({
       filterOptions: {
         'sort': {sortType: 'reviewDate', sortAsc: false},
       },
+      startIndex: 0,
       rating: "",
-      showNumberOfBooks: 5,
     };
   },
   changeFilter: function(type, value) {
@@ -107,19 +123,22 @@ var Search = React.createClass({
     else {
       filterOptions[type] = value;
     }
-    this.setState({filterOptions: filterOptions});
+    this.setState({filterOptions: filterOptions, startIndex: 0});
   },
   changeSearch: function(value) {
-      if (this.state.search != value) {
-        this.setState({search: value});
-      }
+    if (this.state.search != value) {
+      this.setState({search: value, startIndex: 0});
+    }
   },
-  showMoreBooks: function() {
-    this.setState({showNumberOfBooks: this.state.showNumberOfBooks + 10})
+  changeIndex: function(value) {
+    console.log("index", value);
+    this.setState({startIndex: value});
   },
   render: function() {
     var books = setupOverallRating(_.values(this.props.books));
     books = runFilterBooks(books, this.state.search, this.state.filterOptions, this.props.auth);
+    var totalBooks = books.length;
+
     books = books.map((book) => {
       return (
         <div key={book.bookId}>
@@ -129,10 +148,11 @@ var Search = React.createClass({
       );
     });
 
-    var showMoreBooks;
-    if (books.length > this.state.showNumberOfBooks) {
-      books = books.slice(0, this.state.showNumberOfBooks);
-      showMoreBooks = <button type="button" onClick={this.showMoreBooks}>Show More Books</button>;
+    books = filterBooksForPagination(books, this.state.startIndex, PAGE_SIZE);
+
+    var noBooks;
+    if (books.length <= 0) {
+      noBooks = <h3>No Books Found</h3>
     }
 
     return (
@@ -149,8 +169,9 @@ var Search = React.createClass({
               />
           </td>
           <td style={{paddingLeft:'25px', paddingRight:'25px', verticalAlign: 'top'}}>
+            {noBooks}
             {books}
-            {showMoreBooks}
+            <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>
           </td>
         </tr>
         </tbody>
