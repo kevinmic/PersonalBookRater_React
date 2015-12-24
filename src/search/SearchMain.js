@@ -5,8 +5,14 @@ import BookReview2 from './BookReview';
 import SearchFilter from './SearchFilter';
 import sortIt from './sort.js';
 import filterBooks from './filter.js';
+import Scales from '../const/ScaleConst';
 
-const sortOptions = [{name:"title", asc: true}, {name:"author", asc: true}, {name:"reviewDate", asc: false}, {name:"overallRating", asc: false}]
+const sortOptions = [
+  {label: "Title", name:"title", asc: true},
+  {label: "Name", name:"author", asc: true},
+  {label: "DateReviewed", name:"reviewDate", asc: false},
+  {label: "Overall Rating", name:"overallRating", asc: false},
+]
 
 var setupOverallRating = function(books) {
   return books.map((book) => {
@@ -19,6 +25,52 @@ var setupOverallRating = function(books) {
   });
 };
 
+var filterByScale = function(reviewKey, checkVal, books, scale) {
+  var maxValue = scale[checkVal].order;
+  return books.filter((book) => {
+    var include = true;
+    if (book.reviews) {
+      var values = _.values(book.reviews)
+                    .map((review) => review[reviewKey])
+                    .filter((val) => val && scale[val])
+                    .map((val) => {
+                      return scale[val].order;
+                    });
+      if (values) {
+        var value = _.sum(values) / values.length
+        include = value <= maxValue;
+      }
+    }
+    return include;
+  });
+}
+
+var runFilterBooks = function(books, search, filterOptions, auth) {
+    var {sort, read, overallRating, profanityRating, sexRating, violenceRating}  = filterOptions;
+    if (overallRating) {
+      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
+    }
+    if (profanityRating) {
+      books = filterByScale('profanityRating', profanityRating, books, Scales.PROFANITY_SCALE);
+    }
+    if (sexRating) {
+      books = filterByScale('sexRating', sexRating, books, Scales.SEXUAL_SCALE);
+    }
+    if (violenceRating) {
+      books = filterByScale('violenceRating', violenceRating, books, Scales.VIOLENCE_SCALE);
+    }
+    if (auth && read) {
+      var hasRead = read == "yes";
+      books = books.filter((book) => {
+        var check = (book.reviews && book.reviews[auth.userid])?true:false;
+        return check == hasRead;
+      });
+    }
+    books = filterBooks(search, books);
+    books = sortIt(books, sort.sortType, sort.sortAsc);
+    return books;
+}
+
 var Search = React.createClass({
   propTypes: {
     books: React.PropTypes.object
@@ -27,21 +79,29 @@ var Search = React.createClass({
     return {
       sortType: "reviewDate",
       sortAsc: true,
-      filterObj: "",
+      search: "",
+      sortOptions: sortOptions,
+      filterOptions: {
+        'sort': {sortType: 'reviewDate', sortAsc: false},
+      },
       rating: "",
       showNumberOfBooks: 5,
     };
   },
-  changeSort: function(value) {
-    var asc = sortOptions.filter((option) => option.name == value)[0].asc;
-    this.setState({sortType: value, sortAsc: asc});
+  changeFilter: function(type, value) {
+    var filterOptions = this.state.filterOptions;
+    if (type == 'sort') {
+      var asc = sortOptions.filter((option) => option.name == value)[0].asc;
+      filterOptions.sort = {sortType: value, sortAsc: asc};
+    }
+    else {
+      filterOptions[type] = value;
+    }
+    this.setState({filterOptions: filterOptions});
   },
-  changeRating: function(value) {
-    this.setState({rating: value});
-  },
-  changeFilter: function(value) {
-      if (this.state.filter != value) {
-        this.setState({filter: value});
+  changeSearch: function(value) {
+      if (this.state.search != value) {
+        this.setState({search: value});
       }
   },
   showMoreBooks: function() {
@@ -49,18 +109,15 @@ var Search = React.createClass({
   },
   render: function() {
     var books = setupOverallRating(_.values(this.props.books));
-    if (this.state.rating) {
-      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(this.state.rating));
-    }
-    books = filterBooks(this.state.filter, books);
-    books = sortIt(books, this.state.sortType, this.state.sortAsc).map((book) => {
+    books = runFilterBooks(books, this.state.search, this.state.filterOptions, this.props.auth);
+    books = books.map((book) => {
       return (
         <div key={book.bookId}>
           <BookReview2 bookId={book.bookId} book={book} auth={this.props.auth}/>
           <hr/>
         </div>
       );
-    })
+    });
 
     var showMoreBooks;
     if (books.length > this.state.showNumberOfBooks) {
@@ -69,20 +126,25 @@ var Search = React.createClass({
     }
 
     return (
-      <div>
-          <SearchFilter
-            sortType={this.state.sortType}
-            rating={this.state.rating}
-            changeSort={this.changeSort}
-            changeRating={this.changeRating}
-            sortOptions={sortOptions.map((option) => option.name)}
-            filter={this.state.filter}
-            changeFilter={this.changeFilter}
-            />
-          <hr/>
-          {books}
-          {showMoreBooks}
-       </div>
+      <table>
+        <tbody>
+        <tr>
+          <td style={{verticalAlign: 'top', paddingLeft:'15px', paddingRight:'25px'}}>
+            <SearchFilter
+              filterOptions={this.state.filterOptions}
+              sortOptions={sortOptions}
+              search={this.state.search}
+              changeSearch={this.changeSearch}
+              changeFilter={this.changeFilter}
+              />
+          </td>
+          <td>
+            {books}
+            {showMoreBooks}
+          </td>
+        </tr>
+        </tbody>
+      </table>
     );
   }
 });

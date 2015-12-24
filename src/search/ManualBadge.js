@@ -18,7 +18,7 @@ var ManualBadge = React.createClass({
         title={this.props.label + " Rating: " + this.props.description}
         style={{marginRight:1}}
         >
-          {this.props.label?this.props.label+ ":":""}{this.props.value}
+          {this.props.label?this.props.label+ " : ":""}{this.props.value}
         </span>
     )
   }

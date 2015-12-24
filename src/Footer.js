@@ -4,9 +4,9 @@ var PropTypes = React.PropTypes;
 var Footer = React.createClass({
   render: function() {
     return (
-      <div style={{textAlign: 'right', height:'100px'}}>
+      <div className="hfColor" style={{textAlign: 'right', height:'50px'}}>
         <hr width="100%"/>
-        <a href="https://github.com/kevinmic/PersonalBookRater_React">www.github.com</a>
+        <a style={{color: '#FFFFFF'}} href="https://github.com/kevinmic/PersonalBookRater_React">www.github.com</a>
       </div>
     )
   }

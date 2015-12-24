@@ -3,80 +3,118 @@ var PropTypes = React.PropTypes;
 import {FormField} from '../util/FormField';
 import Scales from '../const/ScaleConst';
 
+const labelStyle = {
+  fontSize: '20px',
+  color: '#344c2d',
+};
+
 var SearchFilter = React.createClass({
   propTypes: {
-    sortOptions: PropTypes.array.isRequired,
-    changeSort:  PropTypes.func.isRequired,
-    sortType:  PropTypes.string.isRequired,
-    rating:  PropTypes.string.isRequired,
-    changeFilter: PropTypes.func.isRequired,
-    filter: PropTypes.string,
+    search: PropTypes.string,
+    filterOptions: PropTypes.object,
+    sortOptions: PropTypes.array,
+    changeSearch:  PropTypes.func.isRequired,
+    changeFilter:  PropTypes.func.isRequired,
   },
   getInitialState: function() {
     return {
-      filter: "",
+      search: "",
     };
   },
   componentDidMount: function() {
-    this.setState({filter: this.props.filter, sortType: this.props.sortType});
+    this.setState({search: this.props.search});
   },
-  changeFilterWithObject: function(filterObj) {
-    this.changeFilter(filterObj.target.value, false);
+  changeSearchWithObject: function(filterObj) {
+    this.changeSearch(filterObj.target.value, false);
   },
-  changeFilter: function(value, now) {
-    this.setState({filter: value});
-    if (this.changeFilterTimeout) {
-      clearTimeout(this.changeFilterTimeout);
+  changeSearch: function(value, now) {
+    this.setState({search: value});
+    if (this.changeSearchTimeout) {
+      clearTimeout(this.changeSearchTimeout);
     }
-    this.changeFilterTimeout = setTimeout(() => {
-      this.props.changeFilter(value);
+    this.changeSearchTimeout = setTimeout(() => {
+      this.props.changeSearch(value);
     }, now?0:700);
   },
-  changeSort: function(valueObj) {
+  changeFilter: function(type, valueObj) {
     var value = valueObj.target.value
-    this.props.changeSort(value);
-  },
-  changeRating: function(valueObj) {
-    var value = valueObj.target.value
-    this.props.changeRating(value);
+    this.props.changeFilter(type, value);
   },
   render: function() {
-    var sortList = this.props.sortOptions.map((option) => {
-      return <option key={option} value={option} >{option}</option>
-    } );
+    var {filterOptions} = this.props;
+    var {search} = this.state;
+
+    var sortOptions = this.props.sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)
+
     return (
       <div>
-        <div className="form-inline">
-          <label>Sort By:</label>
-          <select className="form-control" value={this.props.sortType} onChange={this.changeSort}>
-            {sortList}
-          </select>
-          &nbsp;
-          <label>Min Rating:</label>
-          <select className="form-control" value={this.props.rating} onChange={this.changeRating}>
-            <option></option>
-            {
-              _.values(Scales.RATING_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
-            }
-          </select>
-        </div>
         <div>
+          <label style={labelStyle}>Search</label>
           <input
             className="form-control"
-            value={this.state.filter}
-            onChange={this.changeFilterWithObject}
+            value={search}
+            onChange={this.changeSearchWithObject}
             type="text"
             placeholder="Type in your search"
             data-toggle="tooltip"
             data-placement="bottom"
-            onKeyPress={(e) => { if (e.charCode==13) { this.changeFilter(this.state.filter, true); } }}
+            onKeyPress={(e) => { if (e.charCode==13) { this.changeSearch(search, true); } }}
             title={"Default Search -- title + author + series \n" +
                    "Specific Fields -- author: title: series:\n" +
                    "Multiple Searches -- seperate with ;\n" +
                    "Example -- Legend; author:Sanderson; series:Mistborn; "
                  }
             />
-
+        </div>
+        <div>
+          <label style={labelStyle}>Sort</label>
+          <select className="form-control" value={filterOptions.sort.sortType} onChange={(obj) => this.changeFilter('sort', obj)}>
+            {sortOptions}
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Rating</label>
+          <select className="form-control" value={filterOptions.overallRating} onChange={(obj) => this.changeFilter('overallRating', obj)}>
+            <option value="">All</option>
+            {
+              _.values(Scales.RATING_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+            }
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Profanity Rating</label>
+          <select className="form-control" value={filterOptions.profanityRating} onChange={(obj) => this.changeFilter('profanityRating', obj)}>
+            <option value="">All</option>
+            {
+              _.values(Scales.PROFANITY_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+            }
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Sex Rating</label>
+          <select className="form-control" value={filterOptions.sexRating} onChange={(obj) => this.changeFilter('sexRating', obj)}>
+            <option value="">All</option>
+            {
+              _.values(Scales.SEXUAL_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+            }
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Violence Rating</label>
+          <select className="form-control" value={filterOptions.violenceRating} onChange={(obj) => this.changeFilter('violenceRating', obj)}>
+            <option value="">All</option>
+            {
+              _.values(Scales.VIOLENCE_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+            }
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Read</label>
+          <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('read', obj)}>
+            <option value="">All</option>
+            <option value="no">Haven't Read</option>
+            <option value="yes">Have Read</option>
+          </select>
         </div>
       </div>
     )

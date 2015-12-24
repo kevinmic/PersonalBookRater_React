@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
+import bookHeaderIMG from './images/BookHeader.jpg';
+import logoIMG from './images/Logo.png';
 var PropTypes = React.PropTypes;
 
 import firebaseInfo from '../config/firebase-info.js';
-import Tab from './util/Tab';
+import {LinkTab, FillinTab} from './util/Tab';
 
 var LoginInfo = React.createClass({
   propTypes: {
@@ -17,14 +19,14 @@ var LoginInfo = React.createClass({
     var {auth} = this.props;
     if (auth.loggedIn) {
       return (
-        <div className="pull-right">
+        <FillinTab>
           {auth.username}&nbsp;
-          <a onClick={this.unAuth}>Sign Out</a>
-        </div>
+          <a onClick={this.unAuth} style={{color: '#344c2d', textDecoration: 'underline'}}>Sign Out</a>
+        </FillinTab>
       );
     }
     else {
-      return (<div className="pull-right"><Link to="login">Login</Link></div>);
+      return (<LinkTab to="login">Login</LinkTab>);
     }
   }
 })
@@ -34,24 +36,32 @@ var NavBar = React.createClass({
     auth : React.PropTypes.object
   },
   render: function() {
-    var addUser = "";
+    var addUser;
     if (this.props.auth.loggedIn) {
-        addUser = (
-          <ul id="rightnav" className="nav nav-tabs" style={{float:'right', borderBottom:'none'}}>
-            <Tab to="/user/new">Add User</Tab>
-          </ul>
-        )
+        addUser =[
+            <LinkTab key="addUser" to="/user/new">ADD USER</LinkTab>,
+            <FillinTab key="filler">|</FillinTab>,
+            ]
+
     }
     return (
-      <div >
-          <LoginInfo auth={this.props.auth} />
-          <h1>NAV BAR</h1>
-          {addUser}
-          <ul id="mainnav" className="nav nav-tabs">
-            <Tab to="/" onlyActiveOnIndex={true}>Search</Tab>
-            <Tab to="/book/new">Add Book</Tab>
+      <div style={{marginBottom:'20px'}}>
+        <div className="hfColor" style={{height:'15px'}}/>
+        <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+          <image src={logoIMG} />
+          <ul id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
+            <LinkTab to="/">LIBRARY</LinkTab>
+            <FillinTab>|</FillinTab>
+            <LinkTab to="/book/new">ADD BOOK</LinkTab>
+            <FillinTab>|</FillinTab>
+            {addUser}
+            <LoginInfo auth={this.props.auth} />
           </ul>
-          <br/>
+        </div>
+        <div>
+          <image src={bookHeaderIMG} width="100%"/>
+        </div>
+        <hr style={{marginTop:'10px'}}/>
       </div>
     );
   }
