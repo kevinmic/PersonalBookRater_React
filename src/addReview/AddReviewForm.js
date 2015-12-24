@@ -25,6 +25,7 @@ var AddReviewForm = React.createClass({
         sexRating:"",
         violenceRating:"",
         reviewDescription:"",
+        ageAppropriate:"",
       },
       showError: false,
       required: {
@@ -36,7 +37,7 @@ var AddReviewForm = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription');
+      var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription', 'ageAppropriate');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
 
@@ -120,6 +121,14 @@ var AddReviewForm = React.createClass({
             <RatingOptions
               label="Violence Rating" id="violenceRating"
               rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
+              data={values}
+              onChange={this.onChangeWithValue}
+              isValid={this.isValid}
+              />
+
+            <RatingOptions
+              label="Minimum Age" id="ageAppropriate"
+              rateList={Scales.scaleMapToList(Scales.AGE_SCALE)}
               data={values}
               onChange={this.onChangeWithValue}
               isValid={this.isValid}

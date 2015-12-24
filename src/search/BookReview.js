@@ -78,9 +78,16 @@ var BookReview = React.createClass({
       )
     }
 
-    if (this.state.addReviewDirect) {
+    if (this.props.auth.loggedIn) {
       addReviewUI = (
-        <AddReviewForm style={_.merge({backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>
+          <div>
+            <div>
+              <span className={getArrowClass(this.state.addReviewDirect)}>
+                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >Add Review</a>:""}
+              </span>
+            </div>
+            {this.state.addReviewDirect?<AddReviewForm style={_.merge({backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
+          </div>
       );
 
     }
@@ -101,11 +108,6 @@ var BookReview = React.createClass({
               <a onClick={this.toggleExpanded} >Book Info</a>
             </span>
             {expandedBookUI}
-            <div>
-              <span className={getArrowClass(this.state.addReviewDirect)}>
-                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >Add Review</a>:""}
-              </span>
-            </div>
             {addReviewUI}
           </td>
         </tr>

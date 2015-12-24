@@ -25,7 +25,7 @@ var setupOverallRating = function(books) {
   });
 };
 
-var filterByScale = function(reviewKey, checkVal, books, scale) {
+var filterByScale = function(reviewKey, checkVal, books, scale, required) {
   var maxValue = scale[checkVal].order;
   return books.filter((book) => {
     var include = true;
@@ -40,13 +40,19 @@ var filterByScale = function(reviewKey, checkVal, books, scale) {
         var value = _.sum(values) / values.length
         include = value <= maxValue;
       }
+      else if (required) {
+        include = false;
+      }
+    }
+    else if (required) {
+      include = false;
     }
     return include;
   });
 }
 
 var runFilterBooks = function(books, search, filterOptions, auth) {
-    var {sort, read, overallRating, profanityRating, sexRating, violenceRating}  = filterOptions;
+    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age}  = filterOptions;
     if (overallRating) {
       books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
     }
@@ -59,6 +65,10 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     if (violenceRating) {
       books = filterByScale('violenceRating', violenceRating, books, Scales.VIOLENCE_SCALE);
     }
+    if (age) {
+      books = filterByScale('ageAppropriate', age, books, Scales.AGE_SCALE, true);
+    }
+
     if (auth && read) {
       var hasRead = read == "yes";
       books = books.filter((book) => {
@@ -138,7 +148,7 @@ var Search = React.createClass({
               changeFilter={this.changeFilter}
               />
           </td>
-          <td style={{paddingLeft:'25px'}}>
+          <td style={{paddingLeft:'25px', paddingRight:'25px', verticalAlign: 'top'}}>
             {books}
             {showMoreBooks}
           </td>

@@ -109,6 +109,15 @@ var SearchFilter = React.createClass({
           </select>
         </div>
         <div>
+          <label style={labelStyle}>Minimum Age</label>
+          <select className="form-control" value={filterOptions.age} onChange={(obj) => this.changeFilter('age', obj)}>
+            <option value="">All</option>
+            {
+              _.values(Scales.AGE_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+            }
+          </select>
+        </div>
+        <div>
           <label style={labelStyle}>Read</label>
           <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('read', obj)}>
             <option value="">All</option>

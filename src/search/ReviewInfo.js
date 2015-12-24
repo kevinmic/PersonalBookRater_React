@@ -68,23 +68,24 @@ var ReviewInfo = React.createClass({
               <tbody>
                 <ReviewRow header="Reviewed By">{review.reviewedBy}</ReviewRow>
                 <ReviewRow header="Review Date">{printDate(new Date(review.reviewDate))}</ReviewRow>
+                {review.ageAppropriate?<ReviewRow header="Minimum Age">{Scales.AGE_SCALE[review.ageAppropriate].description}</ReviewRow>:null}
                 <ReviewRow header="Recommendation">
-                  <span className="fa fa-caret-right">
+                  <span className="miniBadge">
                     <ScaleBadge rateTypeKey="" rateType="Recommendation" expanded={true} rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
                   </span>
                 </ReviewRow>
                 <ReviewRow header="Sex">
-                  <span className="fa fa-caret-right">
+                  <span className="miniBadge">
                     <ScaleBadge rateTypeKey="" rateType="Sex" expanded={true} rateList={Scales.SEXUAL_SCALE} rateKey={review.sexRating}/>
                   </span>
                 </ReviewRow>
                 <ReviewRow header="Profanity">
-                  <span className="fa fa-caret-right">
+                  <span className="miniBadge">
                     <ScaleBadge rateTypeKey="" rateType="Profanity" expanded={true} rateList={Scales.PROFANITY_SCALE} rateKey={review.profanityRating}/>
                   </span>
                 </ReviewRow>
                 <ReviewRow header="Violence">
-                  <span className="fa fa-caret-right">
+                  <span className="miniBadge">
                     <ScaleBadge rateTypeKey="" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
                   </span>
                 </ReviewRow>

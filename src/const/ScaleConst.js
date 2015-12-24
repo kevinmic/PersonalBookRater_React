@@ -51,9 +51,10 @@ const VIOLENCE_SCALE = {
 };
 
 const AGE_SCALE = {
-  "C": {key:"CHILD", order:1, labelType:"label-success", description:"Children Will Like this"},
-  "PT": {key:"PT", order:2, labelType:"label-success", description:"Pre"},
-
+  "C": {key:"C", order:1, labelType:"label-success", description:"Children"},
+  "PT": {key:"PT", order:2, labelType:"label-success", description:"Pre-Teen"},
+  "T": {key:"T", order:3, labelType:"label-success", description:"Teen"},
+  "A": {key:"A", order:4, labelType:"label-success", description:"Adult"},
 }
 
 module.exports = {
@@ -62,5 +63,6 @@ module.exports = {
   RATING_SCALE,
   PROFANITY_SCALE,
   SEXUAL_SCALE,
-  VIOLENCE_SCALE
+  VIOLENCE_SCALE,
+  AGE_SCALE,
 };
