@@ -24,7 +24,7 @@ var InnerRow = React.createClass({
   render: function() {
     return (
       <tr>
-        <td style={{whiteSpace:'nowrap', width:'10%', textAlign:'right', paddingRight:'10px'}} ><b>{this.props.label}:</b></td>
+        <td style={{whiteSpace:'nowrap', width:'10%', textAlign:'right', verticalAlign:'top', paddingRight:'10px'}} ><b>{this.props.label}:</b></td>
         <td>{this.props.value}</td>
       </tr>
     );
