@@ -81,7 +81,7 @@ var AddUser = React.createClass({
     var {values} = this.state;
 
     return (
-      <div>
+      <div style={{width: '800px'}}>
         <FormTable onSubmit={this.addBook}>
           <FormFieldInput
             label="Name" id="name"
