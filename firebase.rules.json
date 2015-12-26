@@ -1,0 +1,20 @@
+{
+    "rules": {
+      "books": {
+        ".read": true,
+        ".write": "auth != null",
+      },
+      "genres": {
+        ".read": true,
+        ".write": "auth != null",
+      },
+      "bookLocations": {
+        ".read": true,
+        ".write": "auth != null",
+      },
+      "secureData": {
+        ".read": "auth != null",
+        ".write": "false",
+      }
+    }
+}
