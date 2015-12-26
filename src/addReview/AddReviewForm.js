@@ -38,7 +38,7 @@ var AddReviewForm = React.createClass({
     if (isValid) {
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription', 'ageAppropriate');
 
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/bookReviews");
 
       if (this.props.auth.name) {
         review.reviewedBy = this.props.auth.name;

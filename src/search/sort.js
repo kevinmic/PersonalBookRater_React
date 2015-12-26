@@ -1,6 +1,6 @@
 var sortByReviewDate = function(books,asc) {
-  var booksWithoutReviews = books.filter((book) => !book.reviews);
-  var mappedBooks = books.filter((book) => book.reviews).map((book) => {
+  var booksWithoutReviews = books.filter((book) => _.isEmpty(book.reviews));
+  var mappedBooks = books.filter((book) => !_.isEmpty(book.reviews)).map((book) => {
     var maxTime = _.values(book.reviews).map((review) => review.reviewDate).reduce((prev,next) => (prev < next)?next:prev);
     return {maxTime: maxTime, book: book, title: book.title};
   });
