@@ -9,6 +9,22 @@ import BookImage from '../book/BookImage';
 import Login from '../Login';
 import TableStyles from '../styles/TableStyles';
 import firebaseInfo from '../../config/firebase-info.js';
+import GenreConst from '../const/GenreConst';
+import LocationConst from '../const/LocationConst';
+
+var getSubGenres = function(genre) {
+  if (genre) {
+    var genreObj = GenreConst.filter((val) => val.value == genre);
+    if (genreObj.length > 0) {
+      var subs = genreObj[0].subs;
+      if (subs && subs.length > 0) {
+        return subs.map((val) => {return {value: val.value, label: val.value}})
+      }
+    }
+  }
+
+  return [];
+}
 
 var AddBook = React.createClass({
   mixins: [History, FormValidationMixins],
@@ -29,6 +45,7 @@ var AddBook = React.createClass({
         imageUrl:"",
         author:"",
         genre:"",
+        subgenre:"",
         locationOfBook:"",
         synopsis: "",
         showError: false,
@@ -60,7 +77,7 @@ var AddBook = React.createClass({
 
     if (isValid) {
       var {values} = this.state;
-      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook', 'synopsis');
+      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
       book.reviews = {};
@@ -82,21 +99,6 @@ var AddBook = React.createClass({
       this.setState({showError: true});
       alertify.error("Please fill out missing required fields.");
     }
-  },
-  componentWillMount: function() {
-    this.firebase = new Firebase(firebaseInfo.firebaseurl);
-
-    this.firebase.child("genres").on("child_added", (ref) => {
-      this.state.genres.push(ref.val());
-      this.setState({genres: this.state.genres});
-    });
-    this.firebase.child("bookLocations").on("child_added", (ref) => {
-      this.state.locations.push(ref.val());
-      this.setState({locations: this.state.locations})
-    });
-  },
-  componentWillUnMount: function() {
-    this.firebase.off();
   },
   addGenre: function() {
     alertify.prompt("New Genre", function (e, str) {
@@ -138,6 +140,7 @@ var AddBook = React.createClass({
         )
       }
     }
+    var subGenres = getSubGenres(this.state.values.genre);
 
     return (
       <div>
@@ -184,21 +187,30 @@ var AddBook = React.createClass({
 
           <AutoSuggestFormField
             label="Genre" id="genre"
-            suggestions={() => this.state.genres}
+            options={GenreConst.map((val) => {return {value: val.value, label: val.value}})}
             showWhen={() => true}
+            data={values}
+            onChange={(id, value) => {
+              var data = {values:{...this.state.values}};
+              data.values[id] = value;
+              data.values['subgenre'] = '';
+              this.setState(data);
+            }}
+            isValid={this.isValid}
+            />
+
+          <AutoSuggestFormField
+            label="Sub Genre" id="subgenre"
+            options={subGenres}
+            showWhen={() => subGenres.length > 0}
             data={values}
             onChange={this.onChangeWithValue}
             isValid={this.isValid}
             />
-          <tr>
-            <td colSpan="100%" style={{textAlign:'right'}}>
-              <a onClick={this.addGenre}>add genre</a>
-            </td>
-          </tr>
 
           <AutoSuggestFormField
-            label="Location of Book" id="locationOfBook"
-            suggestions={() => this.state.locations}
+            label="Owned Location" id="locationOfBook"
+            options={LocationConst.map((val) => {return {value: val.value, label: val.value}})}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}

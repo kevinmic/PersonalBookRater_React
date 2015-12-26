@@ -58,7 +58,6 @@ var FormTable = React.createClass({
     allowEnter : React.PropTypes.bool,
   },
   render: function() {
-    console.log("PROPS", this.props);
     return (
       <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={this.props.allowEnter?null:stopEnterSubmitting}>
         <table style={TableStyles.tableInput}>
@@ -126,7 +125,7 @@ var AutoSuggestFormField = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
-    suggestions: React.PropTypes.func,
+    options: React.PropTypes.array,
     onChange: React.PropTypes.func,
     isValid: React.PropTypes.func,
     showWhen: React.PropTypes.func,
@@ -140,18 +139,23 @@ var AutoSuggestFormField = React.createClass({
     this.props.suggestions(this.props.id, input, callback);
   },
   render: function() {
-    var {suggestions, onChange, showWhen, ...other} = this.props;
+    var {suggestions, onChange, options, showWhen, ...other} = this.props;
+    if (!showWhen()) {
+        return (
+          <FormField {...other}>
+          </FormField>
+        )
+    }
 
-    var options = suggestions().map((value) => {return {value:value, label:value}});
+    options = [{value:"", label:""}].concat(options);
+
     return (
         <FormField {...other}>
           <RSelect
             options={options}
-            multi={true}
-            allowCreate={true}
             value={this.props.data[this.props.id]}
             onChange={(values) => {
-              this.props.onChange(this.props.id, values.map((value) => value.value).join(","));
+              this.props.onChange(this.props.id, values.value);
             }}
             />
         </FormField>

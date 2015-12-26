@@ -25,7 +25,6 @@ var AddReviewMain = React.createClass({
     this.history.pushState(null, "/review/search");
   },
   render: function() {
-    console.log("HI");
     if (!this.props.auth.loggedIn) {
       return <Login redirect={false} message="You must login in order to add a review."/>;
     }
