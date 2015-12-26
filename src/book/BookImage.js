@@ -28,6 +28,7 @@ var BookImage = React.createClass({
       image = (
           <a href={"https://www.goodreads.com/book/show/" + book.goodreadsId}>
               {image}
+              www.goodreads.com
           </a>
       );
     }

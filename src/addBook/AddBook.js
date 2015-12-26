@@ -77,7 +77,7 @@ var AddBook = React.createClass({
 
     if (isValid) {
       var {values} = this.state;
-      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis');
+      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis', 'goodreadsId');
 
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
       book.reviews = {};
@@ -143,7 +143,7 @@ var AddBook = React.createClass({
     var subGenres = getSubGenres(this.state.values.genre);
 
     return (
-      <div>
+      <div style={{width:'800'}}>
         <h2>Add Book</h2>
         <FormTable onSumbit={this.addBook}>
           <FormFieldInput
@@ -211,6 +211,7 @@ var AddBook = React.createClass({
           <AutoSuggestFormField
             label="Owned Location" id="locationOfBook"
             options={LocationConst.map((val) => {return {value: val.value, label: val.value}})}
+            multi={true}
             showWhen={() => true}
             data={values}
             onChange={this.onChangeWithValue}

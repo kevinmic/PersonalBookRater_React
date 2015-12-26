@@ -10,11 +10,16 @@ const labelStyle = {
   color: '#344c2d',
 };
 
+var getGenreSubFilters = function(genre) {
+  var options = [];
+  options.push(<option key="nonSubGen" value="">All</option>);
+  return options.concat(genre.subs.map((genre) => <option key={genre.value} value={genre.value}>{genre.value}</option>))
+}
+
 var getGenreFilters = function() {
   var options = [];
   options.push(<option key="nonGen" value="">All</option>);
-  return options;
-
+  return options.concat(GenreConst.map((genre) => <option key={genre.value} value={genre.value}>{genre.value}</option>))
 }
 
 var getLocationFilters = function() {
@@ -102,6 +107,21 @@ var SearchFilter = React.createClass({
 
     var sortOptions = this.props.sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)
 
+    var subGenre;
+    if (filterOptions.genre) {
+      var genre = GenreConst.filter((val) => val.value == filterOptions.genre).filter((val) => val.subs);
+      if (genre && genre.length > 0) {
+        subGenre = (
+          <div>
+            <label style={labelStyle}>Sub Genre</label>
+            <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('subgenre', obj)}>
+              {getGenreSubFilters(genre[0])}
+            </select>
+          </div>
+        );
+      }
+    }
+
     return (
       <div>
         <div>
@@ -182,9 +202,10 @@ var SearchFilter = React.createClass({
           <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('genre', obj)}>
             {getGenreFilters()}
           </select>
+          {subGenre}
         </ExpandableFilter>
         <ExpandableFilter label="Location">
-          <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('genre', obj)}>
+          <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('locationOfBook', obj)}>
             {getLocationFilters()}
           </select>
         </ExpandableFilter>

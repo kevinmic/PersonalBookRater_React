@@ -7,14 +7,15 @@
       seriesTitle: "series",
       seriesBookNumber: "1",
       imageUrl: "url",
-      genre: "genre",
-      locationOfBook: "location",
       goodreadsId: "Goodreads_bookId",
+      genre: "genre",
+      subgenre: "subgenre",
+      locationOfBook: "location",
       synopsis: "synopsis",
       reviews: {
-        reviewId: {
+        userId : {
           reviewDate: timestmap,
-          reviewedBy: "reverDodge",
+          reviewedBy: "Reviewer Name",
           recommendRating: "4",
           sexRating: "T",
           profanityRating: "B",
@@ -25,16 +26,6 @@
       }
     }
   }
-  genres: {
-    "key1":"Fantasy",
-    "key2":"Sci Fi",
-    ...,
-  },
-  bookLocations: {
-    "key1":"Dons Kindle",
-    "key2": "Dons Audible",
-    ...,
-  },
   secureData: {
     "goodreads_url": "goodreads_webtask_url"
   }

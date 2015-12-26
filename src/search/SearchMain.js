@@ -55,7 +55,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
 }
 
 var runFilterBooks = function(books, search, filterOptions, auth) {
-    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age}  = filterOptions;
+    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre, subgenre}  = filterOptions;
     if (overallRating) {
       books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
     }
@@ -70,6 +70,15 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     }
     if (age) {
       books = filterByScale('ageAppropriate', age, books, Scales.AGE_SCALE, true);
+    }
+    if (locationOfBook) {
+      books = books.filter((book) => book.locationOfBook && book.locationOfBook.indexOf(locationOfBook) >= 0)
+    }
+    if (genre) {
+      books = books.filter((book) => book.genre && book.genre == genre)
+    }
+    if (subgenre) {
+      books = books.filter((book) => book.subgenre && book.subgenre == subgenre)
     }
 
     if (auth && read) {
@@ -122,6 +131,9 @@ var Search = React.createClass({
     }
     else {
       filterOptions[type] = value;
+      if (type == 'genre') {
+        filterOptions.subgenre = null;
+      }
     }
     this.setState({filterOptions: filterOptions, startIndex: 0});
   },
@@ -131,7 +143,6 @@ var Search = React.createClass({
     }
   },
   changeIndex: function(value) {
-    console.log("index", value);
     this.setState({startIndex: value});
   },
   render: function() {
@@ -159,7 +170,7 @@ var Search = React.createClass({
       <table width="100%">
         <tbody>
         <tr>
-          <td style={{width: '20%', verticalAlign: 'top', paddingLeft:'15px', paddingRight:'25px'}}>
+          <td style={{width: '20%', verticalAlign: 'top', paddingRight:'25px'}}>
             <SearchFilter
               filterOptions={this.state.filterOptions}
               sortOptions={sortOptions}
@@ -168,7 +179,7 @@ var Search = React.createClass({
               changeFilter={this.changeFilter}
               />
           </td>
-          <td style={{paddingLeft:'25px', paddingRight:'25px', verticalAlign: 'top'}}>
+          <td style={{paddingLeft:'25px', verticalAlign: 'top'}}>
             {noBooks}
             {books}
             <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>

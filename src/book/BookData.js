@@ -7,7 +7,7 @@ var loadExtra = function(book) {
       genreVal = genreVal + ' > ' + book.subgenre;
     }
     var genre = genreVal?<InnerRow key="genre" label="Genre" value={genreVal}/>:null;
-    var location = book.location?<InnerRow key="loc" label="Location" value={book.locationOfBook}/>:null;
+    var location = book.locationOfBook?<InnerRow key="loc" label="Location" value={book.locationOfBook}/>:null;
     var synopsis= book.synopsis?<InnerRow key="synopsis" label="Synopsis" value={book.synopsis}/>:null;
     return [genre, location, synopsis];
 }

@@ -1,6 +1,6 @@
 const LOCATION_LIST = [
-  {value:"Dons Kindle", type:'kindle'},
-  {value:"Dons Audible", type:'audible'},
+  {value:"Don's Kindle", type:'kindle'},
+  {value:"Don's Audible", type:'audible'},
   {value:"Recommended to Buy", type:''},
 ];
 

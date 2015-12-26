@@ -70,7 +70,9 @@ var App = React.createClass({
     return (
       <div style={{minWidth: '1000px'}}>
         <NavBar auth={this.state.auth} setAuthData={this.setAuthData} />
-        {this.renderChildren()}
+        <div style={{margin:'20px 20px 20px 20px'}}>
+          {this.renderChildren()}
+        </div>
         <Footer/>
       </div>
     );

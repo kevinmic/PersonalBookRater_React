@@ -8,6 +8,25 @@ import BookImage from '../book/BookImage';
 import AddReviewForm from '../addReview/AddReviewForm';
 import ReviewInfo from './ReviewInfo';
 import sharedStyles from './Styles';
+import LocationConst from '../const/LocationConst';
+
+var showHeaderIcons = function(book) {
+  var headerIcons = [];
+  if (book.locationOfBook) {
+    return LocationConst.filter((loc) => book.locationOfBook.indexOf(loc.value) >= 0)
+        .map((loc) => loc.type) // change to type
+        .filter((loc) => loc) // filter out blanks
+        .map((type) => {
+          if (type == 'kindle') {
+            return <span key={type} style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} className="fa fa-book"/>
+          }
+          if (type == 'audible') {
+            return <span key={type}  style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} className="fa fa-headphones"/>
+          }
+          return null;
+        });
+  }
+}
 
 var lookupRatingData = function(overallRating) {
    return _.values(Scales.RATING_SCALE).filter((rate) => {
@@ -86,7 +105,7 @@ var BookReview = React.createClass({
                 {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >Add Review</a>:""}
               </span>
             </div>
-            {this.state.addReviewDirect?<AddReviewForm style={_.merge({backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
+            {this.state.addReviewDirect?<AddReviewForm style={_.merge({width:'500px', backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
           </div>
       );
 
@@ -99,10 +118,11 @@ var BookReview = React.createClass({
         <tr>
           <td style={{verticalAlign:'top'}}><BookImage book={book}/></td>
           <td style={{verticalAlign:'top'}} width="100%">
-            <h4>
+            <div style={{fontSize:'35px', fontWeight: 'bold'}}>
               {book.title}&nbsp;
+              {showHeaderIcons(book)}
               {combinedRatingUI}
-            </h4>
+            </div>
             {reviewsUI}
             <span className={getArrowClass(this.state.expanded)}>
               <a onClick={this.toggleExpanded} >Book Info</a>

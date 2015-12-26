@@ -64,6 +64,7 @@ var lookupBook = function(name, callback) {
                 ...parseAuthor(author),
                 imageUrl:parseImage(small_image_url),
                 author:author.name,
+                goodreadsId: id.__text,
               };
           });
         }

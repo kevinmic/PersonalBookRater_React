@@ -96,7 +96,7 @@ var LookupBook = React.createClass({
     }
 
     return (
-      <div>
+      <div style={{width: '800px'}}>
       <h3>Lookup Book in GoodReads</h3>
         <FormTable onSumbit={this.searchBooks} allowEnter={true}>
           <FormFieldInput

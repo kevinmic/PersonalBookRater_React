@@ -8,12 +8,13 @@ const ERROR_STYLE = {
   color: 'red'
 }
 
-function stopEnterSubmitting(e) {
-    if (e.charCode == 13) {
+function stopEnterSubmitting(submitFunction, e) {
+    if (e && e.charCode == 13) {
         var src = e.srcElement || e.target;
         if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
             if (e.preventDefault) {
                 e.preventDefault();
+                submitFunction();
             }
         }
     }
@@ -59,7 +60,7 @@ var FormTable = React.createClass({
   },
   render: function() {
     return (
-      <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={this.props.allowEnter?null:stopEnterSubmitting}>
+      <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit)}>
         <table style={TableStyles.tableInput}>
           <tbody>
               {this.props.children}
@@ -86,7 +87,7 @@ var FormFieldSubmit = React.createClass({
       <tr>
         <td/>
         <td style={TableStyles.submitRow}>
-          <button type={btnType} onClick={this.props.onClick} className="btn btn-default">{this.props.label}</button>
+          <button type={btnType} onClick={btnType == "submit"?null:this.props.onClick} className="btn btn-default">{this.props.label}</button>
           &nbsp;
           {this.props.children}
         </td>
@@ -126,9 +127,15 @@ var AutoSuggestFormField = React.createClass({
     label : React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
     options: React.PropTypes.array,
+    multi: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     isValid: React.PropTypes.func,
     showWhen: React.PropTypes.func,
+  },
+  getDefaultProps: function() {
+    return {
+      multi: false,
+    };
   },
   getInitialState: function() {
     return {
@@ -147,15 +154,25 @@ var AutoSuggestFormField = React.createClass({
         )
     }
 
-    options = [{value:"", label:""}].concat(options);
+    if (!this.props.multi) {
+      options = [{value:"", label:""}].concat(options);
+    }
 
     return (
         <FormField {...other}>
           <RSelect
+            multi={this.props.multi}
             options={options}
             value={this.props.data[this.props.id]}
             onChange={(values) => {
-              this.props.onChange(this.props.id, values.value);
+              var value;
+              if (this.props.multi) {
+                value = values.map((val) => val.value).join(",");
+              }
+              else {
+                value = values.value;
+              }
+              this.props.onChange(this.props.id, value);
             }}
             />
         </FormField>

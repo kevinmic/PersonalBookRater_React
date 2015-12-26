@@ -5,6 +5,7 @@ import AddReviewForm from './AddReviewForm';
 import BookImage from '../book/BookImage';
 import BookData from '../book/BookData';
 import { History} from 'react-router';
+import TableStyles from '../styles/TableStyles';
 
 var AddReviewMain = React.createClass({
   mixins: [History],
@@ -34,17 +35,23 @@ var AddReviewMain = React.createClass({
     }
 
     return (
-      <div>
-        <div className="col-sm-2">
-          <BookImage book={book}/>
-        </div>
-        <div className="col-sm-10">
-          <h2>Book Review:</h2>
-          <h3>{book.title}</h3>
-          <BookData book={book}/>
-          <hr/>
-          <AddReviewForm {...this.props} book={book} callback={this.callback}/>
-        </div>
+      <div style={{width: '800px'}}>
+        <h2>Book Review:</h2>
+        <table width="100%" style={TableStyles.tableInput}>
+          <tbody>
+            <tr>
+              <td style={{verticalAlign:'top'}}>
+                <BookImage book={book}/>
+              </td>
+              <td>
+                <h3>{book.title}</h3>
+                <BookData book={book}/>
+                <hr/>
+                <AddReviewForm {...this.props} book={book} callback={this.callback}/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     )
   }
