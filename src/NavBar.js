@@ -37,13 +37,14 @@ var NavBar = React.createClass({
   },
   render: function() {
     var addUser;
-    if (this.props.auth.loggedIn) {
-        addUser =[
-            <LinkTab key="addUser" to="/user/new">ADD USER</LinkTab>,
-            <FillinTab key="filler">|</FillinTab>,
-            ]
-
+    var addBook;
+    if (_.get(this.props.auth, 'roles.users')) {
+        addUser = <LinkTab key="addUser" to="/user/new">ADD USER</LinkTab>;
     }
+    if (_.get(this.props.auth, 'roles.books')) {
+        addBook = <LinkTab to="/book/new">ADD BOOK</LinkTab>;
+    }
+
     return (
       <div style={{marginBottom:'20px'}}>
         <div className="hfColor" style={{height:'15px'}}/>
@@ -54,9 +55,10 @@ var NavBar = React.createClass({
           <ul id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
             <LinkTab to="/">LIBRARY</LinkTab>
             <FillinTab>|</FillinTab>
-            <LinkTab to="/book/new">ADD BOOK</LinkTab>
-            <FillinTab>|</FillinTab>
+            {addBook}
+            {addBook?<FillinTab>|</FillinTab>:null}
             {addUser}
+            {addUser?<FillinTab>|</FillinTab>:null}
             <LoginInfo auth={this.props.auth} />
           </ul>
         </div>

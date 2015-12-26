@@ -27,6 +27,11 @@ var FormValidationMixins = {
     this.onChangeWithValue(prop.target.id, prop.target.value);
   },
 
+  onCheckboxChange: function(prop, valid) {
+    // console.log("onCheckboxChange");
+    this.onChangeWithValue(prop.target.id, prop.target.checked);
+  },
+
   onChangeWithValue: function(id, value) {
     // console.log("CHANGED With Value - ", id, value);
     var data = {values:{...this.state.values}};

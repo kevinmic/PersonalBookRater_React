@@ -2,7 +2,7 @@ import React from 'react';
 var PropTypes = React.PropTypes;
 
 import FormValidationMixins from '../util/FormValidationMixins';
-import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
+import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 
@@ -22,7 +22,10 @@ var AddUser = React.createClass({
       values: {
         name:"",
         email:"",
-        password:""
+        password:"",
+        role_reviews: true,
+        role_books: true,
+        role_users: false,
       },
       required: {
         name: () => true,
@@ -40,7 +43,7 @@ var AddUser = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var {email, password, name} = this.state.values;
+      var {email, password, name, role_reviews, role_books, role_users} = this.state.values;
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/users");
       firebaseRef.createUser({email: email, password: password}, (error, successInfo) => {
         if (error) {
@@ -57,9 +60,21 @@ var AddUser = React.createClass({
           }
         }
         else {
-          firebaseRef.child(successInfo.uid).set(name, (error) => {
+          var roles = {};
+          if (role_reviews) {
+            roles.reviews = true;
+          }
+          if (role_books) {
+            roles.books = true;
+          }
+          if (role_users) {
+            roles.users= true;
+          }
+          var user = {name: name, roles: roles};
+
+          firebaseRef.child(successInfo.uid).set(user, (error) => {
             if (error) {
-              alertify.error("Error saving users name, but the user was created");
+              alertify.error("Login created, but user data was not saved. aka: talk to Kevin");
             }
             else {
               alertify.success("User:" + email + " Created");
@@ -83,6 +98,7 @@ var AddUser = React.createClass({
     return (
       <div style={{width: '800px'}}>
         <FormTable onSubmit={this.addBook}>
+          <tr><td colSpan="100%"><h3>User Data</h3></td></tr>
           <FormFieldInput
             label="Name" id="name"
             data={values}
@@ -90,6 +106,32 @@ var AddUser = React.createClass({
             onChange={this.onChange}
             isValid={this.isValid}
             />
+          <tr><td colSpan="100%"><h3>Permissions</h3></td></tr>
+          <FormFieldCheckBox
+            label="Review Books" id="role_reviews"
+            data={values}
+            onChange={this.onCheckboxChange}
+            isValid={this.isValid}
+            >
+            <span style={{color:'grey'}}> (This User can Create and Edit their own reviews)</span>
+          </FormFieldCheckBox>
+          <FormFieldCheckBox
+            label="Create/Edit/Delete Books" id="role_books"
+            data={values}
+            onChange={this.onCheckboxChange}
+            isValid={this.isValid}
+            >
+            <span style={{color:'grey'}}> (This User can Create, Edit, and Delete any book</span>
+          </FormFieldCheckBox>
+          <FormFieldCheckBox
+            label="Create Users" id="role_users"
+            data={values}
+            onChange={this.onCheckboxChange}
+            isValid={this.isValid}
+            >
+            <span style={{color:'grey'}}> (This User can create other Users and change permissions for users</span>
+          </FormFieldCheckBox>
+          <tr><td colSpan="100%"><h3>Login</h3></td></tr>
           <FormFieldInput
             label="Email Address" id="email"
             inputType="email"

@@ -64,9 +64,9 @@ var App = React.createClass({
 
         this.fbRef.child("users").child(userid).once("value", (data) => {
           var user = data.val();
-          var roles = {};
+          var roles = {reviews: false, books: false, users: false};
           if (user.roles) {
-            roles = user.roles;
+            _.merge(roles, user.roles);
           }
           this.setState({auth: {loggedIn: true, username: email, userid: userid, name: user.name, roles: roles}});
         });

@@ -135,7 +135,12 @@ var AddBook = React.createClass({
         var bookRef = firebaseRef.push();
         book.bookId = bookRef.key();
         saveBook(bookRef, book, () => {
-          this.history.pushState(null, "/review/" + book.bookId + "/new");
+          if (_.get(this.props.auth, 'roles.reviews')) {
+            this.history.pushState(null, "/review/" + book.bookId + "/new");
+          }
+          else {
+            this.history.pushState(null, "/");
+          }
         });
       }
     }

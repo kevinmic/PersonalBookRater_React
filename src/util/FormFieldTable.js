@@ -114,9 +114,36 @@ var FormFieldInput = React.createClass({
   render: function() {
     var {inputType, onChange, placeholder, ...other} = this.props;
     var {id, data} = this.props;
+
+    var className = "form-control";
+    if (inputType == 'checkbox' || inputType == 'radio') {
+      className = "";
+    }
     return (
           <FormField {...other}>
-            <input type={inputType} placeholder={placeholder} className="form-control" value={data[id]} id={id} onChange={onChange}/>
+            <input type={inputType} placeholder={placeholder} className={className} value={data[id]} id={id} onChange={onChange}/>
+            {this.props.children}
+          </FormField>
+    )
+  }
+});
+
+var FormFieldCheckBox = React.createClass({
+  propTypes: {
+    label : React.PropTypes.string.isRequired,
+    id : React.PropTypes.string.isRequired,
+    data: React.PropTypes.object,
+    onChange: React.PropTypes.func,
+    isValid: React.PropTypes.func,
+  },
+  render: function() {
+    var {onChange, ...other} = this.props;
+    var {id, data} = this.props;
+
+    return (
+          <FormField {...other}>
+            <input type="checkbox" checked={data[id]} id={id} onChange={onChange}/>
+            {this.props.children}
           </FormField>
     )
   }
@@ -182,6 +209,7 @@ var AutoSuggestFormField = React.createClass({
 
 module.exports = {
   FormFieldInput,
+  FormFieldCheckBox,
   FormField,
   FormTable,
   AutoSuggestFormField,

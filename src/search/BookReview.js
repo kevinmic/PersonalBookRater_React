@@ -98,7 +98,7 @@ var BookReview = React.createClass({
       )
     }
 
-    if (this.props.auth.loggedIn) {
+    if (_.get(this.props.auth, 'roles.reviews')) {
       addReviewUI = (
           <div>
             <div>
