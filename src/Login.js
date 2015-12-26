@@ -56,9 +56,9 @@ var Login = React.createClass({
     }
 
     return (
-      <div>
+      <div style={{width:'800px'}}>
         {message}
-        <FormTable>
+        <FormTable allowEnter={true} onSubmit={this.login}>
           <FormFieldInput
             label="Email" id="email"
             data={values}

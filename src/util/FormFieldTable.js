@@ -8,13 +8,13 @@ const ERROR_STYLE = {
   color: 'red'
 }
 
-function stopEnterSubmitting(submitFunction, e) {
+function stopEnterSubmitting(submitFunction, e, allowEnter) {
     if (e && e.charCode == 13) {
         var src = e.srcElement || e.target;
         if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
-            if (e.preventDefault) {
-                e.preventDefault();
-                submitFunction();
+            e.preventDefault();
+            if (allowEnter && submitFunction) {
+              submitFunction();
             }
         }
     }
@@ -60,7 +60,7 @@ var FormTable = React.createClass({
   },
   render: function() {
     return (
-      <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit)}>
+      <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit, e, this.props.allowEnter)}>
         <table style={TableStyles.tableInput}>
           <tbody>
               {this.props.children}
