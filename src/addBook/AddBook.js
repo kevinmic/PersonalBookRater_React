@@ -12,6 +12,15 @@ import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 
+const BOOK_PICK_LIST = ['title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis', 'goodreadsId'];
+
+var bookChanged = function(bookA, bookB) {
+  var a = _.pick(bookA, BOOK_PICK_LIST);
+  var b = _.pick(bookB, BOOK_PICK_LIST);
+
+  return !_.isEqual(a,b);
+}
+
 var getSubGenres = function(genre) {
   if (genre) {
     var genreObj = GenreConst.filter((val) => val.value == genre);
@@ -26,11 +35,26 @@ var getSubGenres = function(genre) {
   return [];
 }
 
+var saveBook = (bookRef, book, callback) => {
+  bookRef.set(book, (error) => {
+    if (error) {
+      alertify.error("Book " + book.title + " was not saved! Reason: " + error);
+    }
+    else {
+      alertify.success("Book " + book.title + " added!");
+      callback();
+    }
+  });
+}
+
+
 var AddBook = React.createClass({
   mixins: [History, FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object,
     initBook: React.PropTypes.object,
+    bookId: React.PropTypes.string,
+    auth: React.PropTypes.object,
   },
   getInitialState: function() {
     return {
@@ -67,8 +91,9 @@ var AddBook = React.createClass({
     };
   },
   componentDidMount: function() {
-    const book = this.props.initBook;
+    var book = this.props.initBook;
     if (book) {
+      book = _.pick(book, BOOK_PICK_LIST);
       this.setState({values: book});
     }
   },
@@ -77,23 +102,43 @@ var AddBook = React.createClass({
 
     if (isValid) {
       var {values} = this.state;
-      var book = _.pick(this.state.values, 'title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis', 'goodreadsId');
+      var book = _.pick(this.state.values, BOOK_PICK_LIST);
 
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      book.changedBy = [{userid: this.props.auth.userid, date: new Date().getTime()}];
       book.reviews = {};
 
-      var bookRef = firebaseRef.push();
-      book.bookId = bookRef.key();
-      bookRef.set(book, (error) => {
-        if (error) {
-          alertify.error("Book " + book.title + " was not saved! Reason: " + error);
-        }
-        else {
-          alertify.success("Book " + book.title + " added!");
-          this.history.pushState(null, "/review/" + book.bookId + "/new");
-        }
-      });
+      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      if (this.props.bookId) {
+        var bookRef = firebaseRef.child(this.props.bookId);
+        bookRef.once("value", (bookSnapShot) => {
+          var data = bookSnapShot.val();
+          if (!_.isEmpty(data)) {
+            if (bookChanged(data, book)) {
+              var changedBy = book.changedBy.concat(data.changedBy?data.changedBy:[]);
+              data = _.merge(data, book);
+              data.changedBy = changedBy;
 
+              saveBook(bookRef, data, () => {
+                this.history.pushState(null, "/");
+              });
+            }
+            else {
+              alertify.success("Nothing Changed");
+              this.history.pushState(null, "/");
+            }
+          }
+          else {
+            alertify.error("Could not find book.");
+          }
+        });
+      }
+      else {
+        var bookRef = firebaseRef.push();
+        book.bookId = bookRef.key();
+        saveBook(bookRef, book, () => {
+          this.history.pushState(null, "/review/" + book.bookId + "/new");
+        });
+      }
     }
     else {
       this.setState({showError: true});
@@ -127,7 +172,7 @@ var AddBook = React.createClass({
     }
 
     if (values.title && this.props.books) {
-      var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title);
+      var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title).filter((book) => book.bookId != this.props.bookId);
       if (matchingBooks.length > 0) {
         var titleDuplicate = (
           <tr>
@@ -144,7 +189,7 @@ var AddBook = React.createClass({
 
     return (
       <div style={{width:'800'}}>
-        <h2>Add Book</h2>
+        <h2>{this.state.values.bookId?"Edit":"Add"} Book</h2>
         <FormTable onSumbit={this.addBook}>
           <FormFieldInput
             label="Title" id="title"
@@ -169,6 +214,13 @@ var AddBook = React.createClass({
             isValid={this.isValid}
             />
 
+          <FormFieldInput
+            inputType="url"
+            label="GoodReads Id" id="goodreadsId"
+            data={values}
+            onChange={this.onChange}
+            isValid={this.isValid}
+            />
           <FormFieldInput
             inputType="url"
             label="Image Url" id="imageUrl"

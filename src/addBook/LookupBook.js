@@ -8,9 +8,10 @@ import Login from '../Login';
 import FormValidationMixins from '../util/FormValidationMixins';
 import TableStyles from '../styles/TableStyles';
 import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
+import { History} from 'react-router';
 
 var LookupBook = React.createClass({
-  mixins: [FormValidationMixins],
+  mixins: [History, FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object,
     auth: React.PropTypes.object,
@@ -70,7 +71,8 @@ var LookupBook = React.createClass({
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
-      return <Login redirect={false} message="You must login in order to add a book."/>;
+      this.history.pushState(null, "/login");
+      return <div/>;
     }
 
     if (this.state.isManualEntry) {

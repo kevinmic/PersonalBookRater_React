@@ -83,6 +83,7 @@ var BookReview = React.createClass({
     var reviewsUI;
     var expandedBookUI;
     var addReviewUI;
+    var editBookUI;
     var combinedRatingUI = loadCombinedRating(book);
 
     if (reviews && reviews.length > 0) {
@@ -108,6 +109,11 @@ var BookReview = React.createClass({
             {this.state.addReviewDirect?<AddReviewForm style={_.merge({width:'500px', backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
           </div>
       );
+      editBookUI = (
+        <div>
+          <Link to={"/book/" + bookId + "/edit"}>Edit Book</Link>
+        </div>
+      );
 
     }
 
@@ -129,6 +135,7 @@ var BookReview = React.createClass({
             </span>
             {expandedBookUI}
             {addReviewUI}
+            {editBookUI}
           </td>
         </tr>
         </tbody>

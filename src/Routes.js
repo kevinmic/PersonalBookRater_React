@@ -8,6 +8,7 @@ import AddReviewMain from './addReview/AddReviewMain';
 import LookupBook from './addBook/LookupBook';
 import Login from './Login';
 import AddUser from './addUser/AddUser.js';
+import EditBook from './addBook/EditBook.js';
 
 var Routes = React.createClass({
   render: function() {
@@ -18,6 +19,7 @@ var Routes = React.createClass({
           <Route path="review/search" component={SearchMain}/>
           <Route path="review/:bookId/new" component={AddReviewMain}/>
           <Route path="book/new" component={LookupBook}/>
+          <Route path="book/:bookId/edit" component={EditBook}/>
           <Route path="user/new" component={AddUser}/>
           <Route path="login" component={Login}/>
         </Route>
