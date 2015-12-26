@@ -1,5 +1,4 @@
 import React from 'react';
-import Login from '../Login';
 var PropTypes = React.PropTypes;
 import AddReviewForm from './AddReviewForm';
 import BookImage from '../book/BookImage';
@@ -27,7 +26,7 @@ var AddReviewMain = React.createClass({
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
-      return <Login redirect={false} message="You must login in order to add a review."/>;
+      return <div>Login Required</div>;
     }
     var book = this.props.books[this.state.bookId]
     if (!book) {

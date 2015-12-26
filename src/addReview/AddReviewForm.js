@@ -6,7 +6,6 @@ import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldIn
 import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
 import firebaseInfo from '../../config/firebase-info.js';
-import Login from '../Login';
 import TableStyles from '../styles/TableStyles';
 
 var AddReviewForm = React.createClass({
@@ -77,7 +76,7 @@ var AddReviewForm = React.createClass({
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
-      return <Login redirect={false} message="You must login in order to add a review."/>;
+      return <div>Login Required</div>;
     }
 
     var values = this.state.values;

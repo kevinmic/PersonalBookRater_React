@@ -6,7 +6,6 @@ var PropTypes = React.PropTypes;
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import BookImage from '../book/BookImage';
-import Login from '../Login';
 import TableStyles from '../styles/TableStyles';
 import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';

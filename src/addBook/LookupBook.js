@@ -4,14 +4,12 @@ import lookupBook from './GoodReadsBookLookup';
 import AddBook from './AddBook';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
-import Login from '../Login';
 import FormValidationMixins from '../util/FormValidationMixins';
 import TableStyles from '../styles/TableStyles';
 import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
-import { History} from 'react-router';
 
 var LookupBook = React.createClass({
-  mixins: [History, FormValidationMixins],
+  mixins: [FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object,
     auth: React.PropTypes.object,
@@ -71,8 +69,7 @@ var LookupBook = React.createClass({
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
-      this.history.pushState(null, "/login");
-      return <div/>;
+      return <div>Login Required</div>;
     }
 
     if (this.state.isManualEntry) {
