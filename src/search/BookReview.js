@@ -39,7 +39,7 @@ var loadCombinedRating = function(book) {
     var labelType = "label-default";
     var value = "NR";
     if (book.overallRating) {
-      value = book.overallRating;
+      value = book.overallRating.toString();
       labelType = lookupRatingData(book.overallRating, Scales.RATING_SCALE).labelType;
     }
 

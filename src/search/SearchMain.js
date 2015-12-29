@@ -34,8 +34,20 @@ var setupOverallRating = function(books) {
     var reviews = _.values(book.reviews);
     if (reviews && reviews.length > 0) {
       var value = _.sum(reviews, (review) => review.recommendRating) / reviews.length;
-      book.overallRating = (Math.round(value * 10)/10).toString();
+      book.overallRating = (Math.round(value * 10)/10);
     }
+    return book;
+  });
+};
+
+var setupLatestReviewDate = function(books) {
+  return books.map((book) => {
+    var latestReviewDate = 0;
+    var reviews = _.values(book.reviews);
+    if (reviews && reviews.length > 0) {
+      latestReviewDate = _.max(reviews.map((review) => review.reviewDate));
+    }
+    book.latestReviewDate = latestReviewDate;
     return book;
   });
 };
@@ -150,6 +162,7 @@ var Search = React.createClass({
   },
   render: function() {
     var books = setupOverallRating(_.values(this.props.books));
+    books = setupLatestReviewDate(books);
     books = runFilterBooks(books, this.state.search, this.state.filterOptions, this.props.auth);
     var totalBooks = books.length;
 
