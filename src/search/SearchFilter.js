@@ -70,6 +70,7 @@ var SearchFilter = React.createClass({
     sortOptions: PropTypes.array,
     changeSearch:  PropTypes.func.isRequired,
     changeFilter:  PropTypes.func.isRequired,
+    clearSearch: PropTypes.func.isRequired,
     users: PropTypes.object,
   },
   getInitialState: function() {
@@ -95,6 +96,10 @@ var SearchFilter = React.createClass({
   changeFilter: function(type, valueObj) {
     var value = valueObj.target.value
     this.props.changeFilter(type, value);
+  },
+  clearSearch: function() {
+    this.props.clearSearch();
+    this.setState({search:""})
   },
   render: function() {
     var {filterOptions, users} = this.props;
@@ -187,15 +192,18 @@ var SearchFilter = React.createClass({
           </select>
         </ExpandableFilter>
         <ExpandableFilter label="Genre">
-          <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('genre', obj)}>
+          <select className="form-control" value={filterOptions.genre} onChange={(obj) => this.changeFilter('genre', obj)}>
             {getGenreFilters()}
           </select>
         </ExpandableFilter>
         <ExpandableFilter label="Location">
-          <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('locationOfBook', obj)}>
+          <select className="form-control" value={filterOptions.locationOfBook} onChange={(obj) => this.changeFilter('locationOfBook', obj)}>
             {getLocationFilters()}
           </select>
         </ExpandableFilter>
+        <div>
+          <input type="button" onClick={this.clearSearch} value="Clear Search"/>
+        </div>
       </div>
     )
 

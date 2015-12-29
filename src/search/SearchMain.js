@@ -19,14 +19,11 @@ const sortOptions = [
 const PAGE_SIZE = 20;
 
 const INITIAL_STATE = {
-  sortType: "reviewDate",
-  sortAsc: true,
   search: "",
   filterOptions: {
-    'sort': {sortType: 'reviewDate', sortAsc: false},
+    'sort': {sortType: 'overallRating', sortAsc: false},
   },
   startIndex: 0,
-  rating: "",
 };
 
 var setupOverallRating = function(books) {
@@ -155,7 +152,13 @@ var Search = React.createClass({
     }
   },
   clearSearch: function() {
-    this.setState(_.cloneDeep(INITIAL_STATE));
+    var newState = _.merge({}, this.state, INITIAL_STATE);
+    _.forEach(_.keys(newState.filterOptions), (key) => {
+      if (key != 'sort') {
+        newState.filterOptions[key] = '';
+      }
+    });
+    this.setState(newState);
   },
   changeIndex: function(value) {
     this.setState({startIndex: value});
@@ -193,9 +196,9 @@ var Search = React.createClass({
               search={this.state.search}
               changeSearch={this.changeSearch}
               changeFilter={this.changeFilter}
+              clearSearch={this.clearSearch}
               users={this.props.users}
               />
-            <input type="button" onClick={this.clearSearch} value="Clear Search"/>
           </td>
           <td style={{paddingLeft:'25px', verticalAlign: 'top'}}>
             {noBooks}
