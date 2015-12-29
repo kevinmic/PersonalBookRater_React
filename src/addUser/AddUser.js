@@ -6,6 +6,15 @@ import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, For
 import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 
+const INITIAL_VALUES = {
+  name:"",
+  email:"",
+  password:"",
+  role_reviews: true,
+  role_books: true,
+  role_users: false,
+};
+
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -19,14 +28,7 @@ var AddUser = React.createClass({
   getInitialState: function() {
     return {
       showError: false,
-      values: {
-        name:"",
-        email:"",
-        password:"",
-        role_reviews: true,
-        role_books: true,
-        role_users: false,
-      },
+      values: _.cloneDeep(INITIAL_VALUES),
       required: {
         name: () => true,
         email: () => true,
@@ -78,7 +80,7 @@ var AddUser = React.createClass({
             }
             else {
               alertify.success("User:" + email + " Created");
-              this.setState({values:{}});
+              this.setState({values:_.cloneDeep(INITIAL_VALUES)});
             }
           });
         }
