@@ -84,6 +84,13 @@ var App = React.createClass({
         fbReviews.on("child_added", this.loadReviewsFromFirebase);
     });
     fbReviews.on("child_changed", this.loadReviewsFromFirebase);
+
+    var fbUsers = this.fbRef.child("users");
+    fbUsers.once("value", (dataSnapshot) => {
+        this.setState({
+          users: dataSnapshot.val()
+        });
+    });
   },
   componentWillUnMount: function() {
     this.fbRef.off();
@@ -101,6 +108,7 @@ var App = React.createClass({
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
         books: booksPlusReviews,
+        users: this.state.users,
         auth: this.state.auth,
       });
     }.bind(this))

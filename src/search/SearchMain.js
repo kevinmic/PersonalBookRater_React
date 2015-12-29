@@ -18,6 +18,17 @@ const sortOptions = [
 
 const PAGE_SIZE = 20;
 
+const INITIAL_STATE = {
+  sortType: "reviewDate",
+  sortAsc: true,
+  search: "",
+  filterOptions: {
+    'sort': {sortType: 'reviewDate', sortAsc: false},
+  },
+  startIndex: 0,
+  rating: "",
+};
+
 var setupOverallRating = function(books) {
   return books.map((book) => {
     var reviews = _.values(book.reviews);
@@ -56,7 +67,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
 }
 
 var runFilterBooks = function(books, search, filterOptions, auth) {
-    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre}  = filterOptions;
+    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre, reviewer}  = filterOptions;
     if (overallRating) {
       books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
     }
@@ -77,6 +88,9 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     }
     if (genre) {
       books = books.filter((book) => book.genre && book.genre.indexOf(genre) >= 0);
+    }
+    if (reviewer) {
+      books = books.filter((book) => books.reviews && books.reviews[reviewer]);
     }
 
     if (auth && read) {
@@ -106,20 +120,11 @@ var filterBooksForPagination = function(books, startIndex, pageSize) {
 
 var Search = React.createClass({
   propTypes: {
-    books: React.PropTypes.object
+    books: React.PropTypes.object,
+    users: React.PropTypes.object,
   },
   getInitialState: function() {
-    return {
-      sortType: "reviewDate",
-      sortAsc: true,
-      search: "",
-      sortOptions: sortOptions,
-      filterOptions: {
-        'sort': {sortType: 'reviewDate', sortAsc: false},
-      },
-      startIndex: 0,
-      rating: "",
-    };
+    return _.cloneDeep(INITIAL_STATE);
   },
   changeFilter: function(type, value) {
     var filterOptions = this.state.filterOptions;
@@ -136,6 +141,10 @@ var Search = React.createClass({
     if (this.state.search != value) {
       this.setState({search: value, startIndex: 0});
     }
+  },
+  clearSearch: function() {
+    console.log("STATE", INITIAL_STATE);
+    this.setState(_.cloneDeep(INITIAL_STATE));
   },
   changeIndex: function(value) {
     this.setState({startIndex: value});
@@ -172,7 +181,9 @@ var Search = React.createClass({
               search={this.state.search}
               changeSearch={this.changeSearch}
               changeFilter={this.changeFilter}
+              users={this.props.users}
               />
+            <input type="button" onClick={this.clearSearch} value="Clear Search"/>
           </td>
           <td style={{paddingLeft:'25px', verticalAlign: 'top'}}>
             {noBooks}

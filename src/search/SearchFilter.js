@@ -70,6 +70,7 @@ var SearchFilter = React.createClass({
     sortOptions: PropTypes.array,
     changeSearch:  PropTypes.func.isRequired,
     changeFilter:  PropTypes.func.isRequired,
+    users: PropTypes.object,
   },
   getInitialState: function() {
     return {
@@ -96,7 +97,7 @@ var SearchFilter = React.createClass({
     this.props.changeFilter(type, value);
   },
   render: function() {
-    var {filterOptions} = this.props;
+    var {filterOptions, users} = this.props;
     var {search} = this.state;
 
     var sortOptions = this.props.sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)
@@ -175,6 +176,14 @@ var SearchFilter = React.createClass({
             <option value="">All</option>
             <option value="no">Haven't Read</option>
             <option value="yes">Have Read</option>
+          </select>
+        </ExpandableFilter>
+        <ExpandableFilter label="Reviewer">
+          <select className="form-control" value={filterOptions.reviewer} onChange={(obj) => this.changeFilter('reviewer', obj)}>
+            <option value="">All</option>
+            {
+              _.keys(users).map((key) => <option key={key} value={key}>{users[key].name}</option>)
+            }
           </select>
         </ExpandableFilter>
         <ExpandableFilter label="Genre">
