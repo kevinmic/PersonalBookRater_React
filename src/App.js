@@ -17,7 +17,7 @@ var App = React.createClass({
   loadReviewsFromFirebase: function(dataSnapshot) {
       var bookId = dataSnapshot.key();
       var newReviews = dataSnapshot.val();
-      if (!this.state.reviews[bookId] || !_.isEqual(this.state.reviews[bookId], newReviews)) {
+      if (!this.state.reviews || !this.state.reviews[bookId] || !_.isEqual(this.state.reviews[bookId], newReviews)) {
         // console.log("add book")
         var reviews = {...this.state.reviews};
 
