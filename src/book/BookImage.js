@@ -26,7 +26,7 @@ var BookImage = React.createClass({
 
     if (book.goodreadsId) {
       image = (
-          <a href={"https://www.goodreads.com/book/show/" + book.goodreadsId}>
+          <a href={"https://www.goodreads.com/book/show/" + book.goodreadsId} target="_new">
               {image}
               www.goodreads.com
           </a>

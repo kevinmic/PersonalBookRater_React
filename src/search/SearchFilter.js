@@ -63,6 +63,48 @@ var ExpandableFilter = React.createClass({
   }
 });
 
+var SearchTips = React.createClass({
+  getInitialState: function() {
+    return {
+      show: false,
+    };
+  },
+  onClick: function() {
+    this.setState({show: !this.state.show});
+  },
+  render: function() {
+    var show = null;
+    if (this.state.show) {
+      show = (
+        <div style={{textAlign:'left'}}>
+          <div style={{paddingBottom:'10px'}}>
+            <b>Example:
+              <br/>
+              Legend; author:Sanderson; series:Mistborn;</b>
+          </div>
+          <div style={{paddingBottom:'10px'}}>
+            The default search searches title, author and series.
+          </div>
+          <div style={{paddingBottom:'10px'}}>
+            You can search a specific field by prepending the search
+            with one of the following (author:,  title:, series:).
+          </div>
+          <div style={{paddingBottom:'10px'}}>
+            If you want two distinct searches then seperate the searches with a semi-colon (;)
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div style={{textAlign:'right'}}>
+        <a onClick={this.onClick}>Search Tips</a>
+        {show}
+      </div>
+    )
+  }
+});
+
 var SearchFilter = React.createClass({
   propTypes: {
     search: PropTypes.string,
@@ -126,6 +168,7 @@ var SearchFilter = React.createClass({
                    "Example -- Legend; author:Sanderson; series:Mistborn; "
                  }
             />
+          <SearchTips/>
         </div>
         <div>
           <label style={labelStyle}>Sort</label>
