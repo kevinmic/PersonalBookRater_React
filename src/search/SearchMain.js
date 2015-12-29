@@ -101,8 +101,9 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     if (genre) {
       books = books.filter((book) => book.genre && book.genre.indexOf(genre) >= 0);
     }
+    books = filterBooks(search, books);
     if (reviewer) {
-      books = books.filter((book) => books.reviews && books.reviews[reviewer]);
+      books = books.filter((book) => book.reviews && book.reviews[reviewer]);
     }
 
     if (auth && read) {
@@ -112,7 +113,6 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
         return check == hasRead;
       });
     }
-    books = filterBooks(search, books);
     books = sortIt(books, sort.sortType, sort.sortAsc);
     return books;
 }
