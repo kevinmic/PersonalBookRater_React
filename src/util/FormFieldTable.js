@@ -55,12 +55,12 @@ var FormField = React.createClass({
 
 var FormTable = React.createClass({
   propTypes: {
-    onSumbit : React.PropTypes.func,
+    onSubmit : React.PropTypes.func,
     allowEnter : React.PropTypes.bool,
   },
   render: function() {
     return (
-      <form className="form-horizontal" onSubmit={this.props.onSumbit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit, e, this.props.allowEnter)}>
+      <form className="form-horizontal" onSubmit={this.props.onSubmit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit, e, this.props.allowEnter)}>
         <table style={TableStyles.tableInput}>
           <tbody>
               {this.props.children}

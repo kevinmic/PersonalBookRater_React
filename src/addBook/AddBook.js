@@ -194,7 +194,7 @@ var AddBook = React.createClass({
     return (
       <div style={{width:'800'}}>
         <h2>{this.props.bookId?"Edit":"Add"} Book</h2>
-        <FormTable onSumbit={this.addBook}>
+        <FormTable onSubmit={this.addBook}>
           <FormFieldInput
             label="Title" id="title"
             data={values}

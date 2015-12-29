@@ -94,8 +94,7 @@ var App = React.createClass({
       if (this.state.reviews && this.state.reviews[book.bookId]) {
         reviews = this.state.reviews[book.bookId].reviews;
       }
-      book.reviews = reviews; // overwrite old way
-      book = _.merge({}, book);
+      book = _.merge({}, book, {reviews: reviews});
       return book;
     });
 
