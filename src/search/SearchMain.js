@@ -143,7 +143,6 @@ var Search = React.createClass({
     }
   },
   clearSearch: function() {
-    console.log("STATE", INITIAL_STATE);
     this.setState(_.cloneDeep(INITIAL_STATE));
   },
   changeIndex: function(value) {
