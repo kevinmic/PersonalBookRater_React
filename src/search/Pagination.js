@@ -73,13 +73,13 @@ var Pagination = React.createClass({
       }
 
       if (lastPage < pages) {
-        pagesUI.push(<span key="prevdot">...</span>);
+        pagesUI.push(<span key="nextdot">...</span>);
       }
 
       pagesUI.push(<span key="sep2">&nbsp;&nbsp;&nbsp;</span>);
       pagesUI.push(generateButton('next1', 'Next', false, () =>  this.props.changeIndex(getOrElseMax(currPage+1,pages-1)* pageSize)));
       pagesUI.push(generateButton('next5', 'Next 5', false, () => this.props.changeIndex(getOrElseMax(currPage+5,pages-1)* pageSize)));
-      pagesUI.push(generateButton('nextAll', 'Last', false, () => this.props.changeIndex(pages-1 * pageSize)))
+      pagesUI.push(generateButton('nextAll', 'Last', false, () => this.props.changeIndex((pages-1) * pageSize)))
     }
     // if ()
 

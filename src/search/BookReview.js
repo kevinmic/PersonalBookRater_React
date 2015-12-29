@@ -124,7 +124,7 @@ var BookReview = React.createClass({
         <tr>
           <td style={{verticalAlign:'top'}}><BookImage book={book}/></td>
           <td style={{verticalAlign:'top'}} width="100%">
-            <div style={{fontSize:'35px', fontWeight: 'bold'}}>
+            <div style={{fontSize:'25px', fontWeight: 'bold'}}>
               {book.title}&nbsp;
               {showHeaderIcons(book)}
               {combinedRatingUI}

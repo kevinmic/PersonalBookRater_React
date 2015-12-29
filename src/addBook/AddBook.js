@@ -11,7 +11,7 @@ import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 
-const BOOK_PICK_LIST = ['title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'subgenre', 'locationOfBook', 'synopsis', 'goodreadsId'];
+const BOOK_PICK_LIST = ['title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook', 'synopsis', 'goodreadsId'];
 
 var bookChanged = function(bookA, bookB) {
   var a = _.pick(bookA, BOOK_PICK_LIST);
@@ -68,7 +68,6 @@ var AddBook = React.createClass({
         imageUrl:"",
         author:"",
         genre:"",
-        subgenre:"",
         locationOfBook:"",
         synopsis: "",
         showError: false,
@@ -211,7 +210,7 @@ var AddBook = React.createClass({
             />
 
           <FormFieldInput
-            inputType="number"
+            inputType="text"
             label="Book Number" id="seriesBookNumber"
             data={values}
             onChange={this.onChange}
@@ -245,20 +244,7 @@ var AddBook = React.createClass({
             label="Genre" id="genre"
             options={GenreConst.map((val) => {return {value: val.value, label: val.value}})}
             showWhen={() => true}
-            data={values}
-            onChange={(id, value) => {
-              var data = {values:{...this.state.values}};
-              data.values[id] = value;
-              data.values['subgenre'] = '';
-              this.setState(data);
-            }}
-            isValid={this.isValid}
-            />
-
-          <AutoSuggestFormField
-            label="Sub Genre" id="subgenre"
-            options={subGenres}
-            showWhen={() => subGenres.length > 0}
+            multi={true}
             data={values}
             onChange={this.onChangeWithValue}
             isValid={this.isValid}

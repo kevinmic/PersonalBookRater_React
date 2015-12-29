@@ -9,7 +9,6 @@
       imageUrl: "url",
       goodreadsId: "Goodreads_bookId",
       genre: "genre",
-      subgenre: "subgenre",
       locationOfBook: "location",
       synopsis: "synopsis",
       reviews: {

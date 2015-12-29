@@ -10,7 +10,8 @@ import Pagin from './Pagination';
 
 const sortOptions = [
   {label: "Title", name:"title", asc: true},
-  {label: "Name", name:"author", asc: true},
+  {label: "Author", name:"author", asc: true},
+  {label: "Series", name:"seriesBookNumber", asc: true},
   {label: "DateReviewed", name:"reviewDate", asc: false},
   {label: "Overall Rating", name:"overallRating", asc: false},
 ]
@@ -55,7 +56,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
 }
 
 var runFilterBooks = function(books, search, filterOptions, auth) {
-    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre, subgenre}  = filterOptions;
+    var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre}  = filterOptions;
     if (overallRating) {
       books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
     }
@@ -72,13 +73,10 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
       books = filterByScale('ageAppropriate', age, books, Scales.AGE_SCALE, true);
     }
     if (locationOfBook) {
-      books = books.filter((book) => book.locationOfBook && book.locationOfBook.indexOf(locationOfBook) >= 0)
+      books = books.filter((book) => book.locationOfBook && book.locationOfBook.indexOf(locationOfBook) >= 0);
     }
     if (genre) {
-      books = books.filter((book) => book.genre && book.genre == genre)
-    }
-    if (subgenre) {
-      books = books.filter((book) => book.subgenre && book.subgenre == subgenre)
+      books = books.filter((book) => book.genre && book.genre.indexOf(genre) >= 0);
     }
 
     if (auth && read) {
@@ -131,9 +129,6 @@ var Search = React.createClass({
     }
     else {
       filterOptions[type] = value;
-      if (type == 'genre') {
-        filterOptions.subgenre = null;
-      }
     }
     this.setState({filterOptions: filterOptions, startIndex: 0});
   },

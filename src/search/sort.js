@@ -35,6 +35,13 @@ var sortIt = function(books, sortType, asc) {
     if (sortType == "overallRating") {
       return sortByOverallRating(books, asc);
     }
+    if (sortType == "seriesBookNumber") {
+      var booksWithoutSeries = _.values(books).filter((book) => !book.seriesTitle);
+      var booksWithSeries = _.values(books).filter((book) => book.seriesTitle);
+      var part1 = _.sortByOrder(booksWithSeries, ['seriesTitle', 'seriesBookNumber'], ['asc', 'asc']);
+      var part2 = _.sortByOrder(booksWithoutSeries, ['title'], ['asc']);
+      return part1.concat(part2);
+    }
   }
   console.error("SortType not implemented", sortType);
   return books;
