@@ -77,6 +77,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
 
 var runFilterBooks = function(books, search, filterOptions, auth) {
     var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre, reviewer}  = filterOptions;
+    books = filterBooks(search, books);
     if (overallRating) {
       books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
     }
@@ -98,7 +99,6 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     if (genre) {
       books = books.filter((book) => book.genre && book.genre.indexOf(genre) >= 0);
     }
-    books = filterBooks(search, books);
     if (reviewer) {
       books = books.filter((book) => book.reviews && book.reviews[reviewer]);
     }
