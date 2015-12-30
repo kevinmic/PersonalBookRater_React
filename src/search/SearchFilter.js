@@ -1,6 +1,5 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
-import {FormField} from '../util/FormField';
 import Scales from '../const/ScaleConst';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
