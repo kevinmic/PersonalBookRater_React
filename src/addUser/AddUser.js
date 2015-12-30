@@ -12,6 +12,7 @@ const INITIAL_VALUES = {
   password:"",
   role_reviews: true,
   role_books: true,
+  role_editbooks: false,
   role_users: false,
 };
 
@@ -37,7 +38,7 @@ var AddUser = React.createClass({
       validators: {
         name: (pwd) => pwd && pwd.length > 3,
         email: validateEmail,
-        password: (pwd) => pwd && pwd.length > 7,
+        password: (pwd) => pwd && pwd.length > 6,
       }
     };
   },
@@ -45,7 +46,7 @@ var AddUser = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var {email, password, name, role_reviews, role_books, role_users} = this.state.values;
+      var {email, password, name, role_reviews, role_books, role_editbooks, role_users} = this.state.values;
       var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/users");
       firebaseRef.createUser({email: email, password: password}, (error, successInfo) => {
         if (error) {
@@ -68,6 +69,9 @@ var AddUser = React.createClass({
           }
           if (role_books) {
             roles.books = true;
+          }
+          if (role_editbooks) {
+            roles.editbooks = true;
           }
           if (role_users) {
             roles.users= true;
@@ -118,12 +122,20 @@ var AddUser = React.createClass({
             <span style={{color:'grey'}}> (This User can Create and Edit their own reviews)</span>
           </FormFieldCheckBox>
           <FormFieldCheckBox
-            label="Create/Edit/Delete Books" id="role_books"
+            label="Create Books" id="role_books"
             data={values}
             onChange={this.onCheckboxChange}
             isValid={this.isValid}
             >
-            <span style={{color:'grey'}}> (This User can Create, Edit, and Delete any book</span>
+            <span style={{color:'grey'}}> (This User can Create Books)</span>
+          </FormFieldCheckBox>
+          <FormFieldCheckBox
+            label="Create/Edit/Delete Books" id="role_editbooks"
+            data={values}
+            onChange={this.onCheckboxChange}
+            isValid={this.isValid}
+            >
+            <span style={{color:'grey'}}> (This User can Create, Edit, and Delete any book)</span>
           </FormFieldCheckBox>
           <FormFieldCheckBox
             label="Create Users" id="role_users"
@@ -131,7 +143,7 @@ var AddUser = React.createClass({
             onChange={this.onCheckboxChange}
             isValid={this.isValid}
             >
-            <span style={{color:'grey'}}> (This User can create other Users and change permissions for users</span>
+            <span style={{color:'grey'}}> (This User can create other Users and change permissions for users)</span>
           </FormFieldCheckBox>
           <tr><td colSpan="100%"><h3>Login</h3></td></tr>
           <FormFieldInput
@@ -146,7 +158,7 @@ var AddUser = React.createClass({
             inputType="password"
             label="Password" id="password"
             data={values}
-            placeholder="Password - At least 8 characters"
+            placeholder="Password - At least 7 characters"
             onChange={this.onChange}
             isValid={this.isValid}
             />

@@ -41,7 +41,7 @@ var NavBar = React.createClass({
     if (_.get(this.props.auth, 'roles.users')) {
         addUser = <LinkTab key="addUser" to="/user/new">ADD USER</LinkTab>;
     }
-    if (_.get(this.props.auth, 'roles.books')) {
+    if (_.get(this.props.auth, 'roles.books') || _.get(this.props.auth, 'roles.editbooks')) {
         addBook = <LinkTab to="/book/new">ADD BOOK</LinkTab>;
     }
 

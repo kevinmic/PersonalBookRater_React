@@ -2,7 +2,9 @@
     "rules": {
       "books": {
         ".read": true,
-        ".write": "root.child('users').child(auth.uid).child('roles').child('books').exists()",
+        "$bookId": {
+          ".write": "root.child('users').child(auth.uid).child('roles').child('editbooks').exists() || (!root.child('books/'+$bookId).exists() && root.child('users').child(auth.uid).child('roles').child('books').exists())",
+        }
       },
       "bookReviews": {
         ".read": true,
@@ -22,7 +24,7 @@
         ".write": "root.child('users').child(auth.uid).child('roles').child('users').exists()",
       },
       "secureData": {
-        ".read": "root.child('users').child(auth.uid).child('roles').child('books').exists()",
+        ".read": "root.child('users').child(auth.uid).child('roles').child('books').exists() || root.child('users').child(auth.uid).child('roles').child('editbooks').exists()",
         ".write": false,
       }
     }
