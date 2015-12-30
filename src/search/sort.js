@@ -26,7 +26,7 @@ var sortIt = function(books, sortType, asc) {
     if (sortType == "overallRating") {
       var booksWithoutReviews = books.filter((book) => _.isEmpty(book.reviews));
       var booksWithReviews = books.filter((book) => !_.isEmpty(book.reviews));
-      var part1 = _.sortByOrder(booksWithReviews, ['overallRating', 'reviewDate'], ['desc', 'desc']);
+      var part1 = _.sortByOrder(booksWithReviews, ['overallRating', 'latestReviewDate'], ['desc', 'desc']);
       return part1.concat(booksWithoutReviews);
     }
     if (sortType == "seriesBookNumber") {
