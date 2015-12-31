@@ -10,6 +10,7 @@ import TableStyles from '../styles/TableStyles';
 import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
+import GoodReads from './GoodReadsBookLookup';
 
 const BOOK_PICK_LIST = ['title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook', 'synopsis', 'goodreadsId'];
 
@@ -52,6 +53,7 @@ var AddBook = React.createClass({
   propTypes: {
     books: React.PropTypes.object,
     initBook: React.PropTypes.object,
+    loadSynopsis: React.PropTypes.bool,
     bookId: React.PropTypes.string,
     auth: React.PropTypes.object,
   },
@@ -89,10 +91,34 @@ var AddBook = React.createClass({
     };
   },
   componentDidMount: function() {
+    GoodReads.loadUrl();
+    
     var book = this.props.initBook;
     if (book) {
       book = _.pick(book, BOOK_PICK_LIST);
       this.setState({values: book});
+
+      if (book.goodreadsId && this.props.loadSynopsis) {
+        this.loadSynopsis(book.goodreadsId);
+      }
+    }
+  },
+  loadSynopsis: function(goodreadsId) {
+    if (goodreadsId) {
+      GoodReads.lookupBook(goodreadsId, (error, foundBook) => {
+        if (error) {
+          alertify.error("Goodreads BookId - " + goodreadsId + " could not be looked up! Reason: " + error);
+        }
+        else {
+          var values = this.state.values;
+          values.synopsis = foundBook.synopsis;
+          this.setState({values: values});
+        }
+      });
+      alertify.log("Lookup up synopsis from goodreads");
+    }
+    else {
+      alertify.error("You must specify a goodreads id to load the synopsis");
     }
   },
   addBook: function() {
@@ -267,7 +293,9 @@ var AddBook = React.createClass({
                 rows="5"
                 id="synopsis"
                 onChange={this.onChange}/>
+              <div style={{float:'right'}}><a onClick={() => this.loadSynopsis(this.state.values.goodreadsId)}>Load Synopsis from GoodReads.com</a></div>
           </FormField>
+
 
           <FormFieldSubmit onClick={this.addBook} label="Submit"/>
         </FormTable>

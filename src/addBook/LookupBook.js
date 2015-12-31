@@ -1,6 +1,6 @@
 import React from 'react';
 
-import lookupBook from './GoodReadsBookLookup';
+import GoodReads from './GoodReadsBookLookup';
 import AddBook from './AddBook';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
@@ -45,7 +45,7 @@ var LookupBook = React.createClass({
       this.setState({searchedBooks: [], searching: true});
 
       var searchText = search.join(" and ");
-      lookupBook(searchText, (error, foundBooks) => {
+      GoodReads.searchBook(searchText, (error, foundBooks) => {
         if (error) {
           alertify.error("Error Querying GoodReads - " + error);
           this.setState({searchedBooks: [], searching: false});
@@ -67,13 +67,16 @@ var LookupBook = React.createClass({
   chooseBook: function(book) {
     this.setState({book: book, isManualEntry: true});
   },
+  componentDidMount: function() {
+    GoodReads.loadUrl();
+  },
   render: function() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
 
     if (this.state.isManualEntry) {
-      return <AddBook auth={this.props.auth} books={this.props.books} initBook={this.state.book}/>;
+      return <AddBook auth={this.props.auth} books={this.props.books} initBook={this.state.book} loadSynopsis={true}/>;
     }
 
     var {values, searchedBooks} = this.state;

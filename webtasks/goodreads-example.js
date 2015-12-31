@@ -1,19 +1,34 @@
 var request = require('request');
 
-var key = "GoodReads_Key";
+var key = "GOODREAD_KEY";
 
 var lookupBook = function(context, req, res) {
-  var url = "https://www.goodreads.com/search/index.xml?key=" + key;
+  var url;
   var valid = false;
-  if (context.data.q) {
-    url += "&q=" + context.data.q;
-    valid = true;
+  var type = 'search';
+  if (context.data.type) {
+    type = context.data.type;
   }
-  if (context.data.page) {
-    url += "&page=" + context.data.page;
+
+  if (type == 'search') {
+    url = "https://www.goodreads.com/search/index.xml?key=" + key;
+    if (context.data.q) {
+      url += "&q=" + context.data.q;
+      valid = true;
+    }
+    if (context.data.page) {
+      url += "&page=" + context.data.page;
+    }
+    if (context.data.search) {
+      url += "&search=" + context.data.search;
+    }
   }
-  if (context.data.search) {
-    url += "&search=" + context.data.search;
+  else if (type == 'book') {
+    url = "https://www.goodreads.com/book/show.xml?key=" + key;
+    if (context.data.bookId) {
+      url += "&id=" + context.data.bookId;
+      valid = true;
+    }
   }
 
   if (valid) {
