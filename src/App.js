@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, History } from 'react-router';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
@@ -7,6 +7,7 @@ import firebaseInfo from '../config/firebase-info.js';
 alertify.logPosition("bottom right");
 
 var App = React.createClass({
+  mixins: [ History ],
   getInitialState: function() {
     return {
       books : {},
@@ -114,10 +115,14 @@ var App = React.createClass({
     }.bind(this))
   },
   render() {
+    let loginActive = this.history.isActive("/login");
+    // Login has its own styling, so we will render children directly
+    var wrapChildrenStyle = !loginActive?{margin:'20px 20px 20px 20px'}:{};
+
     return (
       <div style={{minWidth: '1000px'}}>
-        <NavBar auth={this.state.auth} setAuthData={this.setAuthData} />
-        <div style={{margin:'20px 20px 20px 20px'}}>
+        <NavBar auth={this.state.auth} setAuthData={this.setAuthData} showBooksBar={!loginActive}/>
+        <div style={wrapChildrenStyle}>
           {this.renderChildren()}
         </div>
         <Footer/>

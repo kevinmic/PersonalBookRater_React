@@ -22,14 +22,16 @@ function stopEnterSubmitting(submitFunction, e, allowEnter) {
 
 var FormField = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
+    showLabel: PropTypes.bool,
+    label : React.PropTypes.string,
     id : React.PropTypes.string.isRequired,
     data: React.PropTypes.object.isRequired,
     isValid: React.PropTypes.func,
   },
   getDefaultProps: function() {
     return {
-      required: false
+      showLabel: true,
+      required: false,
     }
   },
   render: function() {
@@ -42,9 +44,7 @@ var FormField = React.createClass({
 
     return (
       <tr>
-        <td style={TableStyles.inputLabel}>
-          <label htmlFor={id} style={{...errorStyle, }}>{label}: </label>
-        </td>
+        {this.props.showLabel?<td style={TableStyles.inputLabel}><label htmlFor={id} style={{...errorStyle, }}>{label}: </label></td>:null}
         <td>
           {this.props.children}
         </td>
@@ -74,8 +74,15 @@ var FormTable = React.createClass({
 var FormFieldSubmit = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
+    showLabel: PropTypes.bool,
     btnType: React.PropTypes.string,
     onClick : React.PropTypes.func,
+    btnStyle: React.PropTypes.object,
+  },
+  getDefaultProps: function() {
+    return {
+      showLabel: true,
+    };
   },
   render: function() {
     var {btnType} = this.props;
@@ -85,9 +92,9 @@ var FormFieldSubmit = React.createClass({
 
     return (
       <tr>
-        <td/>
+        {this.props.showLabel?<td/>:null}
         <td style={TableStyles.submitRow}>
-          <button type={btnType} onClick={btnType == "submit"?null:this.props.onClick} className="btn btn-default">{this.props.label}</button>
+          <button type={btnType} style={this.props.btnStyle} onClick={btnType == "submit"?null:this.props.onClick} className="btn btn-default">{this.props.label}</button>
           &nbsp;
           {this.props.children}
         </td>
@@ -98,7 +105,7 @@ var FormFieldSubmit = React.createClass({
 
 var FormFieldInput = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
+    label : React.PropTypes.string,
     id : React.PropTypes.string.isRequired,
     inputType: React.PropTypes.string,
     data: React.PropTypes.object,

@@ -33,7 +33,8 @@ var LoginInfo = React.createClass({
 
 var NavBar = React.createClass({
   propTypes: {
-    auth : React.PropTypes.object
+    auth : React.PropTypes.object,
+    showBooksBar: React.PropTypes.bool,
   },
   render: function() {
     var addUser;
@@ -46,7 +47,7 @@ var NavBar = React.createClass({
     }
 
     return (
-      <div style={{marginBottom:'20px'}}>
+      <div>
         <div className="hfColor" style={{height:'15px'}}/>
         <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
           <Link to="/">
@@ -62,10 +63,8 @@ var NavBar = React.createClass({
             <LoginInfo auth={this.props.auth} />
           </ul>
         </div>
-        <div>
-          <image src={bookHeaderIMG} width="100%"/>
-        </div>
-        <hr style={{marginTop:'10px'}}/>
+        {this.props.showBooksBar?<div><image src={bookHeaderIMG} width="100%"/></div>:''}
+        {this.props.showBooksBar?<hr style={{marginTop:'10px'}}/>:''}
       </div>
     );
   }
