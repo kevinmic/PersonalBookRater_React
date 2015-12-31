@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import Scales from '../const/ScaleConst';
-import ManualBadge from './ManualBadge';
+import ManualBadge from '../util/ManualBadge';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
 import AddReviewForm from '../addReview/AddReviewForm';

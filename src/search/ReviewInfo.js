@@ -1,6 +1,6 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
-import ScaleBadge from './ScaleBadge';
+import ScaleBadge from '../util/ScaleBadge';
 import Scales from '../const/ScaleConst';
 import sharedStyles from './Styles';
 import marked from 'marked';

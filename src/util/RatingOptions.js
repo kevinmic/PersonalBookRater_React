@@ -3,7 +3,7 @@ import Scales from '../const/ScaleConst';
 import {FormField} from './FormFieldTable';
 import RSelect from 'react-select';
 import '../react-select.css';
-import ScaleBadge from '../search/ScaleBadge';
+import ScaleBadge from './ScaleBadge';
 var PropTypes = React.PropTypes;
 
 const helpers = {
