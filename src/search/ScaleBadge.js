@@ -7,7 +7,6 @@ var ScaleBadge = React.createClass({
   propTypes: {
     rateList: React.PropTypes.object.isRequired,
     rateKey: React.PropTypes.string,
-    rateType: React.PropTypes.string,
     rateTypeKey: React.PropTypes.string,
     expanded: React.PropTypes.bool,
   },

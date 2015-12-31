@@ -51,10 +51,10 @@ const VIOLENCE_SCALE = {
 };
 
 const AGE_SCALE = {
-  "C": {key:"C", order:1, labelType:"label-success", description:"Children"},
-  "PT": {key:"PT", order:2, labelType:"label-success", description:"Pre-Teen"},
-  "T": {key:"T", order:3, labelType:"label-success", description:"Teen"},
-  "A": {key:"A", order:4, labelType:"label-success", description:"Adult"},
+  "C": {key:"C", order:1, labelType:"label-default", description:"Children"},
+  "PT": {key:"PT", order:2, labelType:"label-default", description:"Pre-Teen"},
+  "T": {key:"T", order:3, labelType:"label-default", description:"Teen"},
+  "A": {key:"A", order:4, labelType:"label-default", description:"Adult"},
 }
 
 module.exports = {

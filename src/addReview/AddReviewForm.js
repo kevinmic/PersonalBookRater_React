@@ -95,7 +95,7 @@ var AddReviewForm = React.createClass({
           <FormTable onSubmit={this.addReview}>
             <RatingOptions
               label="Overall Rating"id="recommendRating"
-              rateList={Scales.scaleMapToList(Scales.RATING_SCALE)}
+              rateList={Scales.RATING_SCALE}
               data={values}
               onChange={this.onChangeWithValue}
               isValid={this.isValid}
@@ -103,7 +103,7 @@ var AddReviewForm = React.createClass({
 
             <RatingOptions
               label="Profanity Rating" id="profanityRating"
-              rateList={Scales.scaleMapToList(Scales.PROFANITY_SCALE)}
+              rateList={Scales.PROFANITY_SCALE}
               data={values}
               onChange={this.onChangeWithValue}
               isValid={this.isValid}
@@ -111,7 +111,7 @@ var AddReviewForm = React.createClass({
 
             <RatingOptions
                label="Sexual Rating" id="sexRating"
-               rateList={Scales.scaleMapToList(Scales.SEXUAL_SCALE)}
+               rateList={Scales.SEXUAL_SCALE}
                data={values}
                onChange={this.onChangeWithValue}
                isValid={this.isValid}
@@ -119,7 +119,7 @@ var AddReviewForm = React.createClass({
 
             <RatingOptions
               label="Violence Rating" id="violenceRating"
-              rateList={Scales.scaleMapToList(Scales.VIOLENCE_SCALE)}
+              rateList={Scales.VIOLENCE_SCALE}
               data={values}
               onChange={this.onChangeWithValue}
               isValid={this.isValid}
@@ -127,7 +127,7 @@ var AddReviewForm = React.createClass({
 
             <RatingOptions
               label="Minimum Age" id="ageAppropriate"
-              rateList={Scales.scaleMapToList(Scales.AGE_SCALE)}
+              rateList={Scales.AGE_SCALE}
               data={values}
               onChange={this.onChangeWithValue}
               isValid={this.isValid}
