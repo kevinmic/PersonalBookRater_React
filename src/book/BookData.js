@@ -1,28 +1,44 @@
 import React from 'react';
+import marked from 'marked';
 var PropTypes = React.PropTypes;
+
+marked.setOptions({breaks: true});
 
 var loadExtra = function(book) {
     var genreVal = book.genre;
     var genre = genreVal?<InnerRow key="genre" label="Genre" value={genreVal}/>:null;
     var location = book.locationOfBook?<InnerRow key="loc" label="Location" value={book.locationOfBook}/>:null;
-    var synopsis= book.synopsis?<InnerRow key="synopsis" label="Synopsis" value={book.synopsis}/>:null;
+    var synopsis= book.synopsis?<InnerRow key="synopsis" label="Synopsis" value={book.synopsis} markdown={true}/>:null;
     return [genre, location, synopsis];
 }
 
 var InnerRow = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string,
+    value: React.PropTypes.string,
+    markdown: React.PropTypes.bool,
+    showExtra: React.PropTypes.bool,
+    showTitle: React.PropTypes.bool,
+  },
   getDefaultProps: function() {
     return {
       label: "",
       value: "",
       showExtra: true,
       showTitle: false,
+      markdown: false,
     }
   },
   render: function() {
+    var value = this.props.value;
+    if (this.props.markdown) {
+      value = <span dangerouslySetInnerHTML={{__html:marked(value)}}/>
+    }
+
     return (
       <tr>
         <td style={{whiteSpace:'nowrap', width:'10%', textAlign:'right', verticalAlign:'top', paddingRight:'10px'}} ><b>{this.props.label}:</b></td>
-        <td>{this.props.value}</td>
+        <td>{value}</td>
       </tr>
     );
   }

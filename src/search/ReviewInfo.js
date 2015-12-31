@@ -3,6 +3,9 @@ var PropTypes = React.PropTypes;
 import ScaleBadge from './ScaleBadge';
 import Scales from '../const/ScaleConst';
 import sharedStyles from './Styles';
+import marked from 'marked';
+
+marked.setOptions({breaks: true});
 
 var styles = {
   tdLeft: {
@@ -89,7 +92,9 @@ var ReviewInfo = React.createClass({
                     <ScaleBadge rateTypeKey="" rateType="Violence" expanded={true} rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
                   </span>
                 </ReviewRow>
-                <ReviewRow header="Review">{review.reviewDescription}</ReviewRow>
+                <ReviewRow header="Review">
+                  <span dangerouslySetInnerHTML={{__html:marked(review.reviewDescription)}}/>
+                </ReviewRow>
               </tbody>
             </table>
           </div>
