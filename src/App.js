@@ -4,9 +4,10 @@ import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
-import AddUser from './addUser/AddUser.js';
-import EditBook from './addBook/EditBook.js';
-import LookupBook from './addBook/LookupBook.js';
+import AddUser from './addUser/AddUser';
+import EditBook from './addBook/EditBook';
+import LookupBook from './addBook/LookupBook';
+import AddReviewMain from './addReview/AddReviewMain';
 
 alertify.logPosition("bottom right");
 
@@ -155,6 +156,10 @@ var App = React.createClass({
           body = <div>USER EDIT NOT IMPLEMENTED</div>
         }
       break;
+      case 'review':
+        var bookId = this.state.hashdata[0];
+        body = <AddReviewMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} bookId={bookId}/>
+        break;
       case 'book':
         if (this.state.hashdata[0] == 'new') {
           body = <LookupBook users={this.state.users} books={booksPlusReviews} auth={this.state.auth}/>

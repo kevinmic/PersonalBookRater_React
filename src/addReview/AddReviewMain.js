@@ -9,26 +9,19 @@ var AddReviewMain = React.createClass({
   propTypes: {
     books: React.PropTypes.object,
     auth: React.PropTypes.object,
-  },
-  getInitialState: function() {
-    return {
-      bookId: "",
-    };
-  },
-  componentDidMount: function() {
-    const bookId = this.props.params.bookId
-    this.setState({bookId: bookId});
+    bookId: React.PropTypes.string.isRequired,
   },
   callback: function() {
-    window.location.hash = "#/prevsearch");
+    window.location.hash = "#/prevsearch";
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
-    var book = this.props.books[this.state.bookId]
+    var book = this.props.books[this.props.bookId]
     if (!book) {
-      return <div></div>;
+      console.log("bookid - " + this.props.bookId)
+      return <div>Book Missing</div>;
     }
 
     return (
