@@ -54,7 +54,7 @@ var Login = React.createClass({
         if (successInfo) {
           alertify.success("You are now logged in!");
           if (this.props.redirect) {
-            window.locaiton.hash = "#";
+            window.location.hash = "#";
           }
         }
         else {
