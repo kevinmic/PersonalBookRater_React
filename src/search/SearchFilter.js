@@ -11,7 +11,7 @@ const labelStyle = {
 
 const activeLabelStyle = {
   fontSize: '20px',
-  color: '#0066ff',
+  color: '#7da96f',
 };
 
 var getGenreFilters = function() {
