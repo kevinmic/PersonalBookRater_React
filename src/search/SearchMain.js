@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import BookReview2 from './BookReview';
 import SearchFilter from './SearchFilter';

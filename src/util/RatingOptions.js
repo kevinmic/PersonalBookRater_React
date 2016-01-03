@@ -17,7 +17,7 @@ const helpers = {
 
 var RatingOptions = React.createClass({
   propTypes: {
-    rateList: React.PropTypes.arrayOf(Scales.SCALE_PROPTYPE).isRequired,
+    rateList: React.PropTypes.object.isRequired,
     label: React.PropTypes.string.isRequired,
     id : React.PropTypes.string.isRequired,
     data : React.PropTypes.object.isRequired,

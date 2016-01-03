@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { History} from 'react-router';
 var PropTypes = React.PropTypes;
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
@@ -49,7 +48,7 @@ var saveBook = (bookRef, book, callback) => {
 
 
 var AddBook = React.createClass({
-  mixins: [History, FormValidationMixins],
+  mixins: [FormValidationMixins],
   propTypes: {
     books: React.PropTypes.object,
     initBook: React.PropTypes.object,
@@ -92,7 +91,7 @@ var AddBook = React.createClass({
   },
   componentDidMount: function() {
     GoodReads.loadUrl();
-    
+
     var book = this.props.initBook;
     if (book) {
       book = _.pick(book, BOOK_PICK_LIST);
@@ -143,12 +142,12 @@ var AddBook = React.createClass({
               data.changedBy = changedBy;
 
               saveBook(bookRef, data, () => {
-                this.history.pushState(null, "/");
+                window.location.hash = "#/prevsearch";
               });
             }
             else {
               alertify.success("Nothing Changed");
-              this.history.pushState(null, "/");
+              window.location.hash = "#/prevsearch";
             }
           }
           else {
@@ -161,10 +160,10 @@ var AddBook = React.createClass({
         book.bookId = bookRef.key();
         saveBook(bookRef, book, () => {
           if (_.get(this.props.auth, 'roles.reviews')) {
-            this.history.pushState(null, "/review/" + book.bookId + "/new");
+            window.location.hash = "#/review/" + book.bookId + "/new";
           }
           else {
-            this.history.pushState(null, "/");
+            window.location.hash = "#/prevsearch";
           }
         });
       }

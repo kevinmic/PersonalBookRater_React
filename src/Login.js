@@ -1,6 +1,5 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
-import { History} from 'react-router';
 import libraryIMG from './images/Library.jpg';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
@@ -28,7 +27,7 @@ const loginWhiteStyle = {
 }
 
 var Login = React.createClass({
-  mixins: [History, FormValidationMixins],
+  mixins: [FormValidationMixins],
   getDefaultProps: function() {
     return {
       redirect: true,
@@ -55,7 +54,7 @@ var Login = React.createClass({
         if (successInfo) {
           alertify.success("You are now logged in!");
           if (this.props.redirect) {
-            this.history.pushState(null, "/review/search");
+            window.locaiton.hash = "#";
           }
         }
         else {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import ManualBadge from './ManualBadge';
 var PropTypes = React.PropTypes;
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 var PropTypes = React.PropTypes;
 import Scales from '../const/ScaleConst';
 import ManualBadge from '../util/ManualBadge';
@@ -113,7 +112,7 @@ var BookReview = React.createClass({
     if (_.get(this.props.auth, 'roles.editbooks')) {
       editBookUI = (
         <div>
-          <Link to={"/book/" + bookId + "/edit"}>Edit Book</Link>
+          <a href={"#/book/" + bookId + "/edit"}>Edit Book</a>
         </div>
       );
 

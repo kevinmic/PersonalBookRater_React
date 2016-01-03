@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, IndexLink, History } from 'react-router';
 var PropTypes = React.PropTypes;
 
 const linkStyle = {
@@ -22,17 +21,17 @@ var FillinTab = React.createClass({
 });
 
 var LinkTab = React.createClass({
-  mixins: [ History ],
   propTypes: {
     to : React.PropTypes.string
   },
   render: function() {
-    let isActive = this.history.isActive(this.props.to, this.props.query, this.props.onlyActiveOnIndex);
+    let isActive = false;
+    // let isActive = this.history.isActive(this.props.to, this.props.query, this.props.onlyActiveOnIndex);
     let className = isActive ? 'active' : '';
 
     return (
       <li style={liStyle}>
-        <Link className={className} style={linkStyle} {...this.props}/>
+        <a className={className} style={linkStyle} {...this.props}/>
       </li>
     )
   }

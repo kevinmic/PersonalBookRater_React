@@ -33,11 +33,9 @@
     "alertify.js": "^0.3.11",
     "bootstrap": "^3.3.6",
     "firebase": "^2.3.2",
-    "history": "^1.13.1",
     "marked": "^0.3.5",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "react-router": "^1.0.0",
     "react-select": "^1.0.0-beta6"
   }
 }

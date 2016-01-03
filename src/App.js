@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import { Link, History } from 'react-router';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
+import SearchMain from './search/SearchMain';
+import Login from './Login';
+import AddUser from './addUser/AddUser.js';
+import EditBook from './addBook/EditBook.js';
+import LookupBook from './addBook/LookupBook.js';
 
 alertify.logPosition("bottom right");
 
 var App = React.createClass({
-  mixins: [ History ],
   getInitialState: function() {
     return {
       books : {},
       reviews : {},
       auth: {},
+      location: '',
+      hashdata: [],
     };
   },
   loadReviewsFromFirebase: function(dataSnapshot) {
@@ -92,19 +97,28 @@ var App = React.createClass({
           users: dataSnapshot.val()
         });
     });
+
+    window.addEventListener('hashchange', this.navigated, false);
+    this.navigated();
   },
   componentWillUnMount: function() {
     this.fbRef.off();
   },
-  renderChildren: function () {
-    var booksPlusReviews = _.mapValues(this.state.books, (book) => {
-      var reviews = {};
-      if (this.state.reviews && this.state.reviews[book.bookId]) {
-        reviews = this.state.reviews[book.bookId].reviews;
+  navigated: function() {
+    var hash = window.location.hash;
+    var split = hash.split('/');
+
+    var location = 'search';
+    var data = [];
+    if (split && split.length > 1 && split[0] == '#') {
+      location = split[1];
+      if (split.length > 2) {
+        data = split.slice(2, split.length);
       }
-      book = _.merge({}, book, {reviews: reviews});
-      return book;
-    });
+    }
+    this.setState({location: location, hashdata: data})
+  },
+  renderChildren: function () {
 
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
@@ -115,15 +129,55 @@ var App = React.createClass({
     }.bind(this))
   },
   render() {
-    let loginActive = this.history.isActive("/login");
+    var booksPlusReviews = _.mapValues(this.state.books, (book) => {
+      var reviews = {};
+      if (this.state.reviews && this.state.reviews[book.bookId]) {
+        reviews = this.state.reviews[book.bookId].reviews;
+      }
+      book = _.merge({}, book, {reviews: reviews});
+      return book;
+    });
+
+    let loginActive = false;
+
+    var body;
+    var showLocation;
+    switch (this.state.location) {
+      case 'login':
+        body = <Login auth={this.state.auth}/>
+        loginActive = true;
+      break;
+      case 'user':
+        if (this.state.hashdata[0] == 'new') {
+          body = <AddUser auth={this.state.auth}/>
+        }
+        else {
+          body = <div>USER EDIT NOT IMPLEMENTED</div>
+        }
+      break;
+      case 'book':
+        if (this.state.hashdata[0] == 'new') {
+          body = <LookupBook users={this.state.users} books={booksPlusReviews} auth={this.state.auth}/>
+        }
+        else {
+          body = <EditBook users={this.state.users} books={booksPlusReviews} auth={this.state.auth} bookId={this.state.hashdata[0]} />
+        }
+      break;
+      case 'search':
+      default:
+        showLocation = 'search';
+        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth}/>
+      break;
+    }
+
     // Login has its own styling, so we will render children directly
     var wrapChildrenStyle = !loginActive?{margin:'20px 20px 20px 20px'}:{};
 
     return (
       <div style={{minWidth: '1000px'}}>
-        <NavBar auth={this.state.auth} setAuthData={this.setAuthData} showBooksBar={!loginActive}/>
+        <NavBar auth={this.state.auth} setAuthData={this.setAuthData} showBooksBar={!loginActive} showLocation={showLocation}/>
         <div style={wrapChildrenStyle}>
-          {this.renderChildren()}
+          {body}
         </div>
         <Footer/>
       </div>

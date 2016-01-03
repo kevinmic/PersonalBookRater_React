@@ -3,11 +3,9 @@ var PropTypes = React.PropTypes;
 import AddReviewForm from './AddReviewForm';
 import BookImage from '../book/BookImage';
 import BookData from '../book/BookData';
-import { History} from 'react-router';
 import TableStyles from '../styles/TableStyles';
 
 var AddReviewMain = React.createClass({
-  mixins: [History],
   propTypes: {
     books: React.PropTypes.object,
     auth: React.PropTypes.object,
@@ -22,7 +20,7 @@ var AddReviewMain = React.createClass({
     this.setState({bookId: bookId});
   },
   callback: function() {
-    this.history.pushState(null, "/review/search");
+    window.location.hash = "#/prevsearch");
   },
   render: function() {
     if (!this.props.auth.loggedIn) {
