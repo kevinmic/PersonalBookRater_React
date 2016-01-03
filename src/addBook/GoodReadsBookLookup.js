@@ -22,6 +22,9 @@ var seriesPatternList = [
 ];
 
 var parseTitle = function(title) {
+  if (!_.isString(title)) {
+    title = title.__cdata;
+  }
   for (var i = 0; i < seriesPatternList.length; i++) {
     var regex = seriesPatternList[i];
     var match = title.match(regex);
@@ -45,7 +48,9 @@ var descriptionPatternList = [
 ];
 
 var parseDescription = function(descr) {
-  console.log(descr);
+  if (!_.isString(descr)) {
+    descr = descr.__cdata;
+  }
   for (var i = 0; i < descriptionPatternList.length; i++) {
     var pat = descriptionPatternList[i];
     descr = descr.replace(new RegExp("\<" + pat.tag + "\>", "gi"), pat.replace);
@@ -84,14 +89,13 @@ var lookupBook = function(grBookId, callback) {
       var resObj = x2js.xml_str2json(response);
       if (resObj.GoodreadsResponse && resObj.GoodreadsResponse.book) {
         var grBook = resObj.GoodreadsResponse.book;
-        console.log("GoodreadsBook", grBook);
-
+        // console.log("GoodreadsBook", grBook);
         var book = {
-          ...parseTitle(grBook.title.__cdata),
+          ...parseTitle(grBook.title),
           ...parseAuthor(grBook.authors.author),
           imageUrl:parseImage(grBook.small_image_url),
           goodreadsId: grBook.id,
-          synopsis: parseDescription(grBook.description.__cdata),
+          synopsis: parseDescription(grBook.description),
         };
 
         callback(null, book);
