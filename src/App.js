@@ -14,11 +14,13 @@ alertify.logPosition("bottom right");
 var App = React.createClass({
   getInitialState: function() {
     return {
+      users : {},
       books : {},
       reviews : {},
       auth: {},
       location: '',
       hashdata: [],
+      prevSearch: {},
     };
   },
   loadReviewsFromFirebase: function(dataSnapshot) {
@@ -129,6 +131,9 @@ var App = React.createClass({
       });
     }.bind(this))
   },
+  setPrevSearch: function(search) {
+    this.setState({prevSearch: search});
+  },
   render() {
     var booksPlusReviews = _.mapValues(this.state.books, (book) => {
       var reviews = {};
@@ -171,7 +176,7 @@ var App = React.createClass({
       case 'search':
       default:
         showLocation = 'search';
-        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth}/>
+        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} storeSearch={this.setPrevSearch} prevSearch={this.state.prevSearch}/>
       break;
     }
 

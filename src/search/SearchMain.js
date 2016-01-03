@@ -128,11 +128,23 @@ var filterBooksForPagination = function(books, startIndex, pageSize) {
 
 var Search = React.createClass({
   propTypes: {
-    books: React.PropTypes.object,
-    users: React.PropTypes.object,
+    books: React.PropTypes.object.isRequired,
+    users: React.PropTypes.object.isRequired,
+    storeSearch: React.PropTypes.func.isRequired,
+    prevSearch: React.PropTypes.object,
   },
   getInitialState: function() {
     return _.cloneDeep(INITIAL_STATE);
+  },
+  componentWillMount: function() {
+    if (!_.isEmpty(this.props.prevSearch)) {
+      this.setState(this.props.prevSearch);
+    }
+  },
+  componentDidUpdate: function() {
+    if (!_.isEqual(this.props.prevSearch, this.state)) {
+      this.props.storeSearch(this.state);
+    }
   },
   changeFilter: function(type, value) {
     var filterOptions = this.state.filterOptions;
@@ -200,6 +212,8 @@ var Search = React.createClass({
               />
           </td>
           <td style={{paddingLeft:'25px', verticalAlign: 'top'}}>
+            <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>
+            <br/>
             {noBooks}
             {books}
             <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>

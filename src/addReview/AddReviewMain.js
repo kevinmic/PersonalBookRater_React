@@ -12,7 +12,7 @@ var AddReviewMain = React.createClass({
     bookId: React.PropTypes.string.isRequired,
   },
   callback: function() {
-    window.location.hash = "#/prevsearch";
+    window.location.hash = "#/search";
   },
   render: function() {
     if (!this.props.auth.loggedIn) {

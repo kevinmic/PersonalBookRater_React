@@ -50,11 +50,11 @@ var NavBar = React.createClass({
       <div>
         <div className="hfColor" style={{height:'15px'}}/>
         <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
-          <a href="/">
+          <a href="#/search">
             <image src={logoIMG} />
           </a>
           <ul className="navlinks" id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
-            <li><a href="">LIBRARY</a></li>
+            <li><a href="#/search">LIBRARY</a></li>
             {seperator}
             {addBook}
             {addBook?seperator:null}

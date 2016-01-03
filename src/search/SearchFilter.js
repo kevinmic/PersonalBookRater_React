@@ -9,6 +9,11 @@ const labelStyle = {
   color: '#344c2d',
 };
 
+const activeLabelStyle = {
+  fontSize: '20px',
+  color: '#0066ff',
+};
+
 var getGenreFilters = function() {
   var options = [];
   options.push(<option key="nonGen" value="">All</option>);
@@ -24,12 +29,18 @@ var ExpandableFilter = React.createClass({
   propTypes: {
     label : React.PropTypes.string.isRequired,
     showLabelWhenExpanded: React.PropTypes.bool,
+    // data: React.PropTypes.bool, -- This should be a bool, but javascript passes objects when I do true/false statements
   },
   getDefaultProps: function() {
     return {showLabelWhenExpanded: true};
   },
   getInitialState: function() {
     return {expanded : false,};
+  },
+  componentWillMount: function() {
+    if (this.props.data) {
+      this.setState({expanded:true});
+    }
   },
   toggleExpand: function() {
     this.setState({expanded: !this.state.expanded})
@@ -45,7 +56,7 @@ var ExpandableFilter = React.createClass({
     var labelUI = (
       <div>
         <span className={caretStyle}/>
-        <a onClick={this.toggleExpand}><label style={labelStyle}>{this.props.label}</label></a>
+        <a onClick={this.toggleExpand}><label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
       </div>
     );
 
@@ -70,6 +81,9 @@ var SearchTips = React.createClass({
   },
   onClick: function() {
     this.setState({show: !this.state.show});
+  },
+  componentDidMount: function() {
+    this.setState({search: this.props.search});
   },
   render: function() {
     var show = null;
@@ -151,7 +165,7 @@ var SearchFilter = React.createClass({
     return (
       <div>
         <div>
-          <label style={labelStyle}>Search</label>
+          <label style={search?activeLabelStyle:labelStyle}>Search</label>
           <input
             className="form-control"
             value={search}
@@ -176,7 +190,7 @@ var SearchFilter = React.createClass({
           </select>
         </div>
         <div>
-          <label style={labelStyle}>Overall Rating</label>
+          <label style={filterOptions.overallRating?activeLabelStyle:labelStyle}>Overall Rating</label>
           <select className="form-control" value={filterOptions.overallRating} onChange={(obj) => this.changeFilter('overallRating', obj)}>
             <option value="">All</option>
             {
@@ -184,8 +198,8 @@ var SearchFilter = React.createClass({
             }
           </select>
         </div>
-        <ExpandableFilter label="Other Ratings" showLabelWhenExpanded={false}>
-          <ExpandableFilter label="Profanity Rating">
+        <ExpandableFilter label="Other Ratings" showLabelWhenExpanded={false} data={filterOptions.violenceRating || filterOptions.sexRating || filterOptions.profanityRating}>
+          <ExpandableFilter label="Profanity Rating" data={filterOptions.profanityRating}>
             <select className="form-control" value={filterOptions.profanityRating} onChange={(obj) => this.changeFilter('profanityRating', obj)}>
               <option value="">All</option>
               {
@@ -193,7 +207,7 @@ var SearchFilter = React.createClass({
               }
             </select>
           </ExpandableFilter>
-          <ExpandableFilter label="Sex Rating">
+          <ExpandableFilter label="Sex Rating" data={filterOptions.sexRating}>
             <select className="form-control" value={filterOptions.sexRating} onChange={(obj) => this.changeFilter('sexRating', obj)}>
               <option value="">All</option>
               {
@@ -201,7 +215,7 @@ var SearchFilter = React.createClass({
               }
             </select>
           </ExpandableFilter>
-          <ExpandableFilter label="Violence Rating">
+          <ExpandableFilter label="Violence Rating" data={filterOptions.violenceRating}>
             <select className="form-control" value={filterOptions.violenceRating} onChange={(obj) => this.changeFilter('violenceRating', obj)}>
               <option value="">All</option>
               {
@@ -210,7 +224,7 @@ var SearchFilter = React.createClass({
             </select>
           </ExpandableFilter>
         </ExpandableFilter>
-        <ExpandableFilter label="Minimum Age">
+        <ExpandableFilter label="Minimum Age" data={filterOptions.age}>
           <select className="form-control" value={filterOptions.age} onChange={(obj) => this.changeFilter('age', obj)}>
             <option value="">All</option>
             {
@@ -218,14 +232,14 @@ var SearchFilter = React.createClass({
             }
           </select>
         </ExpandableFilter>
-        <ExpandableFilter label="Read">
+        <ExpandableFilter label="Read" data={filterOptions.read}>
           <select className="form-control" value={filterOptions.read} onChange={(obj) => this.changeFilter('read', obj)}>
             <option value="">All</option>
             <option value="no">Haven't Read</option>
             <option value="yes">Have Read</option>
           </select>
         </ExpandableFilter>
-        <ExpandableFilter label="Reviewer">
+        <ExpandableFilter label="Reviewer" data={filterOptions.reviewer}>
           <select className="form-control" value={filterOptions.reviewer} onChange={(obj) => this.changeFilter('reviewer', obj)}>
             <option value="">All</option>
             {
@@ -233,12 +247,12 @@ var SearchFilter = React.createClass({
             }
           </select>
         </ExpandableFilter>
-        <ExpandableFilter label="Genre">
+        <ExpandableFilter label="Genre" data={filterOptions.genre}>
           <select className="form-control" value={filterOptions.genre} onChange={(obj) => this.changeFilter('genre', obj)}>
             {getGenreFilters()}
           </select>
         </ExpandableFilter>
-        <ExpandableFilter label="Location">
+        <ExpandableFilter label="Location" data={filterOptions.locationOfBook}>
           <select className="form-control" value={filterOptions.locationOfBook} onChange={(obj) => this.changeFilter('locationOfBook', obj)}>
             {getLocationFilters()}
           </select>

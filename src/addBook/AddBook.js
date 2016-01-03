@@ -142,12 +142,12 @@ var AddBook = React.createClass({
               data.changedBy = changedBy;
 
               saveBook(bookRef, data, () => {
-                window.location.hash = "#/prevsearch";
+                window.location.hash = "#/search";
               });
             }
             else {
               alertify.success("Nothing Changed");
-              window.location.hash = "#/prevsearch";
+              window.location.hash = "#/search";
             }
           }
           else {
@@ -163,7 +163,7 @@ var AddBook = React.createClass({
             window.location.hash = "#/review/" + book.bookId + "/new";
           }
           else {
-            window.location.hash = "#/prevsearch";
+            window.location.hash = "#/search";
           }
         });
       }
