@@ -5,6 +5,7 @@ import firebaseInfo from '../config/firebase-info.js';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
 import AddUser from './addUser/AddUser';
+import ChangeUserPassword from './addUser/ChangeUserPassword';
 import EditBook from './addBook/EditBook';
 import LookupBook from './addBook/LookupBook';
 import AddReviewMain from './addReview/AddReviewMain';
@@ -164,6 +165,9 @@ var App = React.createClass({
         else {
           body = <div>USER EDIT NOT IMPLEMENTED</div>
         }
+      break;
+      case 'changepassword':
+        body = <ChangeUserPassword auth={this.state.auth}/>
       break;
       case 'review':
         var bookId = this.state.hashdata[0];

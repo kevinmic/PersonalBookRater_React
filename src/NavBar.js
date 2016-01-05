@@ -18,7 +18,7 @@ var LoginInfo = React.createClass({
     if (auth.loggedIn) {
       return (
         <span >
-          <span style={{fontSize:'13px'}}>{auth.username}&nbsp;</span>
+          <span style={{fontSize:'13px'}}><a href="#/changepassword">{auth.username}</a>&nbsp;</span>
           <a onClick={this.unAuth} style={{color: '#344c2d', textDecoration: 'underline'}}>Sign Out</a>
         </span>
       );
