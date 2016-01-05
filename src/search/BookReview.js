@@ -102,7 +102,7 @@ var BookReview = React.createClass({
           <div>
             <div>
               <span className={getArrowClass(this.state.addReviewDirect)}>
-                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >Add Review</a>:""}
+                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >{book.reviews[this.props.auth.userid]?"Edit":"Add"} Review</a>:""}
               </span>
             </div>
             {this.state.addReviewDirect?<AddReviewForm style={_.merge({width:'500px', backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
