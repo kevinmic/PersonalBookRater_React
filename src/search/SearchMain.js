@@ -133,6 +133,8 @@ var Search = React.createClass({
     users: React.PropTypes.object.isRequired,
     storeSearch: React.PropTypes.func.isRequired,
     prevSearch: React.PropTypes.object,
+    loadingBooks: React.PropTypes.bool.isRequired,
+    loadingReviews: React.PropTypes.bool.isRequired,
   },
   getInitialState: function() {
     return _.cloneDeep(INITIAL_STATE);
@@ -194,8 +196,14 @@ var Search = React.createClass({
     books = filterBooksForPagination(books, this.state.startIndex, PAGE_SIZE);
 
     var noBooks;
-    if (books.length <= 0) {
-      noBooks = <h3>No Books Found</h3>
+    if (this.props.loadingBooks) {
+        noBooks = <div><h3>Loading Books <span className="fa fa-cog fa-spin"/></h3></div>
+    }
+    else if (books.length <= 0) {
+        noBooks = <h3>No Books Found</h3>
+    }
+    else if (this.props.loadingReviews) {
+        noBooks = <div><h3>Loading Reviews <span className="fa fa-cog fa-spin"/></h3></div>
     }
 
     var sortOptionsUI = sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)

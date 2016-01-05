@@ -107,13 +107,15 @@ var AddBook = React.createClass({
       GoodReads.lookupBook(goodreadsId, (error, foundBook) => {
         if (error) {
           alertify.error("Goodreads BookId - " + goodreadsId + " could not be looked up! Reason: " + error);
+          this.setState({loading:false});
         }
         else {
           var values = this.state.values;
           values.synopsis = foundBook.synopsis;
-          this.setState({values: values});
+          this.setState({values: values, loading: false});
         }
       });
+      this.setState({loading:true});
       alertify.log("Lookup up synopsis from goodreads");
     }
     else {
@@ -293,6 +295,7 @@ var AddBook = React.createClass({
                 id="synopsis"
                 onChange={this.onChange}/>
               <div style={{float:'right'}}><a onClick={() => this.loadSynopsis(this.state.values.goodreadsId)}>Load Synopsis from GoodReads.com</a></div>
+              {this.state.loading?<div><h5>Loading <span className="fa fa-cog fa-spin"/></h5></div>:null}
           </FormField>
 
 

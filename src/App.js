@@ -21,6 +21,8 @@ var App = React.createClass({
       location: '',
       hashdata: [],
       prevSearch: {},
+      loadingBooks: true,
+      loadingReviews: true,
     };
   },
   loadReviewsFromFirebase: function(dataSnapshot) {
@@ -60,7 +62,8 @@ var App = React.createClass({
     var fbBooks = this.fbRef.child("books");
     fbBooks.once("value", (dataSnapshot) => {
         this.setState({
-          books: dataSnapshot.val()
+          books: dataSnapshot.val(),
+          loadingBooks: false,
         });
         fbBooks.on("child_added", this.loadBookFromFirebase);
     });
@@ -88,7 +91,8 @@ var App = React.createClass({
     var fbReviews = this.fbRef.child("bookReviews");
     fbReviews.once("value", (dataSnapshot) => {
         this.setState({
-          reviews: dataSnapshot.val()
+          reviews: dataSnapshot.val(),
+          loadingReviews: false,
         });
         fbReviews.on("child_added", this.loadReviewsFromFirebase);
     });
@@ -176,7 +180,7 @@ var App = React.createClass({
       case 'search':
       default:
         showLocation = 'search';
-        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} storeSearch={this.setPrevSearch} prevSearch={this.state.prevSearch}/>
+        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} storeSearch={this.setPrevSearch} prevSearch={this.state.prevSearch} loadingBooks={this.state.loadingBooks} loadingReviews={this.state.loadingReviews}/>
       break;
     }
 

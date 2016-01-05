@@ -80,9 +80,10 @@ var LookupBook = React.createClass({
     }
 
     var {values, searchedBooks} = this.state;
+    var searchResults;
 
     if (searchedBooks && searchedBooks.length > 0) {
-      var searchResults = searchedBooks.map((book, index) => {
+      searchResults = searchedBooks.map((book, index) => {
         return (
           <div key={index}>
             <div style={{display: 'flex'}}>
@@ -95,6 +96,9 @@ var LookupBook = React.createClass({
           </div>
         )
       })
+    }
+    else if (this.state.searching) {
+      searchResults = <div><h3>Searching <span className="fa fa-cog fa-spin"/></h3></div>
     }
 
     return (
