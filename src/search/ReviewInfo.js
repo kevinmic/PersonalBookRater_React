@@ -125,7 +125,7 @@ var ReviewInfo = React.createClass({
             </span>
             &nbsp;
             {review.reviewedBy}
-            {review.reviewDescription?<span className="fa fa-file-text-o green" style={{marginLeft:'10px'}}/>:""}
+            {review.reviewDescription?<span className="fa fa-file-text-o green" title="Has Text Review" style={{marginLeft:'10px'}}/>:""}
           </div>
         );
       }

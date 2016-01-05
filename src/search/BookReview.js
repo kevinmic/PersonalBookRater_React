@@ -17,10 +17,10 @@ var showHeaderIcons = function(book) {
         .filter((loc) => loc) // filter out blanks
         .map((type) => {
           if (type == 'kindle') {
-            return <span key={type} style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} className="fa fa-book"/>
+            return <span key={type} style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} title="Kindle" className="fa fa-book"/>
           }
           if (type == 'audible') {
-            return <span key={type}  style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} className="fa fa-headphones"/>
+            return <span key={type}  style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} title="Audible" className="fa fa-headphones"/>
           }
           return null;
         });
