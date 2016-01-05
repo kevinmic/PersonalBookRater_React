@@ -11,7 +11,7 @@ const sortOptions = [
   {label: "Title", name:"title", asc: true},
   {label: "Author", name:"author", asc: true},
   {label: "Series", name:"seriesBookNumber", asc: true},
-  {label: "DateReviewed", name:"reviewDate", asc: false},
+  {label: "Date Reviewed", name:"reviewDate", asc: false},
   {label: "Overall Rating", name:"overallRating", asc: false},
 ]
 
@@ -61,7 +61,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
                     });
       if (values) {
         var value = _.sum(values) / values.length
-        include = value <= maxValue;
+        include = value <= maxValue && value > (maxValue - 1);
       }
       else if (required) {
         include = false;
@@ -78,7 +78,8 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     var {sort, read, overallRating, profanityRating, sexRating, violenceRating, age, locationOfBook, genre, reviewer}  = filterOptions;
     books = filterBooks(search, books);
     if (overallRating) {
-      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= parseInt(overallRating));
+      var overallInt = parseInt(overallRating);
+      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= overallInt && parseInt(book.overallRating) < (overallInt + 1) );
     }
     if (profanityRating) {
       books = filterByScale('profanityRating', profanityRating, books, Scales.PROFANITY_SCALE);

@@ -73,7 +73,10 @@ var Pagination = React.createClass({
       }
 
       if (lastPage < pages) {
-        pagesUI.push(<span key="nextdot">...</span>);
+        if (lastPage < pages - 1) {
+          pagesUI.push(<span key="nextdot" style={buttonStyle}>...</span>);
+        }
+        pagesUI.push(generateButtonForPage(pages - 1, pageSize, this.props.changeIndex, currPage));;
       }
 
       pagesUI.push(<span key="sep2">&nbsp;&nbsp;&nbsp;</span>);

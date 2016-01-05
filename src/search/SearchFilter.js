@@ -4,13 +4,18 @@ import Scales from '../const/ScaleConst';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 
+const bigLabelStyle = {
+  fontSize: '26px',
+  color: '#344c2d',
+};
+
 const labelStyle = {
-  fontSize: '20px',
+  fontSize: '14px',
   color: '#344c2d',
 };
 
 const activeLabelStyle = {
-  fontSize: '20px',
+  fontSize: '14px',
   color: '#7da96f',
 };
 
@@ -93,7 +98,7 @@ var SearchTips = React.createClass({
           <div style={{paddingBottom:'10px'}}>
             <b>Example:
               <br/>
-              Legend; author:Sanderson; series:Mistborn;</b>
+              Well; author:Sanderson; series:Mistborn;</b>
           </div>
           <div style={{paddingBottom:'10px'}}>
             The default search searches title, author and series.
@@ -165,7 +170,10 @@ var SearchFilter = React.createClass({
     return (
       <div>
         <div>
-          <label style={search?activeLabelStyle:labelStyle}>Search</label>
+          <label style={bigLabelStyle}>Refine By</label>
+        </div>
+        <div>
+          <label style={search?activeLabelStyle:labelStyle}>Title | Author | Series</label>
           <input
             className="form-control"
             value={search}
@@ -178,7 +186,7 @@ var SearchFilter = React.createClass({
             title={"Default Search -- title + author + series \n" +
                    "Specific Fields -- author: title: series:\n" +
                    "Multiple Searches -- seperate with ;\n" +
-                   "Example -- Legend; author:Sanderson; series:Mistborn; "
+                   "Example -- Well; author:Sanderson; series:Mistborn; "
                  }
             />
           <SearchTips/>
@@ -198,7 +206,6 @@ var SearchFilter = React.createClass({
             }
           </select>
         </div>
-        <ExpandableFilter label="Other Ratings" showLabelWhenExpanded={false} data={filterOptions.violenceRating || filterOptions.sexRating || filterOptions.profanityRating}>
           <ExpandableFilter label="Profanity Rating" data={filterOptions.profanityRating}>
             <select className="form-control" value={filterOptions.profanityRating} onChange={(obj) => this.changeFilter('profanityRating', obj)}>
               <option value="">All</option>
@@ -223,7 +230,6 @@ var SearchFilter = React.createClass({
               }
             </select>
           </ExpandableFilter>
-        </ExpandableFilter>
         <ExpandableFilter label="Minimum Age" data={filterOptions.age}>
           <select className="form-control" value={filterOptions.age} onChange={(obj) => this.changeFilter('age', obj)}>
             <option value="">All</option>
@@ -258,7 +264,7 @@ var SearchFilter = React.createClass({
           </select>
         </ExpandableFilter>
         <div>
-          <input type="button" onClick={this.clearSearch} value="Clear Search"/>
+          <input type="button" onClick={this.clearSearch} value="Reset"/>
         </div>
       </div>
     )
