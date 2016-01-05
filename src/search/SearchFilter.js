@@ -192,12 +192,6 @@ var SearchFilter = React.createClass({
           <SearchTips/>
         </div>
         <div>
-          <label style={labelStyle}>Sort</label>
-          <select className="form-control" value={filterOptions.sort.sortType} onChange={(obj) => this.changeFilter('sort', obj)}>
-            {sortOptions}
-          </select>
-        </div>
-        <div>
           <label style={filterOptions.overallRating?activeLabelStyle:labelStyle}>Overall Rating</label>
           <select className="form-control" value={filterOptions.overallRating} onChange={(obj) => this.changeFilter('overallRating', obj)}>
             <option value="">All</option>

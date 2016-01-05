@@ -54,37 +54,35 @@ var Pagination = React.createClass({
 
     var left
     var pagesUI = [];
-    if (pages > 1) {
-      var startPage = getOrElseMin(currPage - 5, 0);
 
-      pagesUI.push(generateButton('prevAll', 'First', false, () => this.props.changeIndex(0)));
-      pagesUI.push(generateButton('prev5', 'Prev 5', false, () => this.props.changeIndex(getOrElseMin(currPage-5,0)* pageSize)));
-      pagesUI.push(generateButton('prev1', 'Prev', false, () => this.props.changeIndex(getOrElseMin(currPage-1,0)* pageSize)));
-      pagesUI.push(<span key="sep1">&nbsp;&nbsp;&nbsp;</span>);
+    var startPage = getOrElseMin(currPage - 5, 0);
 
-      if (startPage > 0) {
-        pagesUI.push(<span key="prevdot" style={buttonStyle}>...</span>);
-      }
+    pagesUI.push(generateButton('prevAll', 'First', false, () => this.props.changeIndex(0)));
+    pagesUI.push(generateButton('prev5', 'Prev 5', false, () => this.props.changeIndex(getOrElseMin(currPage-5,0)* pageSize)));
+    pagesUI.push(generateButton('prev1', 'Prev', false, () => this.props.changeIndex(getOrElseMin(currPage-1,0)* pageSize)));
+    pagesUI.push(<span key="sep1">&nbsp;&nbsp;&nbsp;</span>);
 
-      var lastPage = getOrElseMax(currPage + 6, pages);
-
-      for (var i = startPage; i < lastPage; i++) {
-        pagesUI.push(generateButtonForPage(i, pageSize, this.props.changeIndex, currPage));
-      }
-
-      if (lastPage < pages) {
-        if (lastPage < pages - 1) {
-          pagesUI.push(<span key="nextdot" style={buttonStyle}>...</span>);
-        }
-        pagesUI.push(generateButtonForPage(pages - 1, pageSize, this.props.changeIndex, currPage));;
-      }
-
-      pagesUI.push(<span key="sep2">&nbsp;&nbsp;&nbsp;</span>);
-      pagesUI.push(generateButton('next1', 'Next', false, () =>  this.props.changeIndex(getOrElseMax(currPage+1,pages-1)* pageSize)));
-      pagesUI.push(generateButton('next5', 'Next 5', false, () => this.props.changeIndex(getOrElseMax(currPage+5,pages-1)* pageSize)));
-      pagesUI.push(generateButton('nextAll', 'Last', false, () => this.props.changeIndex((pages-1) * pageSize)))
+    if (startPage > 0) {
+      pagesUI.push(<span key="prevdot" style={buttonStyle}>...</span>);
     }
-    // if ()
+
+    var lastPage = getOrElseMax(currPage + 6, pages);
+
+    for (var i = startPage; i < lastPage; i++) {
+      pagesUI.push(generateButtonForPage(i, pageSize, this.props.changeIndex, currPage));
+    }
+
+    if (lastPage < pages) {
+      if (lastPage < pages - 1) {
+        pagesUI.push(<span key="nextdot" style={buttonStyle}>...</span>);
+      }
+      pagesUI.push(generateButtonForPage(pages - 1, pageSize, this.props.changeIndex, currPage));;
+    }
+
+    pagesUI.push(<span key="sep2">&nbsp;&nbsp;&nbsp;</span>);
+    pagesUI.push(generateButton('next1', 'Next', false, () =>  this.props.changeIndex(getOrElseMax(currPage+1,pages-1)* pageSize)));
+    pagesUI.push(generateButton('next5', 'Next 5', false, () => this.props.changeIndex(getOrElseMax(currPage+5,pages-1)* pageSize)));
+    pagesUI.push(generateButton('nextAll', 'Last', false, () => this.props.changeIndex((pages-1) * pageSize)))
 
     return(
       <div>

@@ -12,7 +12,7 @@ const sortOptions = [
   {label: "Author", name:"author", asc: true},
   {label: "Series", name:"seriesBookNumber", asc: true},
   {label: "Date Reviewed", name:"reviewDate", asc: false},
-  {label: "Overall Rating", name:"overallRating", asc: false},
+  {label: "Overall Rating / Date Reviewed", name:"overallRating", asc: false},
 ]
 
 const PAGE_SIZE = 20;
@@ -164,7 +164,8 @@ var Search = React.createClass({
     }
   },
   clearSearch: function() {
-    var newState = _.merge({}, this.state, INITIAL_STATE);
+    var newState = _.merge({}, this.state);
+    newState.search = '';
     _.forEach(_.keys(newState.filterOptions), (key) => {
       if (key != 'sort') {
         newState.filterOptions[key] = '';
@@ -197,6 +198,8 @@ var Search = React.createClass({
       noBooks = <h3>No Books Found</h3>
     }
 
+    var sortOptionsUI = sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)
+
     return (
       <table width="100%">
         <tbody>
@@ -214,7 +217,12 @@ var Search = React.createClass({
           </td>
           <td style={{paddingLeft:'25px', verticalAlign: 'top'}}>
             <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>
-            <br/>
+            <div style={{paddingTop:'10px', marginBottom:'10px'}}>
+              Sort By: &nbsp;
+              <select value={this.state.filterOptions.sort.sortType} onChange={(obj) => this.changeFilter('sort', obj.target.value)}>
+                {sortOptionsUI}
+              </select>
+            </div>
             {noBooks}
             {books}
             <Pagin length={totalBooks} startIndex={this.state.startIndex} pageSize={PAGE_SIZE} changeIndex={this.changeIndex}/>
