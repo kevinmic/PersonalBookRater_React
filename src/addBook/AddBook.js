@@ -10,6 +10,7 @@ import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 import GoodReads from './GoodReadsBookLookup';
+import {GoToLastSearch} from '../util/GoToHelper';
 
 const BOOK_PICK_LIST = ['title', 'seriesTitle', 'seriesBookNumber', 'imageUrl', 'author', 'genre', 'locationOfBook', 'synopsis', 'goodreadsId'];
 
@@ -144,12 +145,12 @@ var AddBook = React.createClass({
               data.changedBy = changedBy;
 
               saveBook(bookRef, data, () => {
-                window.location.hash = "#/search";
+                GoToLastSearch();
               });
             }
             else {
               alertify.success("Nothing Changed");
-              window.location.hash = "#/search";
+              GoToLastSearch();
             }
           }
           else {
@@ -165,7 +166,7 @@ var AddBook = React.createClass({
             window.location.hash = "#/review/" + book.bookId + "/new";
           }
           else {
-            window.location.hash = "#/search";
+            GoToLastSearch();
           }
         });
       }

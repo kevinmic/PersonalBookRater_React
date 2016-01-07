@@ -4,6 +4,7 @@ import logoIMG from './images/Logo.png';
 var PropTypes = React.PropTypes;
 
 import firebaseInfo from '../config/firebase-info.js';
+import {GoToLastSearch} from './util/GoToHelper';
 
 var LoginInfo = React.createClass({
   propTypes: {
@@ -50,11 +51,11 @@ var NavBar = React.createClass({
       <div>
         <div className="hfColor" style={{height:'15px'}}/>
         <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
-          <a href="#/search">
+          <a onClick={GoToLastSearch}>
             <image src={logoIMG} />
           </a>
           <ul className="navlinks" id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
-            <li><a href="#/search">LIBRARY</a></li>
+            <li><a onClick={GoToLastSearch}>LIBRARY</a></li>
             {seperator}
             {addBook}
             {addBook?seperator:null}

@@ -1,6 +1,7 @@
 import React from 'react';
 import marked from 'marked';
 var PropTypes = React.PropTypes;
+import {SearchBySeries} from '../util/GoToHelper';
 
 marked.setOptions({breaks: true});
 
@@ -19,6 +20,7 @@ var InnerRow = React.createClass({
     markdown: React.PropTypes.bool,
     showExtra: React.PropTypes.bool,
     showTitle: React.PropTypes.bool,
+    onClick: React.PropTypes.func,
   },
   getDefaultProps: function() {
     return {
@@ -33,6 +35,9 @@ var InnerRow = React.createClass({
     var value = this.props.value;
     if (this.props.markdown) {
       value = <span dangerouslySetInnerHTML={{__html:marked(value)}}/>
+    }
+    else if (this.props.onClick) {
+      value = <a onClick={() => this.props.onClick(this.props.value)}>{this.props.value}</a>
     }
 
     return (
@@ -52,7 +57,7 @@ var BookData = React.createClass({
     var book = this.props.book;
 
     if (book.seriesTitle) {
-      var series = <InnerRow label="Series" value={book.seriesTitle}/>
+      var series = <InnerRow label="Series" value={book.seriesTitle} onClick={SearchBySeries}/>
     }
     if (book.seriesBookNumber) {
       var seriesBookNumber = <InnerRow label="Book Number" value={book.seriesBookNumber}/>

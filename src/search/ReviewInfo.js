@@ -1,6 +1,7 @@
 import React from 'react';
 var PropTypes = React.PropTypes;
 import ScaleBadge from '../util/ScaleBadge';
+import {SearchByReviewer} from '../util/GoToHelper';
 import Scales from '../const/ScaleConst';
 import sharedStyles from './Styles';
 import marked from 'marked';
@@ -67,7 +68,7 @@ var ReviewInfo = React.createClass({
           <div style={sharedStyles.box}>
             <table width="100%">
               <tbody>
-                <ReviewRow header="Reviewed By">{review.reviewedBy}</ReviewRow>
+                <ReviewRow header="Reviewed By"><a onClick={() => SearchByReviewer(review.reviewId)}>{review.reviewedBy}</a></ReviewRow>
                 <ReviewRow header="Review Date">{printDate(new Date(review.reviewDate))}</ReviewRow>
                 {review.ageAppropriate?<ReviewRow header="Minimum Age">{Scales.AGE_SCALE[review.ageAppropriate].description}</ReviewRow>:null}
                 <ReviewRow header="Recommendation">
@@ -120,7 +121,7 @@ var ReviewInfo = React.createClass({
               <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
             </span>
             &nbsp;
-            {review.reviewedBy}
+            <a onClick={() => SearchByReviewer(review.reviewId)}>{review.reviewedBy}</a>
             {review.reviewDescription?<span className="fa fa-file-text-o green" title="Has Text Review" style={{marginLeft:'10px'}}/>:""}
           </div>
         );

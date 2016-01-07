@@ -5,6 +5,7 @@ import libraryIMG from './images/Library.jpg';
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';
 import firebaseInfo from '../config/firebase-info.js';
+import {GoToLastSearch} from './util/GoToHelper';
 
 const loginStyle = {
   width:'300px',
@@ -54,7 +55,7 @@ var Login = React.createClass({
         if (successInfo) {
           alertify.success("You are now logged in!");
           if (this.props.redirect) {
-            window.location.hash = "#";
+            GoToLastSearch();
           }
         }
         else {

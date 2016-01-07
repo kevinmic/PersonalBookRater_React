@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import firebaseInfo from '../config/firebase-info.js';
@@ -27,7 +28,9 @@ var App = React.createClass({
       auth: {},
       location: '',
       hashdata: [],
-      prevSearch: {},
+      lastSearchId: '',
+      searchId: '',
+      searchHistory: {},
       loadingBooks: true,
       loadingReviews: true,
     };
@@ -118,6 +121,12 @@ var App = React.createClass({
   },
   componentWillUnMount: function() {
     this.fbRef.off();
+    PubSub.unsubscribe('prevsearch', this.gotoLastSearch);
+    PubSub.unsubscribe('newsearch', this.createNewSearch);
+  },
+  componentDidMount: function() {
+    PubSub.subscribe('prevsearch', this.gotoLastSearch);
+    PubSub.subscribe('newsearch', this.createNewSearch);
   },
   navigated: function() {
     var hash = window.location.hash;
@@ -130,6 +139,10 @@ var App = React.createClass({
       if (split.length > 2) {
         data = split.slice(2, split.length);
       }
+    }
+
+    if (location == 'search' && data) {
+      this.setState({searchId: data[0], lastSearchId: data[0]})
     }
     this.setState({location: location, hashdata: data})
   },
@@ -144,7 +157,32 @@ var App = React.createClass({
     }.bind(this))
   },
   setPrevSearch: function(search) {
-    this.setState({prevSearch: search});
+    var searchHistory = this.state.searchHistory;
+    searchHistory[this.state.searchId] = search;
+    this.setState({searchHistory: searchHistory});
+  },
+  gotoLastSearch: function() {
+    window.location.hash = '#/search/' + this.state.lastSearchId;
+  },
+  createNewSearch: function(eventtype, search) {
+    if (!search) {
+      console.log("No Search Received for NewSearch Event");
+      return;
+    }
+    var prevSearch = this.state.searchHistory[this.state.searchId];
+
+    if (!search.filterOptions) {
+      search.filterOptions = {};
+    }
+    if (!search.filterOptions.sort) {
+      search.filterOptions.sort = _.clone(prevSearch.filterOptions.sort);
+    }
+
+    var searchId = new Date().getTime();
+    var searchHistory = this.state.searchHistory;
+    searchHistory[searchId] = search;
+    this.setState({searchHistory: searchHistory});
+    window.location.hash = '#/search/' + searchId;
   },
   render() {
     var booksPlusReviews = _.mapValues(this.state.books, (book) => {
@@ -191,8 +229,13 @@ var App = React.createClass({
       break;
       case 'search':
       default:
+        if (!this.state.searchId) {
+          var searchId = new Date().getTime();
+          window.location.hash = '#/search/' + searchId;
+          return <div/>;
+        }
         showLocation = 'search';
-        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} storeSearch={this.setPrevSearch} prevSearch={this.state.prevSearch} loadingBooks={this.state.loadingBooks} loadingReviews={this.state.loadingReviews}/>
+        body = <SearchMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} storeSearch={this.setPrevSearch} prevSearch={this.state.searchHistory[this.state.searchId]} searchId={this.state.searchId} loadingBooks={this.state.loadingBooks} loadingReviews={this.state.loadingReviews}/>
       break;
     }
 

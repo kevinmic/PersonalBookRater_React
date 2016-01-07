@@ -5,6 +5,7 @@ import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
+import {GoToLastSearch} from '../util/GoToHelper';
 
 var ChangeUserPassword = React.createClass({
   mixins: [FormValidationMixins],
@@ -44,7 +45,7 @@ var ChangeUserPassword = React.createClass({
         }
         else {
           alertify.success("Password Changed");
-          window.location.hash = "/search";
+          GoToLastSearch();
         }
       });
 

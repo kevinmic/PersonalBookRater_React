@@ -20,7 +20,7 @@ const PAGE_SIZE = 20;
 const INITIAL_STATE = {
   search: "",
   filterOptions: {
-    'sort': {sortType: 'reviewDate', sortAsc: false},
+    sort: {sortType: 'reviewDate', sortAsc: false},
   },
   startIndex: 0,
 };
@@ -135,6 +135,7 @@ var Search = React.createClass({
     prevSearch: React.PropTypes.object,
     loadingBooks: React.PropTypes.bool.isRequired,
     loadingReviews: React.PropTypes.bool.isRequired,
+    searchId: React.PropTypes.string.isRequired,
   },
   getInitialState: function() {
     return _.cloneDeep(INITIAL_STATE);
@@ -142,6 +143,11 @@ var Search = React.createClass({
   componentWillMount: function() {
     if (!_.isEmpty(this.props.prevSearch)) {
       this.setState(this.props.prevSearch);
+    }
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.searchId != this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
+      this.setState(newProps.prevSearch);
     }
   },
   componentDidUpdate: function() {

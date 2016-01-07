@@ -4,6 +4,7 @@ import AddReviewForm from './AddReviewForm';
 import BookImage from '../book/BookImage';
 import BookData from '../book/BookData';
 import TableStyles from '../styles/TableStyles';
+import {GoToLastSearch} from '../util/GoToHelper';
 
 var AddReviewMain = React.createClass({
   propTypes: {
@@ -12,7 +13,7 @@ var AddReviewMain = React.createClass({
     bookId: React.PropTypes.string.isRequired,
   },
   callback: function() {
-    window.location.hash = "#/search";
+    GoToLastSearch();
   },
   render: function() {
     if (!this.props.auth.loggedIn) {

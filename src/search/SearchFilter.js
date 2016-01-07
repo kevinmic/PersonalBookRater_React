@@ -47,6 +47,11 @@ var ExpandableFilter = React.createClass({
       this.setState({expanded:true});
     }
   },
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.data) {
+      this.setState({expanded:true});
+    }
+  },
   toggleExpand: function() {
     this.setState({expanded: !this.state.expanded})
   },
@@ -60,7 +65,7 @@ var ExpandableFilter = React.createClass({
 
     var labelUI = (
       <div>
-        <a onClick={this.toggleExpand}><span className={caretStyle}/> <label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
+        <a onClick={this.toggleExpand} style={{textDecoration:'none'}}><span className={caretStyle}/>&nbsp;<label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
       </div>
     );
 
