@@ -8,6 +8,7 @@ var ScaleBadge = React.createClass({
     rateKey: React.PropTypes.string,
     rateTypeKey: React.PropTypes.string,
     expanded: React.PropTypes.bool,
+    nowrap: React.PropTypes.bool,
   },
   render: function() {
     const rateKey = this.props.rateKey;
@@ -27,7 +28,7 @@ var ScaleBadge = React.createClass({
         rate.description = "";
       }
       return (
-        <div>
+        <div style={this.props.style}>
           <ManualBadge
               labelType={rate.labelType}
               value={rate.key}/>

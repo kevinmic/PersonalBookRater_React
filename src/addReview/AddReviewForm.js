@@ -8,6 +8,33 @@ import RatingOptions from '../util/RatingOptions';
 import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 
+var RatingOptionsWFormField = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string.isRequired,
+    id: React.PropTypes.string.isRequired,
+    data : React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func,
+    isValid: React.PropTypes.func,
+    rateList: React.PropTypes.object.isRequired,
+  },
+
+  render: function() {
+    return (
+      <FormField
+        label={this.props.label} id={this.props.id}
+        data={this.props.data}
+        isValid={this.props.isValid}
+        >
+        <RatingOptions
+          rateList={this.props.rateList}
+          value={this.props.data[this.props.id]}
+          onChange={(value) => this.props.onChange(this.props.id, value)}
+          />
+      </FormField>
+    )
+  }
+});
+
 var AddReviewForm = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
@@ -93,7 +120,7 @@ var AddReviewForm = React.createClass({
     return (
         <div style={this.props.style} >
           <FormTable onSubmit={this.addReview}>
-            <RatingOptions
+            <RatingOptionsWFormField
               label="Overall Rating"id="recommendRating"
               rateList={Scales.RATING_SCALE}
               data={values}
@@ -101,7 +128,7 @@ var AddReviewForm = React.createClass({
               isValid={this.isValid}
               />
 
-            <RatingOptions
+            <RatingOptionsWFormField
               label="Profanity Rating" id="profanityRating"
               rateList={Scales.PROFANITY_SCALE}
               data={values}
@@ -109,7 +136,7 @@ var AddReviewForm = React.createClass({
               isValid={this.isValid}
               />
 
-            <RatingOptions
+            <RatingOptionsWFormField
                label="Sexual Rating" id="sexRating"
                rateList={Scales.SEXUAL_SCALE}
                data={values}
@@ -117,7 +144,7 @@ var AddReviewForm = React.createClass({
                isValid={this.isValid}
                />
 
-            <RatingOptions
+            <RatingOptionsWFormField
               label="Violence Rating" id="violenceRating"
               rateList={Scales.VIOLENCE_SCALE}
               data={values}
@@ -125,7 +152,7 @@ var AddReviewForm = React.createClass({
               isValid={this.isValid}
               />
 
-            <RatingOptions
+            <RatingOptionsWFormField
               label="Minimum Age" id="ageAppropriate"
               rateList={Scales.AGE_SCALE}
               data={values}

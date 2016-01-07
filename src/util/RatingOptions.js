@@ -18,12 +18,10 @@ const helpers = {
 var RatingOptions = React.createClass({
   propTypes: {
     rateList: React.PropTypes.object.isRequired,
-    label: React.PropTypes.string.isRequired,
-    id : React.PropTypes.string.isRequired,
-    data : React.PropTypes.object.isRequired,
+    value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     colorize: React.PropTypes.bool,
-    isValid: React.PropTypes.func,
+    style: React.PropTypes.object,
   },
   optionRenderer: function(value) {
     if (this.props.colorize) {
@@ -31,26 +29,33 @@ var RatingOptions = React.createClass({
     }
     else {
       var rate = this.props.rateList[value.value];
-      return <ScaleBadge rateList={this.props.rateList} rateKey={rate.key} expanded={true}/>;
+        return <ScaleBadge style={this.props.style} rateList={this.props.rateList} rateKey={rate.key} expanded={true}/>;
+    }
+  },
+  valueRenderer: function(value) {
+    if (this.props.colorize) {
+      return <div key={value.value} value={value.value}>{value.label}</div>;
+    }
+    else {
+      var rate = this.props.rateList[value.value];
+        return <ScaleBadge style={this.props.style} rateList={this.props.rateList} rateKey={rate.key} expanded={true}/>;
     }
   },
   render: function() {
-    var {rateList, onChange, ...other} = this.props;
-    var {label, id, data} = this.props;
+    var {rateList, onChange, value} = this.props;
 
     var mappedValues = Scales.scaleMapToList(rateList).map((rate) => {return {value:rate.key, label:rate.key + " - " + rate.description}});
     return (
-        <FormField {...other} label={label} id={id}>
-          <RSelect
-            options={mappedValues}
-            optionRenderer={this.optionRenderer}
-            valueRenderer={this.optionRenderer}
-            value={data[this.props.id]}
-            onChange={(value, value2) => { this.props.onChange(id, value?value.value:''); }}
-            />
-        </FormField>
+        <RSelect
+          options={mappedValues}
+          optionRenderer={this.optionRenderer}
+          valueRenderer={this.valueRenderer}
+          value={value}
+          onChange={(value) => { console.log("B", value); this.props.onChange(value?value.value:'')}}
+          />
     );
   }
 });
+
 
 module.exports = RatingOptions;
