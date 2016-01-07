@@ -198,7 +198,7 @@ var SearchFilter = React.createClass({
           <select className="form-control" value={filterOptions.overallRating} onChange={(obj) => this.changeFilter('overallRating', obj)}>
             <option value="">All</option>
             {
-              _.values(Scales.RATING_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+              _.values(Scales.RATING_SCALE).map((scale) => <option key={scale.key}>{scale.key} - {scale.description}</option>)
             }
           </select>
         </div>
@@ -206,7 +206,7 @@ var SearchFilter = React.createClass({
             <select className="form-control" value={filterOptions.profanityRating} onChange={(obj) => this.changeFilter('profanityRating', obj)}>
               <option value="">All</option>
               {
-                _.values(Scales.PROFANITY_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+                _.values(Scales.PROFANITY_SCALE).map((scale) => <option key={scale.key}>{scale.key} - {scale.description}</option>)
               }
             </select>
           </ExpandableFilter>
@@ -214,7 +214,7 @@ var SearchFilter = React.createClass({
             <select className="form-control" value={filterOptions.sexRating} onChange={(obj) => this.changeFilter('sexRating', obj)}>
               <option value="">All</option>
               {
-                _.values(Scales.SEXUAL_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+                _.values(Scales.SEXUAL_SCALE).map((scale) => <option key={scale.key}>{scale.key} - {scale.description}</option>)
               }
             </select>
           </ExpandableFilter>
@@ -222,7 +222,7 @@ var SearchFilter = React.createClass({
             <select className="form-control" value={filterOptions.violenceRating} onChange={(obj) => this.changeFilter('violenceRating', obj)}>
               <option value="">All</option>
               {
-                _.values(Scales.VIOLENCE_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+                _.values(Scales.VIOLENCE_SCALE).map((scale) => <option key={scale.key}>{scale.key} - {scale.description}</option>)
               }
             </select>
           </ExpandableFilter>
@@ -230,7 +230,7 @@ var SearchFilter = React.createClass({
           <select className="form-control" value={filterOptions.age} onChange={(obj) => this.changeFilter('age', obj)}>
             <option value="">All</option>
             {
-              _.values(Scales.AGE_SCALE).map((scale) => <option key={scale.key}>{scale.key}</option>)
+              _.values(Scales.AGE_SCALE).map((scale) => <option key={scale.key}>{scale.description}</option>)
             }
           </select>
         </ExpandableFilter>
