@@ -101,9 +101,7 @@ var BookReview = React.createClass({
       addReviewUI = (
           <div>
             <div>
-              <span className={getArrowClass(this.state.addReviewDirect)}>
-                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} >{book.reviews[this.props.auth.userid]?"Edit":"Add"} Review</a>:""}
-              </span>
+                {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} ><span className={getArrowClass(this.state.addReviewDirect)}/> {book.reviews[this.props.auth.userid]?"Edit":"Add"} Review</a>:""}
             </div>
             {this.state.addReviewDirect?<AddReviewForm style={_.merge({width:'500px', backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
           </div>
@@ -131,9 +129,7 @@ var BookReview = React.createClass({
               {combinedRatingUI}
             </div>
             {reviewsUI}
-            <span className={getArrowClass(this.state.expanded)}>
-              <a onClick={this.toggleExpanded} >Book Info</a>
-            </span>
+            <a onClick={this.toggleExpanded} ><span className={getArrowClass(this.state.expanded)}/> Book Info</a>
             {expandedBookUI}
             {addReviewUI}
             {editBookUI}

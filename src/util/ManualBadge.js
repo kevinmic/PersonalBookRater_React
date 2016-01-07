@@ -9,12 +9,19 @@ var ManualBadge = React.createClass({
     value: React.PropTypes.string
   },
   render: function() {
+    var tooltip = '';
+    if (this.props.label && this.props.description) {
+      tooltip = this.props.label + " Rating: " + this.props.value + " - " + this.props.description;
+    }
+    else if (this.props.description) {
+        tooltip = this.props.description;
+    }
     return (
       <span
         className={"label label-as-badge " + this.props.labelType}
         data-toggle="tooltip"
         data-placement="bottom"
-        title={this.props.label + " Rating: " + this.props.description}
+        title={tooltip}
         style={{marginRight:1}}
         >
           {this.props.label?this.props.label+ " : ":""}{this.props.value}

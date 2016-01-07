@@ -60,8 +60,7 @@ var ExpandableFilter = React.createClass({
 
     var labelUI = (
       <div>
-        <span className={caretStyle}/>
-        <a onClick={this.toggleExpand}><label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
+        <a onClick={this.toggleExpand}><span className={caretStyle}/> <label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
       </div>
     );
 
@@ -170,7 +169,7 @@ var SearchFilter = React.createClass({
     return (
       <div>
         <div>
-          <label style={bigLabelStyle}>Refine By</label>
+          <label style={bigLabelStyle}>Search</label>
         </div>
         <div>
           <label style={search?activeLabelStyle:labelStyle}>Title | Author | Series</label>
@@ -190,6 +189,9 @@ var SearchFilter = React.createClass({
                  }
             />
           <SearchTips/>
+        </div>
+        <div>
+          <label style={bigLabelStyle}>Refine By</label>
         </div>
         <div>
           <label style={filterOptions.overallRating?activeLabelStyle:labelStyle}>Overall Rating</label>

@@ -20,7 +20,7 @@ const PAGE_SIZE = 20;
 const INITIAL_STATE = {
   search: "",
   filterOptions: {
-    'sort': {sortType: 'overallRating', sortAsc: false},
+    'sort': {sortType: 'reviewDate', sortAsc: false},
   },
   startIndex: 0,
 };
@@ -61,7 +61,7 @@ var filterByScale = function(reviewKey, checkVal, books, scale, required) {
                     });
       if (values) {
         var value = _.sum(values) / values.length
-        include = value <= maxValue && value > (maxValue - 1);
+        include = value <= maxValue;
       }
       else if (required) {
         include = false;
@@ -79,7 +79,7 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     books = filterBooks(search, books);
     if (overallRating) {
       var overallInt = parseInt(overallRating);
-      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= overallInt && parseInt(book.overallRating) < (overallInt + 1) );
+      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= overallInt);
     }
     if (profanityRating) {
       books = filterByScale('profanityRating', profanityRating, books, Scales.PROFANITY_SCALE);

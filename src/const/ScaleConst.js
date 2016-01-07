@@ -45,9 +45,10 @@ const SEXUAL_SCALE = {
 
 const VIOLENCE_SCALE = {
   "NV": {key:"NV", order:1, labelType:"label-success", description:"No or Little Violence"},
-  "LV": {key:"LV", order:2, labelType:"label-success", description:"Some violent incidents not well described"},
-  "FV": {key:"FV", order:3, labelType:"label-warning", description:"Frequent violent incidents"},
-  "VB": {key:"VB", order:4, labelType:"label-danger", description:"Violent, bloody, or shocking, well described mayhem"},
+  "LV": {key:"LV", order:2, labelType:"label-success", description:"Violent incidents of low intensity"},
+  "MV": {key:"MV", order:4, labelType:"label-warning", description:"Violent incidents of medium intensity"},
+  "HV": {key:"HV", order:4, labelType:"label-warning", description:"Violent incidents of high intensity"},
+  "VB": {key:"VB", order:5, labelType:"label-danger", description:"Violent, bloody, or shocking, well described mayhem"},
 };
 
 const AGE_SCALE = {

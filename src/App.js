@@ -12,6 +12,12 @@ import AddReviewMain from './addReview/AddReviewMain';
 
 alertify.logPosition("bottom right");
 
+var fixReview = function(review) {
+  if (review.violenceRating== 'FV') {
+    review.violenceRating = 'MV';
+  }
+};
+
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -91,8 +97,9 @@ var App = React.createClass({
 
     var fbReviews = this.fbRef.child("bookReviews");
     fbReviews.once("value", (dataSnapshot) => {
+        var reviewsByBook = dataSnapshot.val();
         this.setState({
-          reviews: dataSnapshot.val(),
+          reviews: reviewsByBook,
           loadingReviews: false,
         });
         fbReviews.on("child_added", this.loadReviewsFromFirebase);
@@ -143,7 +150,8 @@ var App = React.createClass({
     var booksPlusReviews = _.mapValues(this.state.books, (book) => {
       var reviews = {};
       if (this.state.reviews && this.state.reviews[book.bookId]) {
-        reviews = this.state.reviews[book.bookId].reviews;
+        reviews = _.cloneDeep(this.state.reviews[book.bookId].reviews);
+        _.forIn(reviews, fixReview);
       }
       book = _.merge({}, book, {reviews: reviews});
       return book;

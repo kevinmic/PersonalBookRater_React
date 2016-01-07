@@ -63,9 +63,7 @@ var ReviewInfo = React.createClass({
     if (this.state.expanded) {
       return (
         <div key={review.reviewId}>
-          <span className="fa fa-caret-down">
-            <a onClick={this.toggleShow} >Hide</a>
-          </span>
+          <a onClick={this.toggleShow} ><span className="fa fa-caret-down"/> Hide</a>
           <div style={sharedStyles.box}>
             <table width="100%">
               <tbody>
@@ -104,9 +102,7 @@ var ReviewInfo = React.createClass({
     else {
       return(
           <div key={review.reviewId}>
-            <span className="fa fa-caret-right">
-              <a onClick={this.toggleShow} >Show</a>
-            </span>
+            <a onClick={this.toggleShow} ><span className="fa fa-caret-right"/> Show</a>
             &nbsp;
             <span className="miniBadge">
               <ScaleBadge rateTypeKey="" rateType="Recommendation" rateList={Scales.RATING_SCALE} rateKey={review.recommendRating}/>
