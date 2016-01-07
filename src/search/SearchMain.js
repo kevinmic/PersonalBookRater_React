@@ -18,9 +18,18 @@ const sortOptions = [
 const PAGE_SIZE = 20;
 
 const INITIAL_STATE = {
-  search: "",
+  search: '',
   filterOptions: {
     sort: {sortType: 'reviewDate', sortAsc: false},
+    overallRating: '',
+    profanityRating: '',
+    violenceRating: '',
+    sexRating: '',
+    age: '',
+    read: '',
+    reviewer: '',
+    genre: '',
+    locationOfBook: '',
   },
   startIndex: 0,
 };
@@ -142,12 +151,12 @@ var Search = React.createClass({
   },
   componentWillMount: function() {
     if (!_.isEmpty(this.props.prevSearch)) {
-      this.setState(this.props.prevSearch);
+      this.setState(_.merge({}, INITIAL_STATE, this.props.prevSearch));
     }
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.searchId != this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
-      this.setState(newProps.prevSearch);
+      this.setState(_.merge({}, INITIAL_STATE, newProps.prevSearch));
     }
   },
   componentDidUpdate: function() {
