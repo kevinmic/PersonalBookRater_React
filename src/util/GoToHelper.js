@@ -14,4 +14,9 @@ var SearchByReviewer = function(reviewer) {
   PubSub.publish('newsearch', search);
 }
 
-module.exports = {GoToLastSearch, SearchBySeries, SearchByReviewer};
+var SearchByAuthor = function(author) {
+  var search = {search: "author:" + author};
+  PubSub.publish('newsearch', search);
+}
+
+module.exports = {GoToLastSearch, SearchBySeries, SearchByReviewer, SearchByAuthor};

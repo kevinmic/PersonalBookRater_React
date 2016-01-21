@@ -1,7 +1,7 @@
 import React from 'react';
 import marked from 'marked';
 var PropTypes = React.PropTypes;
-import {SearchBySeries} from '../util/GoToHelper';
+import {SearchBySeries, SearchByAuthor} from '../util/GoToHelper';
 
 marked.setOptions({breaks: true});
 
@@ -76,7 +76,7 @@ var BookData = React.createClass({
       <table>
         <tbody>
           {title}
-          <InnerRow label="Author" value={book.author}/>
+          <InnerRow label="Author" value={book.author} onClick={SearchByAuthor}/>
           {series}
           {seriesBookNumber}
           {this.props.showExtra?loadExtra(book):null}
