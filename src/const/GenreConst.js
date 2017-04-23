@@ -4,6 +4,7 @@ var GENRE_LIST = [
   {value:'Fantasy'},
   {value:'Fiction'},
   {value:'Historical Fiction'},
+  {value:'LitRPG'},
   {value:'Mystery'},
   {value:'Paranormal'},
   {value:'Romance'},
