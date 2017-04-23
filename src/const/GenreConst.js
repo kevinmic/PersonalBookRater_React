@@ -1,5 +1,6 @@
 var GENRE_LIST = [
   {value:'Apocalypse'},
+  {value:'Based on a True Story'},
   {value:'Fairy Tale'},
   {value:'Fantasy'},
   {value:'Fiction'},
