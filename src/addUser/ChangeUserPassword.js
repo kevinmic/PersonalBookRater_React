@@ -3,7 +3,6 @@ var PropTypes = React.PropTypes;
 
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
-import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 import {GoToLastSearch} from '../util/GoToHelper';
 
@@ -37,18 +36,16 @@ var ChangeUserPassword = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl);
-
-      firebaseRef.changePassword(this.state.values, (error) => {
-        if (error) {
-          alertify.error("Error Changing Password:" + error);
-        }
-        else {
-          alertify.success("Password Changed");
-          GoToLastSearch();
-        }
-      });
-
+      firebase.auth().signInWithEmailAndPassword(this.state.values.email, this.state.values.oldPassword)
+        .then(user => {
+          firebase.auth().currentUser.updatePassword(this.state.values.newPassword)
+          .then(() => {
+            alertify.success("Password Changed");
+            GoToLastSearch()
+          })
+          .catch(error => alertify.error("Error Changing Password:" + error));
+        })
+        .catch(error => alertify.error("Error Changing Password:" + error));
     }
     else {
       this.setState({showError:true});

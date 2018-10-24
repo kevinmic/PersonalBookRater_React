@@ -4,7 +4,6 @@ import libraryIMG from './images/Library.jpg';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';
-import firebaseInfo from '../config/firebase-info.js';
 import {GoToLastSearch} from './util/GoToHelper';
 
 const loginStyle = {
@@ -51,16 +50,15 @@ var Login = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      new Firebase(firebaseInfo.firebaseurl).authWithPassword(this.state.values, (error, successInfo) => {
-        if (successInfo) {
-          alertify.success("You are now logged in!");
-          if (this.props.redirect) {
-            GoToLastSearch();
-          }
+      firebase.auth().signInWithEmailAndPassword(this.state.values.email, this.state.values.password)
+      .then(successInf => {
+        alertify.success("You are now logged in!");
+        if (this.props.redirect) {
+          GoToLastSearch();
         }
-        else {
+      })
+      .catch(error => {
           alertify.error("Login Failed!");
-        }
       });
     }
     else {

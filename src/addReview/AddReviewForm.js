@@ -5,7 +5,6 @@ import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
-import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 
 var RatingOptionsWFormField = React.createClass({
@@ -65,14 +64,14 @@ var AddReviewForm = React.createClass({
     if (isValid) {
       var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription', 'ageAppropriate');
 
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/bookReviews");
+      var firebaseRef = firebase.database().ref('/bookReviews');
 
       if (this.props.auth.name) {
         review.reviewedBy = this.props.auth.name;
       }
       else {
         review.reviewedBy = this.props.auth.username;
-      }
+   ``   }
       review.reviewDate = new Date().getTime();
 
       review.reviewId = this.props.auth.userid;

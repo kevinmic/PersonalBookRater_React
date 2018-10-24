@@ -1,11 +1,9 @@
 var x2js = new X2JS();
-import firebaseInfo from '../../config/firebase-info.js';
-var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/secureData/goodreads_url");
 var WEBTASK_URL;
 
 var loadUrl = function() {
   if (!WEBTASK_URL) {
-    firebaseRef.on("value", (ref) => {
+    firebase.database().ref('/secureData/goodreads_url').on('value', ref => {
       WEBTASK_URL = ref.val();
     });
   }

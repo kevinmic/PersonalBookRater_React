@@ -3,7 +3,6 @@ import bookHeaderIMG from './images/BookHeader.jpg';
 import logoIMG from './images/Logo.png';
 var PropTypes = React.PropTypes;
 
-import firebaseInfo from '../config/firebase-info.js';
 import {GoToLastSearch} from './util/GoToHelper';
 
 var LoginInfo = React.createClass({
@@ -11,7 +10,7 @@ var LoginInfo = React.createClass({
     auth : React.PropTypes.object
   },
   unAuth: function() {
-    new Firebase(firebaseInfo.firebaseurl).unauth();
+    firebase.auth().signOut();
     alertify.success("You are now logged out!");
   },
   render: function() {

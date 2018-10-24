@@ -6,7 +6,6 @@ import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldIn
 import FormValidationMixins from '../util/FormValidationMixins';
 import BookImage from '../book/BookImage';
 import TableStyles from '../styles/TableStyles';
-import firebaseInfo from '../../config/firebase-info.js';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 import GoodReads from './GoodReadsBookLookup';
@@ -133,10 +132,10 @@ var AddBook = React.createClass({
       book.changedBy = [{userid: this.props.auth.userid, date: new Date().getTime()}];
       book.reviews = {};
 
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/books");
+      var firebaseRef = firebase.database().ref('/books');
       if (this.props.bookId) {
         var bookRef = firebaseRef.child(this.props.bookId);
-        bookRef.once("value", (bookSnapShot) => {
+        bookRef.once("value").then((bookSnapShot) => {
           var data = bookSnapShot.val();
           if (!_.isEmpty(data)) {
             if (bookChanged(data, book)) {
@@ -160,7 +159,7 @@ var AddBook = React.createClass({
       }
       else {
         var bookRef = firebaseRef.push();
-        book.bookId = bookRef.key();
+        book.bookId = bookRef.key;
         saveBook(bookRef, book, () => {
           if (_.get(this.props.auth, 'roles.reviews')) {
             window.location.hash = "#/review/" + book.bookId + "/new";

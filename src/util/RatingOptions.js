@@ -51,7 +51,7 @@ var RatingOptions = React.createClass({
           optionRenderer={this.optionRenderer}
           valueRenderer={this.valueRenderer}
           value={value}
-          onChange={(value) => { console.log("B", value); this.props.onChange(value?value.value:'')}}
+          onChange={(value) => this.props.onChange(value?value.value:'')}
           />
     );
   }

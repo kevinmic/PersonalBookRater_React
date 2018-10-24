@@ -32,7 +32,7 @@
   "dependencies": {
     "alertify.js": "^0.3.11",
     "bootstrap": "^3.3.6",
-    "firebase": "^2.3.2",
+    "firebase": "^5.5.1",
     "marked": "^0.3.5",
     "pubsub-js": "^1.5.3",
     "react": "^0.14.0",

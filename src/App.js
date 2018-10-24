@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import firebaseInfo from '../config/firebase-info.js';
+import firebaseInit from './FireBaseInit';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
 import AddUser from './addUser/AddUser';
@@ -36,10 +36,10 @@ var App = React.createClass({
     };
   },
   loadReviewsFromFirebase: function(dataSnapshot) {
-      var bookId = dataSnapshot.key();
+      var bookId = dataSnapshot.key;
       var newReviews = dataSnapshot.val();
       if (!this.state.reviews || !this.state.reviews[bookId] || !_.isEqual(this.state.reviews[bookId], newReviews)) {
-        // console.log("add book")
+        console.log("add review", bookId, newReviews);
         var reviews = {...this.state.reviews};
 
         reviews[bookId] = newReviews;
@@ -48,14 +48,15 @@ var App = React.createClass({
         });
       }
       else {
-        // console.log("ignore book")
+        console.log("ignore review")
       }
   },
   loadBookFromFirebase: function(dataSnapshot) {
-      var bookId = dataSnapshot.key();
+    
+      var bookId = dataSnapshot.key;
       var newBook = dataSnapshot.val();
       if (!this.state.books[bookId] || !_.isEqual(this.state.books[bookId], newBook)) {
-        // console.log("add book")
+        console.log("add book")
         var books = {...this.state.books};
 
         books[bookId] = newBook;
@@ -64,27 +65,33 @@ var App = React.createClass({
         });
       }
       else {
-        // console.log("ignore book")
+        console.log("ignore book")
       }
   },
   componentWillMount: function() {
-    this.fbRef = new Firebase(firebaseInfo.firebaseurl + "/");
-    var fbBooks = this.fbRef.child("books");
-    fbBooks.once("value", (dataSnapshot) => {
+    this.fbRef = firebase.database();
+    var fbBooks = this.fbRef.ref("/books");
+    fbBooks.once('value').then((dataSnapshot) => {
+        const books = dataSnapshot.val();
         this.setState({
-          books: dataSnapshot.val(),
-          loadingBooks: false,
+           books,
+           loadingBooks: false,
         });
+        var keys = Object.keys(books||{});
+        console.log("One Time load of books complete", keys.length)
         fbBooks.on("child_added", this.loadBookFromFirebase);
     });
+    
     fbBooks.on("child_changed", this.loadBookFromFirebase);
-    fbBooks.onAuth((val, val2) => {
-      if (val) {
-        var email = val.password.email;
-        var userid = val.uid;
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log("USER LOGIN", user);
+        var email = user.email;
+        var userid = user.uid;
         this.setState({auth: {loggedIn: true, username: email, userid: userid}});
 
-        this.fbRef.child("users").child(userid).once("value", (data) => {
+        this.fbRef.ref(`/users/${userid}`).once('value').then(data => {
+          console.log("RELOAD USER", data);
           var user = data.val();
           var roles = {reviews: false, books: false, users: false};
           if (user.roles) {
@@ -98,22 +105,27 @@ var App = React.createClass({
       }
     });
 
-    var fbReviews = this.fbRef.child("bookReviews");
-    fbReviews.once("value", (dataSnapshot) => {
+    var fbReviews = this.fbRef.ref("/bookReviews");
+    fbReviews.once('value').then(dataSnapshot => {
         var reviewsByBook = dataSnapshot.val();
         this.setState({
           reviews: reviewsByBook,
           loadingReviews: false,
         });
+        var keys = Object.keys(reviewsByBook||{});
+        console.log("One Time load of reviews complete", keys.length)
         fbReviews.on("child_added", this.loadReviewsFromFirebase);
     });
     fbReviews.on("child_changed", this.loadReviewsFromFirebase);
+    
 
-    var fbUsers = this.fbRef.child("users");
-    fbUsers.once("value", (dataSnapshot) => {
-        this.setState({
-          users: dataSnapshot.val()
-        });
+    var fbUsers = this.fbRef.ref("/users");
+    fbUsers.once("value").then(dataSnapshot => {
+      const users = dataSnapshot.val()
+      this.setState({
+        users
+      });
+        console.log("One Time load of users complete", Object.keys(users).length)
     });
 
     window.addEventListener('hashchange', this.navigated, false);
@@ -147,7 +159,6 @@ var App = React.createClass({
     this.setState({location: location, hashdata: data})
   },
   renderChildren: function () {
-
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
         books: booksPlusReviews,
@@ -246,8 +257,8 @@ var App = React.createClass({
       <div style={{minWidth: '1000px'}}>
         <NavBar auth={this.state.auth} setAuthData={this.setAuthData} showBooksBar={!loginActive} showLocation={showLocation}/>
         <div style={wrapChildrenStyle}>
-          {body}
-        </div>
+-          {body}
+-        </div>
         <Footer/>
       </div>
     );

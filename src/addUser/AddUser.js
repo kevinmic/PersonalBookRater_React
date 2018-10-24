@@ -3,7 +3,6 @@ var PropTypes = React.PropTypes;
 
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
-import firebaseInfo from '../../config/firebase-info.js';
 import TableStyles from '../styles/TableStyles';
 
 const INITIAL_VALUES = {
@@ -47,7 +46,7 @@ var AddUser = React.createClass({
 
     if (isValid) {
       var {email, password, name, role_reviews, role_books, role_editbooks, role_users} = this.state.values;
-      var firebaseRef = new Firebase(firebaseInfo.firebaseurl + "/users");
+      var firebaseRef = firebase.database().ref('/users');
       firebaseRef.createUser({email: email, password: password}, (error, successInfo) => {
         if (error) {
           switch (error.code) {
