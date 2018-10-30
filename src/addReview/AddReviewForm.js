@@ -62,7 +62,7 @@ var AddReviewForm = React.createClass({
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var review = _.pick(this.state.values,'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription', 'ageAppropriate');
+      var review = _.pick(this.state.values, 'reviewDate', 'recommendRating', 'profanityRating', 'sexRating', 'violenceRating', 'reviewDescription', 'ageAppropriate');
 
       var firebaseRef = firebase.database().ref('/bookReviews');
 
@@ -71,8 +71,11 @@ var AddReviewForm = React.createClass({
       }
       else {
         review.reviewedBy = this.props.auth.username;
-   ``   }
-      review.reviewDate = new Date().getTime();
+      }
+
+      if (!review.reviewDate) {
+        review.reviewDate = new Date().getTime();
+      }
 
       review.reviewId = this.props.auth.userid;
       firebaseRef.child(this.props.book.bookId).child("reviews").child(this.props.auth.userid).set(review, (error) => {
