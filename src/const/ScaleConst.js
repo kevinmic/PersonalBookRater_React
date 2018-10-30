@@ -15,11 +15,11 @@ const scaleMapToList = function(scale) {
 }
 
 const RATING_SCALE = {
-  "10": {key:"10", order:1, labelType:"label-success", description:"Excellent Book"},
-  "9": {key:"9", order:2, labelType:"label-success",  description:"Excellent Book, Conditional recommendation: has objectional elements"},
-  "8": {key:"8", order:3, labelType:"label-success",  description:"Good Book"},
-  "7": {key:"7", order:4, labelType:"label-success",  description:"Good Book, Conditional recommendation: has objectional content."},
-  "6": {key:"6", order:5, labelType:"label-warning",  description:"I liked it but I was uncomfortable with some objectional elements (sex, language, graphic violence)"},
+  "10": {key:"10", order:1, labelType:"label-success", description:"Excellent, one of my favorite books; you should definitely read it!"},
+  "9": {key:"9", order:2, labelType:"label-success",  description:"Enjoyable, entertaining book that makes me hope for more like it."},
+  "8": {key:"8", order:3, labelType:"label-success",  description:"Good solid book"},
+  "7": {key:"7", order:4, labelType:"label-success",  description:"The story was entertaining but it is not as well written as it should have been."},
+  "6": {key:"6", order:5, labelType:"label-warning",  description:"The book should have been better. Shallow character development and poor writing held it back."},
   "5": {key:"5", order:6, labelType:"label-warning",  description:"I struggled to get caught up in the book but finally enjoyed it"},
   "4": {key:"4", order:7, labelType:"label-warning",  description:"It was OK, I might read another book in this series"},
   "3": {key:"3", order:8, labelType:"label-warning",  description:"I enjoyed it but not enough to to seek out other books by this author"},
