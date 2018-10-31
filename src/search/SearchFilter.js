@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import Scales from '../const/ScaleConst';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
@@ -32,9 +32,9 @@ var getLocationFilters = function() {
 
 var ExpandableFilter = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
-    showLabelWhenExpanded: React.PropTypes.bool,
-    // data: React.PropTypes.bool, -- This should be a bool, but javascript passes objects when I do true/false statements
+    label : PropTypes.string.isRequired,
+    showLabelWhenExpanded: PropTypes.bool,
+    // data: PropTypes.bool, -- This should be a bool, but javascript passes objects when I do true/false statements
   },
   getDefaultProps: function() {
     return {showLabelWhenExpanded: true};

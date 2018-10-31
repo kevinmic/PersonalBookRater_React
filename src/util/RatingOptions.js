@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Scales from '../const/ScaleConst';
-import {FormField} from './FormFieldTable';
 import RSelect from 'react-select';
 import '../react-select.css';
 import ScaleBadge from './ScaleBadge';
-var PropTypes = React.PropTypes;
 
 const helpers = {
   ratingToOption: function(ratingList) {
@@ -17,11 +16,11 @@ const helpers = {
 
 var RatingOptions = React.createClass({
   propTypes: {
-    rateList: React.PropTypes.object.isRequired,
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func,
-    colorize: React.PropTypes.bool,
-    style: React.PropTypes.object,
+    rateList: PropTypes.object.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func,
+    colorize: PropTypes.bool,
+    style: PropTypes.object,
   },
   optionRenderer: function(value) {
     if (this.props.colorize) {

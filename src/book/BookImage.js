@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 const combinedStyle = {
     verticalAlign: 'top',

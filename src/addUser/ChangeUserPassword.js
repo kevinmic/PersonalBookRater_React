@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
@@ -9,7 +9,7 @@ import {GoToLastSearch} from '../util/GoToHelper';
 var ChangeUserPassword = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
-    auth : React.PropTypes.object,
+    auth : PropTypes.object,
   },
   getInitialState: function() {
     return {

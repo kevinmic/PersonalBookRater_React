@@ -1,5 +1,4 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
 
 const footerStyle = {
   textAlign: 'right',

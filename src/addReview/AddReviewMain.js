@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import AddReviewForm from './AddReviewForm';
 import BookImage from '../book/BookImage';
 import BookData from '../book/BookData';
@@ -8,9 +8,9 @@ import {GoToLastSearch} from '../util/GoToHelper';
 
 var AddReviewMain = React.createClass({
   propTypes: {
-    books: React.PropTypes.object,
-    auth: React.PropTypes.object,
-    bookId: React.PropTypes.string.isRequired,
+    books: PropTypes.object,
+    auth: PropTypes.object,
+    bookId: PropTypes.string.isRequired,
   },
   callback: function() {
     GoToLastSearch();

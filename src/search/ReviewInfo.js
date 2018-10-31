@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import ScaleBadge from '../util/ScaleBadge';
 import {SearchByReviewer} from '../util/GoToHelper';
 import Scales from '../const/ScaleConst';

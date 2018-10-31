@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import BookReview2 from './BookReview';
 import SearchFilter from './SearchFilter';
 import sortIt from './sort.js';
@@ -138,13 +138,13 @@ var filterBooksForPagination = function(books, startIndex, pageSize) {
 
 var Search = React.createClass({
   propTypes: {
-    books: React.PropTypes.object.isRequired,
-    users: React.PropTypes.object.isRequired,
-    storeSearch: React.PropTypes.func.isRequired,
-    prevSearch: React.PropTypes.object,
-    loadingBooks: React.PropTypes.bool.isRequired,
-    loadingReviews: React.PropTypes.bool.isRequired,
-    searchId: React.PropTypes.string.isRequired,
+    books: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired,
+    storeSearch: PropTypes.func.isRequired,
+    prevSearch: PropTypes.object,
+    loadingBooks: PropTypes.bool.isRequired,
+    loadingReviews: PropTypes.bool.isRequired,
+    searchId: PropTypes.string.isRequired,
   },
   getInitialState: function() {
     return getInitialState();

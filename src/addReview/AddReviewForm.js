@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
@@ -9,12 +9,12 @@ import TableStyles from '../styles/TableStyles';
 
 var RatingOptionsWFormField = React.createClass({
   propTypes: {
-    label: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
-    data : React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func,
-    isValid: React.PropTypes.func,
-    rateList: React.PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    data : PropTypes.object.isRequired,
+    onChange: PropTypes.func,
+    isValid: PropTypes.func,
+    rateList: PropTypes.object.isRequired,
   },
 
   render: function() {
@@ -46,10 +46,10 @@ const getDefaultReview = () => ({
 var AddReviewForm = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
-    auth: React.PropTypes.object,
-    book: React.PropTypes.object,
-    callback: React.PropTypes.func,
-    style: React.PropTypes.object,
+    auth: PropTypes.object,
+    book: PropTypes.object,
+    callback: PropTypes.func,
+    style: PropTypes.object,
   },
   getInitialState: function() {
     var {reviews} = this.props.book;

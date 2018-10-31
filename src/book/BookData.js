@@ -1,6 +1,6 @@
 import React from 'react';
 import marked from 'marked';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import {SearchBySeries, SearchByAuthor} from '../util/GoToHelper';
 
 marked.setOptions({breaks: true});
@@ -15,12 +15,12 @@ var loadExtra = function(book) {
 
 var InnerRow = React.createClass({
   propTypes: {
-    label: React.PropTypes.string,
-    value: React.PropTypes.string,
-    markdown: React.PropTypes.bool,
-    showExtra: React.PropTypes.bool,
-    showTitle: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
+    label: PropTypes.string,
+    value: PropTypes.string,
+    markdown: PropTypes.bool,
+    showExtra: PropTypes.bool,
+    showTitle: PropTypes.bool,
+    onClick: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
@@ -51,7 +51,7 @@ var InnerRow = React.createClass({
 
 var BookData = React.createClass({
   propTypes: {
-    book: React.PropTypes.object.isRequired
+    book: PropTypes.object.isRequired
   },
   render: function() {
     var book = this.props.book;

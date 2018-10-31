@@ -1,13 +1,13 @@
 import React from 'react';
 import bookHeaderIMG from './images/BookHeader.jpg';
 import logoIMG from './images/Logo.png';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 import {GoToLastSearch} from './util/GoToHelper';
 
 var LoginInfo = React.createClass({
   propTypes: {
-    auth : React.PropTypes.object
+    auth : PropTypes.object
   },
   unAuth: function() {
     firebase.auth().signOut();
@@ -31,8 +31,8 @@ var LoginInfo = React.createClass({
 
 var NavBar = React.createClass({
   propTypes: {
-    auth : React.PropTypes.object,
-    showBooksBar: React.PropTypes.bool,
+    auth : PropTypes.object,
+    showBooksBar: PropTypes.bool,
   },
   render: function() {
     var addUser;

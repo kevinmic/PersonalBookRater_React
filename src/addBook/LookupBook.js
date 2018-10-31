@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import GoodReads from './GoodReadsBookLookup';
 import AddBook from './AddBook';
@@ -11,8 +12,8 @@ import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldIn
 var LookupBook = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
-    books: React.PropTypes.object,
-    auth: React.PropTypes.object,
+    books: PropTypes.object,
+    auth: PropTypes.object,
   },
   getInitialState: function() {
     return {

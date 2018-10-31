@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 const activeStyle = {
   backgroundColor: '#D0D0D0',
@@ -36,10 +36,10 @@ var generateButton = function(key, label, isActive, onClick) {
 
 var Pagination = React.createClass({
   propTypes: {
-    length : React.PropTypes.number.isRequired,
-    startIndex: React.PropTypes.number.isRequired,
-    pageSize: React.PropTypes.number.isRequired,
-    changeIndex: React.PropTypes.func.isRequired,
+    length : PropTypes.number.isRequired,
+    startIndex: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    changeIndex: PropTypes.func.isRequired,
   },
   render: function() {
     var {startIndex, length, pageSize} = this.props;

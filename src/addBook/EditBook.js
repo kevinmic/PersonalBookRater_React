@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AddBook from './AddBook';
 
 var EditBook = React.createClass({
   propTypes: {
-    books : React.PropTypes.object,
-    auth: React.PropTypes.object,
-    bookId : React.PropTypes.string,
+    books : PropTypes.object,
+    auth: PropTypes.object,
+    bookId : PropTypes.string,
   },
   render: function() {
     if (!this.props.auth.loggedIn) {

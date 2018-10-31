@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 import Scales from '../const/ScaleConst';
 import ManualBadge from '../util/ManualBadge';
 import BookData from '../book/BookData';
@@ -60,9 +60,9 @@ var loadReviews = function(reviews) {
 
 var BookReview = React.createClass({
   propTypes: {
-    book: React.PropTypes.object.isRequired,
-    bookId: React.PropTypes.string.isRequired,
-    auth: React.PropTypes.object.isRequired,
+    book: PropTypes.object.isRequired,
+    bookId: PropTypes.string.isRequired,
+    auth: PropTypes.object.isRequired,
   },
   getInitialState: function() {
     return {

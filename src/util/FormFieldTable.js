@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RSelect from 'react-select';
 import '../react-select.css';
 import TableStyles from '../styles/TableStyles';
-var PropTypes = React.PropTypes;
 
 const ERROR_STYLE = {
   color: 'red'
@@ -23,10 +23,10 @@ function stopEnterSubmitting(submitFunction, e, allowEnter) {
 var FormField = React.createClass({
   propTypes: {
     showLabel: PropTypes.bool,
-    label : React.PropTypes.string,
-    id : React.PropTypes.string.isRequired,
-    data: React.PropTypes.object.isRequired,
-    isValid: React.PropTypes.func,
+    label : PropTypes.string,
+    id : PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
+    isValid: PropTypes.func,
   },
   getDefaultProps: function() {
     return {
@@ -55,8 +55,8 @@ var FormField = React.createClass({
 
 var FormTable = React.createClass({
   propTypes: {
-    onSubmit : React.PropTypes.func,
-    allowEnter : React.PropTypes.bool,
+    onSubmit : PropTypes.func,
+    allowEnter : PropTypes.bool,
   },
   render: function() {
     return (
@@ -73,11 +73,11 @@ var FormTable = React.createClass({
 
 var FormFieldSubmit = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
+    label : PropTypes.string.isRequired,
     showLabel: PropTypes.bool,
-    btnType: React.PropTypes.string,
-    onClick : React.PropTypes.func,
-    btnStyle: React.PropTypes.object,
+    btnType: PropTypes.string,
+    onClick : PropTypes.func,
+    btnStyle: PropTypes.object,
   },
   getDefaultProps: function() {
     return {
@@ -105,13 +105,13 @@ var FormFieldSubmit = React.createClass({
 
 var FormFieldInput = React.createClass({
   propTypes: {
-    label : React.PropTypes.string,
-    id : React.PropTypes.string.isRequired,
-    inputType: React.PropTypes.string,
-    data: React.PropTypes.object,
-    onChange: React.PropTypes.func,
-    isValid: React.PropTypes.func,
-    placeholder: React.PropTypes.string,
+    label : PropTypes.string,
+    id : PropTypes.string.isRequired,
+    inputType: PropTypes.string,
+    data: PropTypes.object,
+    onChange: PropTypes.func,
+    isValid: PropTypes.func,
+    placeholder: PropTypes.string,
   },
   getDefaultProps: function() {
     return {
@@ -137,11 +137,11 @@ var FormFieldInput = React.createClass({
 
 var FormFieldCheckBox = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
-    id : React.PropTypes.string.isRequired,
-    data: React.PropTypes.object,
-    onChange: React.PropTypes.func,
-    isValid: React.PropTypes.func,
+    label : PropTypes.string.isRequired,
+    id : PropTypes.string.isRequired,
+    data: PropTypes.object,
+    onChange: PropTypes.func,
+    isValid: PropTypes.func,
   },
   render: function() {
     var {onChange, ...other} = this.props;
@@ -158,13 +158,13 @@ var FormFieldCheckBox = React.createClass({
 
 var AutoSuggestFormField = React.createClass({
   propTypes: {
-    label : React.PropTypes.string.isRequired,
-    id : React.PropTypes.string.isRequired,
-    options: React.PropTypes.array,
-    multi: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    isValid: React.PropTypes.func,
-    showWhen: React.PropTypes.func,
+    label : PropTypes.string.isRequired,
+    id : PropTypes.string.isRequired,
+    options: PropTypes.array,
+    multi: PropTypes.bool,
+    onChange: PropTypes.func,
+    isValid: PropTypes.func,
+    showWhen: PropTypes.func,
   },
   getDefaultProps: function() {
     return {

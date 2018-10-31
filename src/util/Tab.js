@@ -1,5 +1,5 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 const linkStyle = {
   fontSize: '20px',
@@ -22,7 +22,7 @@ var FillinTab = React.createClass({
 
 var LinkTab = React.createClass({
   propTypes: {
-    to : React.PropTypes.string
+    to : PropTypes.string
   },
   render: function() {
     let isActive = false;

@@ -1,5 +1,4 @@
-import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 const SCALE_PROPTYPE = PropTypes.shape({
   key: PropTypes.string.isRequired,

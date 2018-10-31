@@ -1,14 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ManualBadge from './ManualBadge';
-var PropTypes = React.PropTypes;
 
 var ScaleBadge = React.createClass({
   propTypes: {
-    rateList: React.PropTypes.object.isRequired,
-    rateKey: React.PropTypes.string,
-    rateTypeKey: React.PropTypes.string,
-    expanded: React.PropTypes.bool,
-    nowrap: React.PropTypes.bool,
+    rateList: PropTypes.object.isRequired,
+    rateKey: PropTypes.string,
+    rateTypeKey: PropTypes.string,
+    expanded: PropTypes.bool,
+    nowrap: PropTypes.bool,
   },
   render: function() {
     const rateKey = this.props.rateKey;

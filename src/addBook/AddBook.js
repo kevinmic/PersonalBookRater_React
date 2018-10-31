@@ -1,6 +1,5 @@
 import React from 'react';
-
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
@@ -61,11 +60,11 @@ var getDefaultBook = () => ({
 var AddBook = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
-    books: React.PropTypes.object,
-    initBook: React.PropTypes.object,
-    loadSynopsis: React.PropTypes.bool,
-    bookId: React.PropTypes.string,
-    auth: React.PropTypes.object,
+    books: PropTypes.object,
+    initBook: PropTypes.object,
+    loadSynopsis: PropTypes.bool,
+    bookId: PropTypes.string,
+    auth: PropTypes.object,
   },
   getInitialState: function() {
     var values = getDefaultBook();

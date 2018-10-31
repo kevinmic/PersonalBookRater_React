@@ -1,12 +1,12 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 var ManualBadge = React.createClass({
   propTypes: {
-    labelType: React.PropTypes.any,
-    description: React.PropTypes.string,
-    label: React.PropTypes.string,
-    value: React.PropTypes.string
+    labelType: PropTypes.any,
+    description: PropTypes.string,
+    label: PropTypes.string,
+    value: PropTypes.string
   },
   render: function() {
     var tooltip = '';

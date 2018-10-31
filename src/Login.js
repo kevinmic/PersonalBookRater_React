@@ -1,5 +1,4 @@
 import React from 'react';
-var PropTypes = React.PropTypes;
 import libraryIMG from './images/Library.jpg';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
