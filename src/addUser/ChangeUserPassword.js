@@ -15,7 +15,7 @@ var ChangeUserPassword = React.createClass({
     return {
       showError: false,
       values: {
-        email: '',
+        email: this.props.auth.username,
         oldPassword: '',
         newPassword: '',
       },
@@ -28,9 +28,6 @@ var ChangeUserPassword = React.createClass({
         newPassword: (pwd) => pwd && pwd.length > 6,
       }
     };
-  },
-  componentDidMount: function() {
-    this.setState({values: {email: this.props.auth.username}});
   },
   changePassword: function() {
     var isValid = this.validateAllRequiredFields();

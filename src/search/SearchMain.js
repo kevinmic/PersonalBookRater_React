@@ -17,7 +17,7 @@ const sortOptions = [
 
 const PAGE_SIZE = 20;
 
-const INITIAL_STATE = {
+const getInitialState = () => ({
   search: '',
   filterOptions: {
     sort: {sortType: 'reviewDate', sortAsc: false},
@@ -32,7 +32,7 @@ const INITIAL_STATE = {
     locationOfBook: '',
   },
   startIndex: 0,
-};
+});
 
 var setupOverallRating = function(books) {
   return books.map((book) => {
@@ -147,16 +147,16 @@ var Search = React.createClass({
     searchId: React.PropTypes.string.isRequired,
   },
   getInitialState: function() {
-    return _.cloneDeep(INITIAL_STATE);
+    return getInitialState();
   },
   componentWillMount: function() {
     if (!_.isEmpty(this.props.prevSearch)) {
-      this.setState(_.merge({}, INITIAL_STATE, this.props.prevSearch));
+      this.setState(_.merge({}, getInitialState(), this.props.prevSearch));
     }
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.searchId != this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
-      this.setState(_.merge({}, INITIAL_STATE, newProps.prevSearch));
+      this.setState(_.merge({}, getInitialState(), newProps.prevSearch));
     }
   },
   componentDidUpdate: function() {

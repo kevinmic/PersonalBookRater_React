@@ -46,6 +46,18 @@ var saveBook = (bookRef, book, callback) => {
   });
 }
 
+var getDefaultBook = () => ({
+  title: '', 
+  seriesTitle: '', 
+  seriesBookNumber: '', 
+  imageUrl: '', 
+  author: '', 
+  genre: '', 
+  locationOfBook: '', 
+  synopsis: '', 
+  goodreadsId: '',
+});
+
 var AddBook = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
@@ -56,12 +68,17 @@ var AddBook = React.createClass({
     auth: React.PropTypes.object,
   },
   getInitialState: function() {
+    var values = getDefaultBook();
+    if (this.props.initBook) {
+      values = _.pick(this.props.initBook, BOOK_PICK_LIST) 
+    }
+
     return {
       search: {
         books: {},
         manual: false,
       },
-      values: _.pick(this.props.initBook, BOOK_PICK_LIST),
+      values,
       showError: false,
       required: {
         title: () => true,

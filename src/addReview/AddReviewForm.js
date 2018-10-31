@@ -34,6 +34,15 @@ var RatingOptionsWFormField = React.createClass({
   }
 });
 
+const getDefaultReview = () => ({
+  recommendRating:"",
+  profanityRating:"",
+  sexRating:"",
+  violenceRating:"",
+  reviewDescription:"",
+  ageAppropriate:"",
+});
+
 var AddReviewForm = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
@@ -43,15 +52,15 @@ var AddReviewForm = React.createClass({
     style: React.PropTypes.object,
   },
   getInitialState: function() {
+    var {reviews} = this.props.book;
+    var {userid} = this.props.auth;
+    var values = getDefaultReview();
+    if (reviews && reviews[userid]) {
+      values = reviews[userid];
+    }
+
     return {
-      values: {
-        recommendRating:"",
-        profanityRating:"",
-        sexRating:"",
-        violenceRating:"",
-        reviewDescription:"",
-        ageAppropriate:"",
-      },
+      values,
       showError: false,
       required: {
         recommendRating: () => true,
@@ -94,13 +103,6 @@ var AddReviewForm = React.createClass({
     else {
       this.setState({showError: !isValid});
       alertify.error("Please fill out required fields.");
-    }
-  },
-  componentDidMount: function() {
-    var {reviews} = this.props.book;
-    var {userid} = this.props.auth;
-    if (reviews && reviews[userid]) {
-      this.setState({values: reviews[userid]});
     }
   },
   render: function() {

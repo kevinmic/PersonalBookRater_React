@@ -257,8 +257,8 @@ var App = React.createClass({
       <div style={{minWidth: '1000px'}}>
         <NavBar auth={this.state.auth} setAuthData={this.setAuthData} showBooksBar={!loginActive} showLocation={showLocation}/>
         <div style={wrapChildrenStyle}>
--          {body}
--        </div>
+          {body}
+        </div>
         <Footer/>
       </div>
     );

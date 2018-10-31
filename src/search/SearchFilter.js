@@ -86,13 +86,11 @@ var SearchTips = React.createClass({
   getInitialState: function() {
     return {
       show: false,
+      search: this.props.search,
     };
   },
   onClick: function() {
     this.setState({show: !this.state.show});
-  },
-  componentDidMount: function() {
-    this.setState({search: this.props.search});
   },
   render: function() {
     var show = null;
@@ -139,11 +137,8 @@ var SearchFilter = React.createClass({
   },
   getInitialState: function() {
     return {
-      search: "",
+      search: this.props.search,
     };
-  },
-  componentDidMount: function() {
-    this.setState({search: this.props.search});
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.search != this.props.search) {
