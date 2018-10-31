@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import firebaseInit from './FireBaseInit';
+import firebaseInit from './util/FireBaseInit';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
 import AddUser from './addUser/AddUser';

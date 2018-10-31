@@ -67,9 +67,6 @@ var LookupBook = React.createClass({
   chooseBook: function(book) {
     this.setState({book: book, isManualEntry: true});
   },
-  componentDidMount: function() {
-    GoodReads.loadUrl();
-  },
   render: function() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;

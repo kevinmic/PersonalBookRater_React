@@ -46,7 +46,6 @@ var saveBook = (bookRef, book, callback) => {
   });
 }
 
-
 var AddBook = React.createClass({
   mixins: [FormValidationMixins],
   propTypes: {
@@ -62,17 +61,7 @@ var AddBook = React.createClass({
         books: {},
         manual: false,
       },
-      values: {
-        title:"",
-        seriesTitle:"",
-        seriesBookNumber:"",
-        imageUrl:"",
-        author:"",
-        genre:"",
-        locationOfBook:"",
-        synopsis: "",
-        showError: false,
-      },
+      values: _.pick(this.props.initBook, BOOK_PICK_LIST),
       showError: false,
       required: {
         title: () => true,
@@ -90,16 +79,9 @@ var AddBook = React.createClass({
     };
   },
   componentDidMount: function() {
-    GoodReads.loadUrl();
-
     var book = this.props.initBook;
-    if (book) {
-      book = _.pick(book, BOOK_PICK_LIST);
-      this.setState({values: book});
-
-      if (book.goodreadsId && this.props.loadSynopsis) {
-        this.loadSynopsis(book.goodreadsId);
-      }
+    if (book && book.goodreadsId && this.props.loadSynopsis) {
+      this.loadSynopsis(book.goodreadsId);
     }
   },
   loadSynopsis: function(goodreadsId) {
@@ -218,7 +200,7 @@ var AddBook = React.createClass({
     var subGenres = getSubGenres(this.state.values.genre);
 
     return (
-      <div style={{width:'800'}}>
+      <div style={{width:'800px'}}>
         <h2>{this.props.bookId?"Edit":"Add"} Book</h2>
         <FormTable onSubmit={this.addBook}>
           <FormFieldInput
@@ -245,7 +227,7 @@ var AddBook = React.createClass({
             />
 
           <FormFieldInput
-            inputType="url"
+            inputType="text"
             label="GoodReads Id" id="goodreadsId"
             data={values}
             onChange={this.onChange}
