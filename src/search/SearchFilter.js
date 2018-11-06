@@ -30,32 +30,39 @@ var getLocationFilters = function() {
   return options.concat(LocationConst.map((loc) => <option key={loc.value} value={loc.value}>{loc.value}</option>));
 }
 
-var ExpandableFilter = React.createClass({
-  propTypes: {
+class ExpandableFilter extends React.Component{
+  static propTypes = {
     label : PropTypes.string.isRequired,
     showLabelWhenExpanded: PropTypes.bool,
     // data: PropTypes.bool, -- This should be a bool, but javascript passes objects when I do true/false statements
-  },
-  getDefaultProps: function() {
-    return {showLabelWhenExpanded: true};
-  },
-  getInitialState: function() {
-    return {expanded : false,};
-  },
-  componentWillMount: function() {
+  }
+
+  static defaultProps = {
+    showLabelWhenExpanded: true
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {expanded : false};
+  }
+
+  componentWillMount = () => {
     if (this.props.data) {
       this.setState({expanded:true});
     }
-  },
-  componentWillReceiveProps: function(newProps) {
+  }
+
+  componentWillReceiveProps = (newProps) => {
     if (newProps.data) {
       this.setState({expanded:true});
     }
-  },
-  toggleExpand: function() {
+  }
+
+  toggleExpand = () => {
     this.setState({expanded: !this.state.expanded})
-  },
-  render: function() {
+  }
+
+  render() {
     var expanded;
     var caretStyle = "fa fa-caret-right";
     if (this.state.expanded) {
@@ -80,19 +87,22 @@ var ExpandableFilter = React.createClass({
       </div>
     );
   }
-});
+};
 
-var SearchTips = React.createClass({
-  getInitialState: function() {
-    return {
+class SearchTips extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       show: false,
       search: this.props.search,
     };
-  },
-  onClick: function() {
+  }
+
+  onClick = () => {
     this.setState({show: !this.state.show});
-  },
-  render: function() {
+  }
+
+  render() {
     var show = null;
     if (this.state.show) {
       show = (
@@ -123,10 +133,10 @@ var SearchTips = React.createClass({
       </div>
     )
   }
-});
+};
 
-var SearchFilter = React.createClass({
-  propTypes: {
+class SearchFilter extends React.Component{
+  static propTypes = {
     search: PropTypes.string,
     filterOptions: PropTypes.object,
     sortOptions: PropTypes.array,
@@ -134,21 +144,24 @@ var SearchFilter = React.createClass({
     changeFilter:  PropTypes.func.isRequired,
     clearSearch: PropTypes.func.isRequired,
     users: PropTypes.object,
-  },
-  getInitialState: function() {
-    return {
-      search: this.props.search,
-    };
-  },
-  componentWillReceiveProps: function(newProps) {
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {search:props.search};
+  }
+
+  componentWillReceiveProps = (newProps) => {
     if (newProps.search != this.props.search) {
       this.setState({search: newProps.search});
     }
-  },
-  changeSearchWithObject: function(filterObj) {
+  }
+
+  changeSearchWithObject = (filterObj) => {
     this.changeSearch(filterObj.target.value, false);
-  },
-  changeSearch: function(value, now) {
+  }
+
+  changeSearch = (value, now) => {
     this.setState({search: value});
     if (this.changeSearchTimeout) {
       clearTimeout(this.changeSearchTimeout);
@@ -156,16 +169,19 @@ var SearchFilter = React.createClass({
     this.changeSearchTimeout = setTimeout(() => {
       this.props.changeSearch(value);
     }, now?0:700);
-  },
-  changeFilter: function(type, valueObj) {
+  }
+
+  changeFilter = (type, valueObj) => {
     var value = valueObj.target.value
     this.props.changeFilter(type, value);
-  },
-  clearSearch: function() {
+  }
+
+  clearSearch = () => {
     this.props.clearSearch();
     this.setState({search:""})
-  },
-  render: function() {
+  }
+
+  render() {
     var {filterOptions, users} = this.props;
     var {search} = this.state;
 
@@ -271,6 +287,6 @@ var SearchFilter = React.createClass({
     )
 
   }
-});
+};
 
 module.exports = SearchFilter;

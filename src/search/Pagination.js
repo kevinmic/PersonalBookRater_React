@@ -34,14 +34,15 @@ var generateButton = function(key, label, isActive, onClick) {
   return <button key={key} style={style} type="button" onClick={onClick}>{label}</button>
 }
 
-var Pagination = React.createClass({
-  propTypes: {
+class Pagination extends React.Component{
+  static propTypes = {
     length : PropTypes.number.isRequired,
     startIndex: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
     changeIndex: PropTypes.func.isRequired,
-  },
-  render: function() {
+  }
+
+  render() {
     var {startIndex, length, pageSize} = this.props;
     var currPage = 0;
     var pages = 1;
@@ -90,6 +91,6 @@ var Pagination = React.createClass({
       </div>
     );
   }
-});
+};
 
 module.exports = Pagination;

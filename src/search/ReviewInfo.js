@@ -32,11 +32,12 @@ var printDate = function(date) {
       });
 };
 
-var ReviewRow = React.createClass({
-  propTypes: {
+class ReviewRow extends React.Component{
+  static propTypes = {
     header: PropTypes.string.isRequired
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <tr>
         <td style={styles.tdLeft}>{this.props.header}:</td>
@@ -44,21 +45,24 @@ var ReviewRow = React.createClass({
       </tr>
   )
   }
-})
+};
 
-var ReviewInfo = React.createClass({
-  propTypes: {
+class ReviewInfo extends React.Component{
+  static propTypes = {
     review: PropTypes.object.isRequired,
-  },
-  getInitialState: function() {
-    return {
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
       expanded:false,
     };
-  },
-  toggleShow: function() {
+  }
+
+  toggleShow = () => {
     this.setState({expanded: !this.state.expanded});
-  },
-  render: function() {
+  }
+
+  render() {
     var review = this.props.review;
 
     if (this.state.expanded) {
@@ -127,6 +131,6 @@ var ReviewInfo = React.createClass({
         );
       }
   }
-});
+};
 
 module.exports = ReviewInfo;

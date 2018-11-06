@@ -58,25 +58,30 @@ var loadReviews = function(reviews) {
     return reviews.map((review) => <ReviewInfo key={review.reviewedBy} review={review}/> );
 }
 
-var BookReview = React.createClass({
-  propTypes: {
+class BookReview extends React.Component{
+  static propTypes = {
     book: PropTypes.object.isRequired,
     bookId: PropTypes.string.isRequired,
     auth: PropTypes.object.isRequired,
-  },
-  getInitialState: function() {
-    return {
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
       expanded:false,
       addReviewDirect:false,
     };
-  },
-  toggleExpanded: function() {
+  }
+
+  toggleExpanded = () => {
     this.setState({expanded: !this.state.expanded});
-  },
-  toggleAddReviewExpanded: function() {
+  }
+
+  toggleAddReviewExpanded = () => {
     this.setState({addReviewDirect: !this.state.addReviewDirect});
-  },
-  render: function() {
+  }
+
+  render() {
     var {book, bookId} = this.props;
     var reviews = _.values(book.reviews)
     var reviewsUI;
@@ -140,6 +145,6 @@ var BookReview = React.createClass({
     );
   }
 
-});
+};
 
 module.exports = BookReview;

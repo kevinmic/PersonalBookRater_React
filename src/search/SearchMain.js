@@ -136,8 +136,8 @@ var filterBooksForPagination = function(books, startIndex, pageSize) {
     }
 }
 
-var Search = React.createClass({
-  propTypes: {
+class Search extends React.Component{
+  static propTypes = {
     books: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     storeSearch: PropTypes.func.isRequired,
@@ -145,26 +145,32 @@ var Search = React.createClass({
     loadingBooks: PropTypes.bool.isRequired,
     loadingReviews: PropTypes.bool.isRequired,
     searchId: PropTypes.string.isRequired,
-  },
-  getInitialState: function() {
-    return getInitialState();
-  },
-  componentWillMount: function() {
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = getInitialState();
+  }
+
+  componentWillMount = () => {
     if (!_.isEmpty(this.props.prevSearch)) {
       this.setState(_.merge({}, getInitialState(), this.props.prevSearch));
     }
-  },
-  componentWillReceiveProps: function(newProps) {
+  }
+
+  componentWillReceiveProps = (newProps) => {
     if (newProps.searchId != this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
       this.setState(_.merge({}, getInitialState(), newProps.prevSearch));
     }
-  },
-  componentDidUpdate: function() {
+  }
+
+  componentDidUpdate = () => {
     if (!_.isEqual(this.props.prevSearch, this.state)) {
       this.props.storeSearch(this.state);
     }
-  },
-  changeFilter: function(type, value) {
+  }
+
+  changeFilter = (type, value) => {
     var filterOptions = this.state.filterOptions;
     if (type == 'sort') {
       var asc = sortOptions.filter((option) => option.name == value)[0].asc;
@@ -174,13 +180,15 @@ var Search = React.createClass({
       filterOptions[type] = value;
     }
     this.setState({filterOptions: filterOptions, startIndex: 0});
-  },
-  changeSearch: function(value) {
+  }
+
+  changeSearch = (value) => {
     if (this.state.search != value) {
       this.setState({search: value, startIndex: 0});
     }
-  },
-  clearSearch: function() {
+  }
+
+  clearSearch = () => {
     var newState = _.merge({}, this.state);
     newState.search = '';
     _.forEach(_.keys(newState.filterOptions), (key) => {
@@ -189,11 +197,13 @@ var Search = React.createClass({
       }
     });
     this.setState(newState);
-  },
-  changeIndex: function(value) {
+  }
+
+  changeIndex = (value) => {
     this.setState({startIndex: value});
-  },
-  render: function() {
+  }
+
+  render() {
     var books = setupOverallRating(_.values(this.props.books));
     books = setupLatestReviewDate(books);
     books = runFilterBooks(books, this.state.search, this.state.filterOptions, this.props.auth);
@@ -255,6 +265,6 @@ var Search = React.createClass({
       </table>
     );
   }
-});
+};
 
 module.exports = Search;
