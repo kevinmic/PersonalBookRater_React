@@ -10,21 +10,22 @@ const liStyle = {
   padding: '4px',
 };
 
-var FillinTab = React.createClass({
-  render: function() {
+class FillinTab extends React.Component {
+  render() {
       return (
         <li style={liStyle}>
           {this.props.children}
         </li>
       );
-  },
-});
+  }
+};
 
-var LinkTab = React.createClass({
-  propTypes: {
+class LinkTab extends React.Component {
+  static propTypes = {
     to : PropTypes.string
-  },
-  render: function() {
+  }
+
+  render() {
     let isActive = false;
     // let isActive = this.history.isActive(this.props.to, this.props.query, this.props.onlyActiveOnIndex);
     let className = isActive ? 'active' : '';
@@ -35,6 +36,6 @@ var LinkTab = React.createClass({
       </li>
     )
   }
-});
+};
 
 module.exports = {LinkTab, FillinTab};

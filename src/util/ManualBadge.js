@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-var ManualBadge = React.createClass({
-  propTypes: {
+class ManualBadge extends React.Component{
+  static propTypes = {
     labelType: PropTypes.any,
     description: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string
-  },
-  render: function() {
+  }
+
+  render() {
     var tooltip = '';
     if (this.props.label && this.props.description) {
       tooltip = this.props.label + " Rating: " + this.props.value + " - " + this.props.description;
@@ -28,6 +29,6 @@ var ManualBadge = React.createClass({
         </span>
     )
   }
-});
+};
 
 module.exports = ManualBadge;

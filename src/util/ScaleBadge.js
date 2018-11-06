@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ManualBadge from './ManualBadge';
 
-var ScaleBadge = React.createClass({
-  propTypes: {
+class ScaleBadge extends React.Component {
+  static propTypes = {
     rateList: PropTypes.object.isRequired,
     rateKey: PropTypes.string,
     rateTypeKey: PropTypes.string,
     expanded: PropTypes.bool,
     nowrap: PropTypes.bool,
-  },
-  render: function() {
+  }
+
+  render() {
     const rateKey = this.props.rateKey;
     const rateList = this.props.rateList;
     var rate = {
@@ -48,6 +49,6 @@ var ScaleBadge = React.createClass({
       );
     }
   }
-});
+};
 
 module.exports = ScaleBadge;

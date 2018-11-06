@@ -14,15 +14,16 @@ const helpers = {
   }
 }
 
-var RatingOptions = React.createClass({
-  propTypes: {
+class RatingOptions extends React.Component {
+  static propTypes = {
     rateList: PropTypes.object.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     colorize: PropTypes.bool,
     style: PropTypes.object,
-  },
-  optionRenderer: function(value) {
+  }
+
+  optionRenderer = (value) => {
     if (this.props.colorize) {
       return <option key={value.value} value={value.value}>{value.label}</option>;
     }
@@ -30,8 +31,9 @@ var RatingOptions = React.createClass({
       var rate = this.props.rateList[value.value];
         return <ScaleBadge style={this.props.style} rateList={this.props.rateList} rateKey={rate.key} expanded={true}/>;
     }
-  },
-  valueRenderer: function(value) {
+  }
+
+  valueRenderer = (value) => {
     if (this.props.colorize) {
       return <div key={value.value} value={value.value}>{value.label}</div>;
     }
@@ -39,8 +41,9 @@ var RatingOptions = React.createClass({
       var rate = this.props.rateList[value.value];
         return <ScaleBadge style={this.props.style} rateList={this.props.rateList} rateKey={rate.key} expanded={true}/>;
     }
-  },
-  render: function() {
+  }
+
+  render() {
     var {rateList, onChange, value} = this.props;
 
     var mappedValues = Scales.scaleMapToList(rateList).map((rate) => {return {value:rate.key, label:rate.key + " - " + rate.description}});
@@ -54,7 +57,7 @@ var RatingOptions = React.createClass({
           />
     );
   }
-});
+};
 
 
 module.exports = RatingOptions;

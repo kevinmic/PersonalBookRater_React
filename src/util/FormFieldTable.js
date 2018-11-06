@@ -20,21 +20,21 @@ function stopEnterSubmitting(submitFunction, e, allowEnter) {
     }
 }
 
-var FormField = React.createClass({
-  propTypes: {
+class FormField extends React.Component{
+  static propTypes = {
     showLabel: PropTypes.bool,
     label : PropTypes.string,
     id : PropTypes.string.isRequired,
     data: PropTypes.object.isRequired,
     isValid: PropTypes.func,
-  },
-  getDefaultProps: function() {
-    return {
-      showLabel: true,
-      required: false,
-    }
-  },
-  render: function() {
+  }
+
+  static defaultProps = {
+    showLabel: true,
+    required: false,
+  }
+
+  render() {
     var errorStyle = {};
     var {id, label, data, isValid} = this.props;
 
@@ -51,14 +51,15 @@ var FormField = React.createClass({
       </tr>
     )
   }
-});
+};
 
-var FormTable = React.createClass({
-  propTypes: {
+class FormTable extends React.Component{
+  static propTypes = {
     onSubmit : PropTypes.func,
     allowEnter : PropTypes.bool,
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <form className="form-horizontal" onSubmit={this.props.onSubmit} onKeyPress={(e) => stopEnterSubmitting(this.props.onSubmit, e, this.props.allowEnter)}>
         <table style={TableStyles.tableInput}>
@@ -69,22 +70,22 @@ var FormTable = React.createClass({
       </form>
     )
   }
-});
+};
 
-var FormFieldSubmit = React.createClass({
-  propTypes: {
+class FormFieldSubmit extends React.Component{
+  static propTypes = {
     label : PropTypes.string.isRequired,
     showLabel: PropTypes.bool,
     btnType: PropTypes.string,
     onClick : PropTypes.func,
     btnStyle: PropTypes.object,
-  },
-  getDefaultProps: function() {
-    return {
-      showLabel: true,
-    };
-  },
-  render: function() {
+  }
+
+  static defaultProps = {
+    showLabel: true,
+  }
+
+  render() {
     var {btnType} = this.props;
     if (!btnType) {
       btnType = "button";
@@ -101,10 +102,10 @@ var FormFieldSubmit = React.createClass({
       </tr>
     );
   }
-});
+};
 
-var FormFieldInput = React.createClass({
-  propTypes: {
+class FormFieldInput extends React.Component{
+  static propTypes = {
     label : PropTypes.string,
     id : PropTypes.string.isRequired,
     inputType: PropTypes.string,
@@ -112,13 +113,13 @@ var FormFieldInput = React.createClass({
     onChange: PropTypes.func,
     isValid: PropTypes.func,
     placeholder: PropTypes.string,
-  },
-  getDefaultProps: function() {
-    return {
-      inputType: "text"
-    }
-  },
-  render: function() {
+  }
+
+  static defaultProps = {
+    inputType: "text"
+  }
+  
+  render() {
     var {inputType, onChange, placeholder, ...other} = this.props;
     var {id, data} = this.props;
 
@@ -133,17 +134,18 @@ var FormFieldInput = React.createClass({
           </FormField>
     )
   }
-});
+};
 
-var FormFieldCheckBox = React.createClass({
-  propTypes: {
+class FormFieldCheckBox extends React.Component{
+  static propTypes = {
     label : PropTypes.string.isRequired,
     id : PropTypes.string.isRequired,
     data: PropTypes.object,
     onChange: PropTypes.func,
     isValid: PropTypes.func,
-  },
-  render: function() {
+  }
+
+  render() {
     var {onChange, ...other} = this.props;
     var {id, data} = this.props;
 
@@ -154,10 +156,10 @@ var FormFieldCheckBox = React.createClass({
           </FormField>
     )
   }
-});
+};
 
-var AutoSuggestFormField = React.createClass({
-  propTypes: {
+class AutoSuggestFormField extends React.Component{
+  static propTypes = {
     label : PropTypes.string.isRequired,
     id : PropTypes.string.isRequired,
     options: PropTypes.array,
@@ -165,21 +167,22 @@ var AutoSuggestFormField = React.createClass({
     onChange: PropTypes.func,
     isValid: PropTypes.func,
     showWhen: PropTypes.func,
-  },
-  getDefaultProps: function() {
-    return {
-      multi: false,
-    };
-  },
-  getInitialState: function() {
-    return {
-      checkValue: ""
-    };
-  },
-  suggestionsWithId: function(input, callback) {
+  }
+
+  static defaultProps = {
+    multi: false,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {checkValue: ""};
+  }
+
+  suggestionsWithId =  (input, callback) => {
     this.props.suggestions(this.props.id, input, callback);
-  },
-  render: function() {
+  }
+
+  render() {
     var {suggestions, onChange, options, showWhen, ...other} = this.props;
     if (!showWhen()) {
         return (
@@ -212,7 +215,7 @@ var AutoSuggestFormField = React.createClass({
         </FormField>
     )
   }
-});
+};
 
 module.exports = {
   FormFieldInput,
