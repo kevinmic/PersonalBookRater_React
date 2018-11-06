@@ -7,17 +7,17 @@ import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
 import TableStyles from '../styles/TableStyles';
 
-var RatingOptionsWFormField = React.createClass({
-  propTypes: {
+class RatingOptionsWFormField extends React.createClass{
+  static propTypes = {
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     data : PropTypes.object.isRequired,
     onChange: PropTypes.func,
     isValid: PropTypes.func,
     rateList: PropTypes.object.isRequired,
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <FormField
         label={this.props.label} id={this.props.id}
@@ -32,7 +32,7 @@ var RatingOptionsWFormField = React.createClass({
       </FormField>
     )
   }
-});
+};
 
 const getDefaultReview = () => ({
   recommendRating:"",

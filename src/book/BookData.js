@@ -13,25 +13,25 @@ var loadExtra = function(book) {
     return [genre, location, synopsis];
 }
 
-var InnerRow = React.createClass({
-  propTypes: {
+class InnerRow extends React.Component{
+  static propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
     markdown: PropTypes.bool,
     showExtra: PropTypes.bool,
     showTitle: PropTypes.bool,
     onClick: PropTypes.func,
-  },
-  getDefaultProps: function() {
-    return {
-      label: "",
-      value: "",
-      showExtra: true,
-      showTitle: false,
-      markdown: false,
-    }
-  },
-  render: function() {
+  }
+
+  defaultProps = {
+    label: "",
+    value: "",
+    showExtra: true,
+    showTitle: false,
+    markdown: false,
+  }
+
+  render() {
     var value = this.props.value;
     if (this.props.markdown) {
       value = <span dangerouslySetInnerHTML={{__html:marked(value)}}/>
@@ -47,13 +47,14 @@ var InnerRow = React.createClass({
       </tr>
     );
   }
-});
+};
 
-var BookData = React.createClass({
-  propTypes: {
+class BookData extends React.Component{
+  static propTypes = {
     book: PropTypes.object.isRequired
-  },
-  render: function() {
+  }
+
+  render() {
     var book = this.props.book;
 
     if (book.seriesTitle) {
@@ -86,6 +87,6 @@ var BookData = React.createClass({
     );
   }
 
-});
+};
 
 module.exports = BookData;

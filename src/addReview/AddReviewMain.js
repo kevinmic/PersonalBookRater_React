@@ -6,16 +6,18 @@ import BookData from '../book/BookData';
 import TableStyles from '../styles/TableStyles';
 import {GoToLastSearch} from '../util/GoToHelper';
 
-var AddReviewMain = React.createClass({
-  propTypes: {
+class AddReviewMain extends React.Component{
+  static propTypes = {
     books: PropTypes.object,
     auth: PropTypes.object,
     bookId: PropTypes.string.isRequired,
-  },
-  callback: function() {
+  }
+
+  callback = () => {
     GoToLastSearch();
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -46,6 +48,6 @@ var AddReviewMain = React.createClass({
       </div>
     )
   }
-});
+};
 
 module.exports = AddReviewMain;

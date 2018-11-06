@@ -8,14 +8,14 @@ const footerStyle = {
   alignItems:'center',
 }
 
-var Footer = React.createClass({
-  render: function() {
+class Footer extends React.Component{
+  render() {
     return (
       <div className="hfColor" style={footerStyle}>
         <a style={{color: '#FFFFFF', paddingRight:'20px'}} target="_new" href="https://github.com/kevinmic/PersonalBookRater_React/issues">Issues: www.github.com</a>
       </div>
     )
   }
-});
+};
 
 module.exports = Footer;

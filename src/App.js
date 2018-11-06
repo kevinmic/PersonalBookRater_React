@@ -19,9 +19,10 @@ var fixReview = function(review) {
   }
 };
 
-var App = React.createClass({
-  getInitialState: function() {
-    return {
+class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       users : {},
       books : {},
       reviews : {},
@@ -34,8 +35,9 @@ var App = React.createClass({
       loadingBooks: true,
       loadingReviews: true,
     };
-  },
-  loadReviewsFromFirebase: function(dataSnapshot) {
+  }
+
+  loadReviewsFromFirebase = (dataSnapshot) => {
       var bookId = dataSnapshot.key;
       var newReviews = dataSnapshot.val();
       if (!this.state.reviews || !this.state.reviews[bookId] || !_.isEqual(this.state.reviews[bookId], newReviews)) {
@@ -50,8 +52,9 @@ var App = React.createClass({
       else {
         console.log("ignore review")
       }
-  },
-  loadBookFromFirebase: function(dataSnapshot) {
+  }
+
+  loadBookFromFirebase = (dataSnapshot) => {
     
       var bookId = dataSnapshot.key;
       var newBook = dataSnapshot.val();
@@ -67,8 +70,9 @@ var App = React.createClass({
       else {
         console.log("ignore book")
       }
-  },
-  componentWillMount: function() {
+  }
+
+  componentWillMount = () => {
     this.fbRef = firebase.database();
     var fbBooks = this.fbRef.ref("/books");
     fbBooks.once('value').then((dataSnapshot) => {
@@ -130,17 +134,20 @@ var App = React.createClass({
 
     window.addEventListener('hashchange', this.navigated, false);
     this.navigated();
-  },
-  componentWillUnMount: function() {
+  }
+
+  componentWillUnMount = () => {
     this.fbRef.off();
     PubSub.unsubscribe('prevsearch', this.gotoLastSearch);
     PubSub.unsubscribe('newsearch', this.createNewSearch);
-  },
-  componentDidMount: function() {
+  }
+
+  componentDidMount = () => {
     PubSub.subscribe('prevsearch', this.gotoLastSearch);
     PubSub.subscribe('newsearch', this.createNewSearch);
-  },
-  navigated: function() {
+  }
+
+  navigated = () => {
     var hash = window.location.hash;
     var split = hash.split('/');
 
@@ -157,8 +164,9 @@ var App = React.createClass({
       this.setState({searchId: data[0], lastSearchId: data[0]})
     }
     this.setState({location: location, hashdata: data})
-  },
-  renderChildren: function () {
+  }
+
+  renderChildren = () => {
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
         books: booksPlusReviews,
@@ -166,16 +174,19 @@ var App = React.createClass({
         auth: this.state.auth,
       });
     }.bind(this))
-  },
-  setPrevSearch: function(search) {
+  }
+
+  setPrevSearch = (search) => {
     var searchHistory = this.state.searchHistory;
     searchHistory[this.state.searchId] = search;
     this.setState({searchHistory: searchHistory});
-  },
-  gotoLastSearch: function() {
+  }
+
+  gotoLastSearch = () => {
     window.location.hash = '#/search/' + this.state.lastSearchId;
-  },
-  createNewSearch: function(eventtype, search) {
+  }
+  
+  createNewSearch = (eventtype, search) => {
     if (!search) {
       console.log("No Search Received for NewSearch Event");
       return;
@@ -194,7 +205,8 @@ var App = React.createClass({
     searchHistory[searchId] = search;
     this.setState({searchHistory: searchHistory});
     window.location.hash = '#/search/' + searchId;
-  },
+  }
+
   render() {
     var booksPlusReviews = _.mapValues(this.state.books, (book) => {
       var reviews = {};
@@ -263,6 +275,6 @@ var App = React.createClass({
       </div>
     );
   }
-});
+};
 
 module.exports = App;

@@ -13,11 +13,12 @@ const imgStyle = {
     paddingRight: '10px',
 };
 
-var BookImage = React.createClass({
-  propTypes: {
+class BookImage extends React.Component{
+  static propTypes = {
     book: PropTypes.object.isRequired
-  },
-  render: function() {
+  }
+
+  render() {
     var {book} = this.props;
     var image = <img style={imgStyle} width="120px;" src={book.imageUrl} />
     if (!book.imageUrl) {
@@ -39,7 +40,6 @@ var BookImage = React.createClass({
       </div>
     );
   }
-
-});
+};
 
 module.exports = BookImage;

@@ -5,15 +5,17 @@ import PropTypes from 'prop-types';
 
 import {GoToLastSearch} from './util/GoToHelper';
 
-var LoginInfo = React.createClass({
-  propTypes: {
+class LoginInfo extends React.Component{
+  static propTypes = {
     auth : PropTypes.object
-  },
-  unAuth: function() {
+  }
+
+  unAuth = () => {
     firebase.auth().signOut();
     alertify.success("You are now logged out!");
-  },
-  render: function() {
+  }
+
+  render() {
     var {auth} = this.props;
     if (auth.loggedIn) {
       return (
@@ -27,14 +29,15 @@ var LoginInfo = React.createClass({
       return (<a href="#/login">Login</a>);
     }
   }
-})
+}
 
-var NavBar = React.createClass({
-  propTypes: {
+class NavBar extends React.Component{
+  static propTypes = {
     auth : PropTypes.object,
     showBooksBar: PropTypes.bool,
-  },
-  render: function() {
+  }
+
+  render() {
     var addUser;
     var addBook;
     if (_.get(this.props.auth, 'roles.users')) {
@@ -71,6 +74,6 @@ var NavBar = React.createClass({
     );
   }
 
-});
+};
 
 module.exports = NavBar;

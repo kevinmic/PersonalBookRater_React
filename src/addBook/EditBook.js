@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import AddBook from './AddBook';
 
-var EditBook = React.createClass({
-  propTypes: {
+class EditBook extends React.Component{
+  static propTypes = {
     books : PropTypes.object,
     auth: PropTypes.object,
     bookId : PropTypes.string,
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -20,6 +21,6 @@ var EditBook = React.createClass({
     }
     return <AddBook books={this.props.books} initBook={book} bookId={this.props.bookId} auth={this.props.auth}/>;
   }
-});
+};
 
 module.exports = EditBook;
