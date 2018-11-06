@@ -6,13 +6,15 @@ import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, For
 import TableStyles from '../styles/TableStyles';
 import {GoToLastSearch} from '../util/GoToHelper';
 
-var ChangeUserPassword = React.createClass({
-  mixins: [FormValidationMixins],
-  propTypes: {
+class ChangeUserPassword extends React.Component{
+  static propTypes = {
     auth : PropTypes.object,
-  },
-  getInitialState: function() {
-    return {
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       showError: false,
       values: {
         email: this.props.auth.username,
@@ -28,8 +30,11 @@ var ChangeUserPassword = React.createClass({
         newPassword: (pwd) => pwd && pwd.length > 6,
       }
     };
-  },
-  changePassword: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  changePassword = () => {
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
@@ -48,8 +53,9 @@ var ChangeUserPassword = React.createClass({
       this.setState({showError:true});
     }
 
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -87,8 +93,7 @@ var ChangeUserPassword = React.createClass({
         </FormTable>
       </div>
     );
-
-  },
-});
+  }
+};
 
 module.exports = ChangeUserPassword;

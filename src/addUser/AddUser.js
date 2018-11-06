@@ -20,13 +20,15 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-var AddUser = React.createClass({
-  mixins: [FormValidationMixins],
-  propTypes: {
+class AddUser extends React.Component{
+  static propTypes = {
     auth : PropTypes.object,
-  },
-  getInitialState: function() {
-    return {
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       showError: false,
       values: _.cloneDeep(INITIAL_VALUES),
       required: {
@@ -40,8 +42,11 @@ var AddUser = React.createClass({
         password: (pwd) => pwd && pwd.length > 6,
       }
     };
-  },
-  addUser: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  addUser = () => {
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
@@ -92,8 +97,9 @@ var AddUser = React.createClass({
     else {
       this.setState({showError:true});
     }
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -166,6 +172,6 @@ var AddUser = React.createClass({
       </div>
     );
   }
-});
+};
 
 module.exports = AddUser;

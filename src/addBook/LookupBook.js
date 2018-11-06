@@ -9,14 +9,16 @@ import FormValidationMixins from '../util/FormValidationMixins';
 import TableStyles from '../styles/TableStyles';
 import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 
-var LookupBook = React.createClass({
-  mixins: [FormValidationMixins],
-  propTypes: {
+class LookupBook extends React.Component{
+  static propTypes = {
     books: PropTypes.object,
     auth: PropTypes.object,
-  },
-  getInitialState: function() {
-    return {
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       isManualEntry: false,
       searching: false,
       searchedBooks: [],
@@ -25,8 +27,11 @@ var LookupBook = React.createClass({
         author:"",
       },
     };
-  },
-  searchBooks: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  searchBooks = () => {
     var {author, title} = this.state.values;
     var {searching} = this.state;
 
@@ -64,11 +69,13 @@ var LookupBook = React.createClass({
     else {
        alertify.error("You must fill in title and/or author");
     }
-  },
-  chooseBook: function(book) {
+  }
+
+  chooseBook = (book) => {
     this.setState({book: book, isManualEntry: true});
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -124,6 +131,6 @@ var LookupBook = React.createClass({
       </div>
     )
   }
-});
+};
 
 module.exports = LookupBook;

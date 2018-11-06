@@ -7,7 +7,7 @@ import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
 import TableStyles from '../styles/TableStyles';
 
-class RatingOptionsWFormField extends React.createClass{
+class RatingOptionsWFormField extends React.Component{
   static propTypes = {
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -43,15 +43,17 @@ const getDefaultReview = () => ({
   ageAppropriate:"",
 });
 
-var AddReviewForm = React.createClass({
-  mixins: [FormValidationMixins],
-  propTypes: {
+class AddReviewForm extends React.Component{
+  static propTypes = {
     auth: PropTypes.object,
     book: PropTypes.object,
     callback: PropTypes.func,
     style: PropTypes.object,
-  },
-  getInitialState: function() {
+  }
+
+  constructor(props) {
+    super(props);
+
     var {reviews} = this.props.book;
     var {userid} = this.props.auth;
     var values = getDefaultReview();
@@ -59,15 +61,18 @@ var AddReviewForm = React.createClass({
       values = reviews[userid];
     }
 
-    return {
+    this.state = {
       values,
       showError: false,
       required: {
         recommendRating: () => true,
       },
     };
-  },
-  addReview: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  addReview = () => {
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
@@ -104,8 +109,9 @@ var AddReviewForm = React.createClass({
       this.setState({showError: !isValid});
       alertify.error("Please fill out required fields.");
     }
-  },
-  render: function() {
+  }
+
+  render() {
     if (!this.props.auth.loggedIn) {
       return <div>Login Required</div>;
     }
@@ -178,6 +184,6 @@ var AddReviewForm = React.createClass({
         </div>
     );
   }
-});
+};
 
 module.exports = AddReviewForm;

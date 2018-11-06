@@ -25,15 +25,15 @@ const loginWhiteStyle = {
   backgroundColor: 'rgba(256, 256, 256, 0.5)',
 }
 
-var Login = React.createClass({
-  mixins: [FormValidationMixins],
-  getDefaultProps: function() {
-    return {
-      redirect: true,
-    }
-  },
-  getInitialState: function() {
-    return {
+class Login extends React.Component{
+  defaultProps = {
+    redirect: true,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       values: {
         email:"",
         password:"",
@@ -44,17 +44,18 @@ var Login = React.createClass({
         password: () => true,
       }
     };
-  },
-  login: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  login = () => {
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
       firebase.auth().signInWithEmailAndPassword(this.state.values.email, this.state.values.password)
       .then(successInf => {
         alertify.success("You are now logged in!");
-        if (this.props.redirect) {
-          GoToLastSearch();
-        }
+        GoToLastSearch();
       })
       .catch(error => {
           alertify.error("Login Failed!");
@@ -64,14 +65,15 @@ var Login = React.createClass({
       this.setState({showError: true});
       alertify.error("Please fill out missing required fields.");
     }
-  },
-  render: function() {
+  }
+
+  render() {
     var {values} = this.state;
 
     return (
       <div>
         <div style={{width:'100%',overflow:'hidden'}} >
-          <img src={libraryIMG} width="100%" min-width="700px"/>
+          <img src={libraryIMG} width="100%" minWidth="700px"/>
         </div>
         <div style={loginWhiteStyle}>
           <div style={loginStyle}>
@@ -100,6 +102,6 @@ var Login = React.createClass({
       </div>
     )
   }
-});
+};
 
 module.exports = Login;

@@ -39,6 +39,20 @@ var FormValidationMixins = {
     // data.formValid[id] = valid;
     this.setState(data);
   },
+
+  addAndBind: function(myThis) {
+    myThis.isValid = FormValidationMixins.isValid;
+    myThis.onChange = FormValidationMixins.onChange;
+    myThis.onChangeWithValue = FormValidationMixins.onChangeWithValue;
+    myThis.onCheckboxChange = FormValidationMixins.onCheckboxChange;
+    myThis.validateAllRequiredFields = FormValidationMixins.validateAllRequiredFields;
+
+    myThis.isValid = myThis.isValid.bind(myThis);
+    myThis.onChange = myThis.onChange.bind(myThis);
+    myThis.onChangeWithValue = myThis.onChangeWithValue.bind(myThis);
+    myThis.onCheckboxChange = myThis.onCheckboxChange.bind(myThis);
+    myThis.validateAllRequiredFields = myThis.validateAllRequiredFields.bind(myThis);
+  }
 }
 
 module.exports = FormValidationMixins;

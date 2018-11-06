@@ -57,22 +57,24 @@ var getDefaultBook = () => ({
   goodreadsId: '',
 });
 
-var AddBook = React.createClass({
-  mixins: [FormValidationMixins],
-  propTypes: {
+class AddBook extends React.Component{
+  static propTypes = {
     books: PropTypes.object,
     initBook: PropTypes.object,
     loadSynopsis: PropTypes.bool,
     bookId: PropTypes.string,
     auth: PropTypes.object,
-  },
-  getInitialState: function() {
+  }
+
+  constructor(props) {
+    super(props);
+
     var values = getDefaultBook();
     if (this.props.initBook) {
       values = _.pick(this.props.initBook, BOOK_PICK_LIST) 
     }
 
-    return {
+    this.state = {
       search: {
         books: {},
         manual: false,
@@ -93,14 +95,18 @@ var AddBook = React.createClass({
       genres: [],
       locations: [],
     };
-  },
-  componentDidMount: function() {
+
+    FormValidationMixins.addAndBind(this);
+  }
+
+  componentDidMount = () => {
     var book = this.props.initBook;
     if (book && book.goodreadsId && this.props.loadSynopsis) {
       this.loadSynopsis(book.goodreadsId);
     }
-  },
-  loadSynopsis: function(goodreadsId) {
+  }
+
+  loadSynopsis = (goodreadsId) => {
     if (goodreadsId) {
       GoodReads.lookupBook(goodreadsId, (error, foundBook) => {
         if (error) {
@@ -119,8 +125,9 @@ var AddBook = React.createClass({
     else {
       alertify.error("You must specify a goodreads id to load the synopsis");
     }
-  },
-  addBook: function() {
+  }
+
+  addBook = () => {
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
@@ -172,8 +179,9 @@ var AddBook = React.createClass({
       this.setState({showError: true});
       alertify.error("Please fill out missing required fields.");
     }
-  },
-  addGenre: function() {
+  }
+
+  addGenre = () => {
     alertify.prompt("New Genre", function (e, str) {
         // str is the input text
         if (e) {
@@ -182,8 +190,9 @@ var AddBook = React.createClass({
             // user clicked "cancel"
         }
     }, "Default Value");
-  },
-  render: function() {
+  }
+
+  render() {
     var values = this.state.values;
 
     var imageUrl;
@@ -302,6 +311,6 @@ var AddBook = React.createClass({
       </div>
     );
   }
-});
+};
 
 module.exports = AddBook;
