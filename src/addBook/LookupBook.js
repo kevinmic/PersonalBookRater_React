@@ -47,7 +47,7 @@ class LookupBook extends React.Component{
        alertify.error("Search in progress");
     }
     else if (search.length > 0) {
-      alertify.success("Searching");
+      alertify.message("Searching");
       this.setState({searchedBooks: [], searching: true});
 
       var searchText = search.join(" and ");

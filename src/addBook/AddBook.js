@@ -108,7 +108,7 @@ class AddBook extends React.Component{
         }
       });
       this.setState({loading:true});
-      alertify.success("Lookup up synopsis from goodreads");
+      alertify.message("Lookup up synopsis from goodreads");
     }
     else {
       alertify.error("You must specify a goodreads id to load the synopsis");
