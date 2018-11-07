@@ -5,11 +5,9 @@ In addition, I want a better rating system than other book rating systems provid
 To get this app to work you need to configure a few things.
 
 1.   This app hooks up to firebase.   In order for it to work correctly you will need to create the following file.
-config/firebase-info.js
+src/config/firebase-info.js
 
-This file contains
-module.exports = { firebaseurl: "myFirebaseUrl"  }
-
+This file contains the firebase config
 
 2.   The structure of the firebase is defined in firebase.example.json
 
@@ -33,12 +31,7 @@ NOTES FOR DEPLOYMENT
 ---------------------------------
 To Deploy run
 
-webpack; firebase deploy
-
-
-To Setup for a specific Environemnt run one of the following (Note, I haven't committed the files that these scripts point at):
-./setup_test.sh
-./setup_prod.sh
+npm run build; firebase deploy
 
 
 To Create Webtask run
