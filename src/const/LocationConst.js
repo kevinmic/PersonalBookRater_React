@@ -6,4 +6,4 @@ const LOCATION_LIST = [
   {value:"Recommended to Buy", type:''},
 ];
 
-module.exports = LOCATION_LIST;
+export default LOCATION_LIST;

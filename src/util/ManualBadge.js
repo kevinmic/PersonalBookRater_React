@@ -31,4 +31,4 @@ class ManualBadge extends React.Component{
   }
 };
 
-module.exports = ManualBadge;
+export default ManualBadge;

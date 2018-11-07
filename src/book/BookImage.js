@@ -42,4 +42,4 @@ class BookImage extends React.Component{
   }
 };
 
-module.exports = BookImage;
+export default BookImage;

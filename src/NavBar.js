@@ -2,6 +2,9 @@ import React from 'react';
 import bookHeaderIMG from './images/BookHeader.jpg';
 import logoIMG from './images/Logo.png';
 import PropTypes from 'prop-types';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 
 import {GoToLastSearch} from './util/GoToHelper';
 
@@ -54,7 +57,7 @@ class NavBar extends React.Component{
         <div className="hfColor" style={{height:'15px'}}/>
         <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
           <a onClick={GoToLastSearch}>
-            <image src={logoIMG} />
+            <img src={logoIMG} />
           </a>
           <ul className="navlinks" id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
             <li><a onClick={GoToLastSearch}>LIBRARY</a></li>
@@ -68,7 +71,7 @@ class NavBar extends React.Component{
             </li>
           </ul>
         </div>
-        {this.props.showBooksBar?<div><image src={bookHeaderIMG} width="100%"/></div>:''}
+        {this.props.showBooksBar?<div><img src={bookHeaderIMG} width="100%"/></div>:''}
         {this.props.showBooksBar?<hr style={{marginTop:'10px'}}/>:''}
       </div>
     );
@@ -76,4 +79,4 @@ class NavBar extends React.Component{
 
 };
 
-module.exports = NavBar;
+export default NavBar;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 const activeStyle = {
   backgroundColor: '#D0D0D0',
@@ -22,7 +23,7 @@ var getOrElseMax = function(desired, max) {
 var generateButtonForPage = function(pageZeroBased, pageSize, changeIndex, currPage) {
   var index = pageZeroBased * pageSize;
   var pageOneBased = pageZeroBased + 1;
-  return generateButton(pageZeroBased, pageOneBased, pageZeroBased == currPage, () => changeIndex(index));
+  return generateButton(pageZeroBased, pageOneBased, pageZeroBased === currPage, () => changeIndex(index));
 }
 
 var generateButton = function(key, label, isActive, onClick) {
@@ -93,4 +94,4 @@ class Pagination extends React.Component{
   }
 };
 
-module.exports = Pagination;
+export default Pagination;

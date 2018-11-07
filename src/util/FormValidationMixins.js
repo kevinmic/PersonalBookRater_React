@@ -55,4 +55,4 @@ var FormValidationMixins = {
   }
 }
 
-module.exports = FormValidationMixins;
+export default FormValidationMixins;

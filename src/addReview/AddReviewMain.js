@@ -50,4 +50,4 @@ class AddReviewMain extends React.Component{
   }
 };
 
-module.exports = AddReviewMain;
+export default AddReviewMain;

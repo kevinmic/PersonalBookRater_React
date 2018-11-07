@@ -60,4 +60,4 @@ class RatingOptions extends React.Component {
 };
 
 
-module.exports = RatingOptions;
+export default RatingOptions;

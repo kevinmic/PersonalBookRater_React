@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 
 import FormValidationMixins from '../util/FormValidationMixins';
 import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
@@ -96,4 +99,4 @@ class ChangeUserPassword extends React.Component{
   }
 };
 
-module.exports = ChangeUserPassword;
+export default ChangeUserPassword;

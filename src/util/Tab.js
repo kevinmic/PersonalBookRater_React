@@ -38,4 +38,4 @@ class LinkTab extends React.Component {
   }
 };
 
-module.exports = {LinkTab, FillinTab};
+export {LinkTab, FillinTab};

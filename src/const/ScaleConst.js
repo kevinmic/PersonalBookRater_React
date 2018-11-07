@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash'
 
 const SCALE_PROPTYPE = PropTypes.shape({
   key: PropTypes.string.isRequired,
@@ -57,7 +58,7 @@ const AGE_SCALE = {
   "A": {key:"A", order:4, labelType:"label-default", description:"Adult"},
 }
 
-module.exports = {
+export default {
   scaleMapToList,
   SCALE_PROPTYPE,
   RATING_SCALE,

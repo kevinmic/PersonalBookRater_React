@@ -133,4 +133,4 @@ class ReviewInfo extends React.Component{
   }
 };
 
-module.exports = ReviewInfo;
+export default ReviewInfo;

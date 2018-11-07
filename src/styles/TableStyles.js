@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   inputLabel: {
     width: '10%',
     whiteSpace: 'nowrap',

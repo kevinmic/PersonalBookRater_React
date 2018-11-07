@@ -19,4 +19,4 @@ var GENRE_LIST = [
   {value:'Military - War'}
 ];
 
-module.exports = GENRE_LIST;
+export default GENRE_LIST;

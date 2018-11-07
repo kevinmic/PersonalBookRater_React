@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 var sortByOverallRating = function(books, asc) {
   var booksWithoutReviews = books.filter((book) => _.isEmpty(book.reviews));
   var mappedBooks = books.filter((book) => !_.isEmpty(book.reviews)).map((book) => {
@@ -6,8 +8,8 @@ var sortByOverallRating = function(books, asc) {
     return {average: average, book: book, title: book.title};
   });
 
-  var sortedBooksWithoutReviews = _.sortByOrder(booksWithoutReviews, 'title', true);
-  var sortedBooks = _.sortByOrder(mappedBooks, ['average','title'], asc).map((value) => value.book);
+  var sortedBooksWithoutReviews = _.orderBy(booksWithoutReviews, ['title']);
+  var sortedBooks = _.orderBy(mappedBooks, ['average','title'], [asc]).map((value) => value.book);
 
   return sortedBooks.concat(sortedBooksWithoutReviews);
 };
@@ -18,22 +20,22 @@ var sortIt = function(books, sortType, asc) {
   }
 
   if (sortType == "author" || sortType == "title") {
-    return _.sortByOrder(books, [sortType], asc);
+    return _.orderBy(books, [sortType], [asc]);
   } else {
     if (sortType == "reviewDate") {
-      return _.sortByOrder(books, ['latestReviewDate'], ['desc']);
+      return _.orderBy(books, ['latestReviewDate'], ['desc']);
     }
     if (sortType == "overallRating") {
       var booksWithoutReviews = books.filter((book) => _.isEmpty(book.reviews));
       var booksWithReviews = books.filter((book) => !_.isEmpty(book.reviews));
-      var part1 = _.sortByOrder(booksWithReviews, ['overallRating', 'latestReviewDate'], ['desc', 'desc']);
+      var part1 = _.orderBy(booksWithReviews, ['overallRating', 'latestReviewDate'], ['desc', 'desc']);
       return part1.concat(booksWithoutReviews);
     }
     if (sortType == "seriesBookNumber") {
       var booksWithoutSeries = books.filter((book) => !book.seriesTitle);
       var booksWithSeries = books.filter((book) => book.seriesTitle);
-      var part1 = _.sortByOrder(booksWithSeries, ['seriesTitle', 'seriesBookNumber'], ['asc', 'asc']);
-      var part2 = _.sortByOrder(booksWithoutSeries, ['title'], ['asc']);
+      var part1 = _.orderBy(booksWithSeries, ['seriesTitle', 'seriesBookNumber'], ['asc', 'asc']);
+      var part2 = _.orderBy(booksWithoutSeries, ['title'], ['asc']);
       return part1.concat(part2);
     }
   }
@@ -41,4 +43,4 @@ var sortIt = function(books, sortType, asc) {
   return books;
 };
 
-module.exports = sortIt;
+export default sortIt;

@@ -1,3 +1,4 @@
+import alertify from 'alertifyjs';
 
 var filterBooks = function(filterStr, books) {
   if (filterStr) {
@@ -77,7 +78,7 @@ var parseFilter = function(filter) {
     }
   }
 
-  if (retFilter.filter.indexOf("-") == 0) {
+  if (retFilter.filter.indexOf("-") === 0) {
     retFilter.negate=true;
     retFilter.filter=retFilter.filter.slice(1);
   }
@@ -92,4 +93,4 @@ const validFilterTypes = {
 }
 
 
-module.exports = filterBooks;
+export default filterBooks;

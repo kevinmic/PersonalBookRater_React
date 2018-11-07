@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Scales from '../const/ScaleConst';
 import ManualBadge from '../util/ManualBadge';
 import BookData from '../book/BookData';
@@ -10,16 +11,15 @@ import sharedStyles from './Styles';
 import LocationConst from '../const/LocationConst';
 
 var showHeaderIcons = function(book) {
-  var headerIcons = [];
   if (book.locationOfBook) {
     return LocationConst.filter((loc) => book.locationOfBook.indexOf(loc.value) >= 0)
         .map((loc) => loc.type) // change to type
         .filter((loc) => loc) // filter out blanks
         .map((type) => {
-          if (type == 'kindle') {
+          if (type === 'kindle') {
             return <span key={type} style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} title="Kindle" className="fa fa-book"/>
           }
-          if (type == 'audible') {
+          if (type === 'audible') {
             return <span key={type}  style={{fontSize: '20px', paddingLeft:'2px', paddingRight:'5px'}} title="Audible" className="fa fa-headphones"/>
           }
           return null;
@@ -147,4 +147,4 @@ class BookReview extends React.Component{
 
 };
 
-module.exports = BookReview;
+export default BookReview;

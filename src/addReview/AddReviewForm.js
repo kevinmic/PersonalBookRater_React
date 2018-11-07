@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 
 import Scales from '../const/ScaleConst';
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
@@ -186,4 +189,4 @@ class AddReviewForm extends React.Component{
   }
 };
 
-module.exports = AddReviewForm;
+export default AddReviewForm;

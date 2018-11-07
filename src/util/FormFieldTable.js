@@ -9,9 +9,9 @@ const ERROR_STYLE = {
 }
 
 function stopEnterSubmitting(submitFunction, e, allowEnter) {
-    if (e && e.charCode == 13) {
+    if (e && e.charCode === 13) {
         var src = e.srcElement || e.target;
-        if (src.tagName.toLowerCase() != "textarea" && (!src.type || src.type != "submit")) {
+        if (src.tagName.toLowerCase() !== "textarea" && (!src.type || src.type !== "submit")) {
             e.preventDefault();
             if (allowEnter && submitFunction) {
               submitFunction();
@@ -95,7 +95,7 @@ class FormFieldSubmit extends React.Component{
       <tr>
         {this.props.showLabel?<td/>:null}
         <td style={TableStyles.submitRow}>
-          <button type={btnType} style={this.props.btnStyle} onClick={btnType == "submit"?null:this.props.onClick} className="btn btn-default">{this.props.label}</button>
+          <button type={btnType} style={this.props.btnStyle} onClick={btnType === "submit"?null:this.props.onClick} className="btn btn-default">{this.props.label}</button>
           &nbsp;
           {this.props.children}
         </td>
@@ -124,7 +124,7 @@ class FormFieldInput extends React.Component{
     var {id, data} = this.props;
 
     var className = "form-control";
-    if (inputType == 'checkbox' || inputType == 'radio') {
+    if (inputType === 'checkbox' || inputType === 'radio') {
       className = "";
     }
     return (
@@ -217,7 +217,7 @@ class AutoSuggestFormField extends React.Component{
   }
 };
 
-module.exports = {
+export {
   FormFieldInput,
   FormFieldCheckBox,
   FormField,

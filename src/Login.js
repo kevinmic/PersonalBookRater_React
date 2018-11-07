@@ -1,5 +1,8 @@
 import React from 'react';
 import libraryIMG from './images/Library.jpg';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';
@@ -104,4 +107,4 @@ class Login extends React.Component{
   }
 };
 
-module.exports = Login;
+export default Login;

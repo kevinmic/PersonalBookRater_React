@@ -1,4 +1,4 @@
-var x2js = new X2JS();
+import firebase from 'firebase';
 var WEBTASK_URL;
 
 var loadUrl = function() {
@@ -20,7 +20,7 @@ var lookupBook = function(grBookId, callback) {
   var url = WEBTASK_URL + "?type=book&bookId=" + grBookId;
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", (param) => {
-    if (oReq.status == 200) {
+    if (oReq.status === 200) {
       callback(null, JSON.parse(oReq.response));
     }
     else {
@@ -40,7 +40,7 @@ var searchBook = function(name, callback) {
   var url = WEBTASK_URL + "?type=search&q=" + name;
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", (param) => {
-    if (oReq.status == 200) {
+    if (oReq.status === 200) {
       callback(null, JSON.parse(oReq.response));
     }
     else {
@@ -52,4 +52,4 @@ var searchBook = function(name, callback) {
 };
 
 
-module.exports = {searchBook, lookupBook, loadUrl};
+export default {searchBook, lookupBook, loadUrl};

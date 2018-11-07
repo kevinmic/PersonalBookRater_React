@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 
 import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
@@ -313,4 +316,4 @@ class AddBook extends React.Component{
   }
 };
 
-module.exports = AddBook;
+export default AddBook;

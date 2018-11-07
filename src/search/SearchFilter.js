@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Scales from '../const/ScaleConst';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
@@ -289,4 +290,4 @@ class SearchFilter extends React.Component{
   }
 };
 
-module.exports = SearchFilter;
+export default SearchFilter;

@@ -89,4 +89,4 @@ class BookData extends React.Component{
 
 };
 
-module.exports = BookData;
+export default BookData;

@@ -51,4 +51,4 @@ class ScaleBadge extends React.Component {
   }
 };
 
-module.exports = ScaleBadge;
+export default ScaleBadge;

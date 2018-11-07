@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
 
 import GoodReads from './GoodReadsBookLookup';
 import AddBook from './AddBook';
@@ -133,4 +135,4 @@ class LookupBook extends React.Component{
   }
 };
 
-module.exports = LookupBook;
+export default LookupBook;

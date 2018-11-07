@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import AddBook from './AddBook';
 
@@ -23,4 +24,4 @@ class EditBook extends React.Component{
   }
 };
 
-module.exports = EditBook;
+export default EditBook;

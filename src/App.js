@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PubSub from 'pubsub-js';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import firebaseInit from './util/FireBaseInit';
+import alertify from 'alertifyjs';
+import _ from 'lodash';
+import firebase from 'firebase';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
 import AddUser from './addUser/AddUser';
@@ -11,10 +14,8 @@ import EditBook from './addBook/EditBook';
 import LookupBook from './addBook/LookupBook';
 import AddReviewMain from './addReview/AddReviewMain';
 
-alertify.logPosition("bottom right");
-
 var fixReview = function(review) {
-  if (review.violenceRating== 'FV') {
+  if (review.violenceRating === 'FV') {
     review.violenceRating = 'MV';
   }
 };
@@ -153,14 +154,14 @@ class App extends React.Component{
 
     var location = 'search';
     var data = [];
-    if (split && split.length > 1 && split[0] == '#') {
+    if (split && split.length > 1 && split[0] === '#') {
       location = split[1];
       if (split.length > 2) {
         data = split.slice(2, split.length);
       }
     }
 
-    if (location == 'search' && data) {
+    if (location === 'search' && data) {
       this.setState({searchId: data[0], lastSearchId: data[0]})
     }
     this.setState({location: location, hashdata: data})
@@ -169,7 +170,7 @@ class App extends React.Component{
   renderChildren = () => {
     return React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
-        books: booksPlusReviews,
+        // ??? books: booksPlusReviews,
         users: this.state.users,
         auth: this.state.auth,
       });
@@ -228,7 +229,7 @@ class App extends React.Component{
         loginActive = true;
       break;
       case 'user':
-        if (this.state.hashdata[0] == 'new') {
+        if (this.state.hashdata[0] === 'new') {
           body = <AddUser auth={this.state.auth}/>
         }
         else {
@@ -243,7 +244,7 @@ class App extends React.Component{
         body = <AddReviewMain users={this.state.users} books={booksPlusReviews} auth={this.state.auth} bookId={bookId}/>
         break;
       case 'book':
-        if (this.state.hashdata[0] == 'new') {
+        if (this.state.hashdata[0] === 'new') {
           body = <LookupBook users={this.state.users} books={booksPlusReviews} auth={this.state.auth}/>
         }
         else {
@@ -277,4 +278,4 @@ class App extends React.Component{
   }
 };
 
-module.exports = App;
+export default App;

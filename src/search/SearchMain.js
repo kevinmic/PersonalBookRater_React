@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import BookReview2 from './BookReview';
 import SearchFilter from './SearchFilter';
 import sortIt from './sort.js';
@@ -113,10 +114,10 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     }
 
     if (auth && read) {
-      var hasRead = read == "yes";
+      var hasRead = read === "yes";
       books = books.filter((book) => {
         var check = (book.reviews && book.reviews[auth.userid])?true:false;
-        return check == hasRead;
+        return check === hasRead;
       });
     }
     books = sortIt(books, sort.sortType, sort.sortAsc);
@@ -159,7 +160,7 @@ class Search extends React.Component{
   }
 
   componentWillReceiveProps = (newProps) => {
-    if (newProps.searchId != this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
+    if (newProps.searchId !== this.props.searchId && !_.isEmpty(newProps.prevSearch)) {
       this.setState(_.merge({}, getInitialState(), newProps.prevSearch));
     }
   }
@@ -172,8 +173,8 @@ class Search extends React.Component{
 
   changeFilter = (type, value) => {
     var filterOptions = this.state.filterOptions;
-    if (type == 'sort') {
-      var asc = sortOptions.filter((option) => option.name == value)[0].asc;
+    if (type === 'sort') {
+      var asc = sortOptions.filter((option) => option.name === value)[0].asc;
       filterOptions.sort = {sortType: value, sortAsc: asc};
     }
     else {
@@ -183,7 +184,7 @@ class Search extends React.Component{
   }
 
   changeSearch = (value) => {
-    if (this.state.search != value) {
+    if (this.state.search !== value) {
       this.setState({search: value, startIndex: 0});
     }
   }
@@ -192,7 +193,7 @@ class Search extends React.Component{
     var newState = _.merge({}, this.state);
     newState.search = '';
     _.forEach(_.keys(newState.filterOptions), (key) => {
-      if (key != 'sort') {
+      if (key !== 'sort') {
         newState.filterOptions[key] = '';
       }
     });
@@ -267,4 +268,4 @@ class Search extends React.Component{
   }
 };
 
-module.exports = Search;
+export default Search;
