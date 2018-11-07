@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "alertify.js": "^0.3.11",
     "alertifyjs": "^1.11.2",
     "bootstrap": "^3.3.6",
     "firebase": "^5.5.1",
@@ -11,8 +10,8 @@
     "npm": "^6.4.1",
     "prop-types": "15.6.2",
     "pubsub-js": "^1.5.3",
-    "react": "^16.1.2",
-    "react-dom": "^16.1.1",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
     "react-scripts": "2.1.1",
     "react-select": "^1.2.1"
   },
