@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import alertify from 'alertifyjs';
-import _ from 'lodash';
 
 import GoodReads from './GoodReadsBookLookup';
 import AddBook from './AddBook';
 import BookData from '../book/BookData';
 import BookImage from '../book/BookImage';
 import FormValidationMixins from '../util/FormValidationMixins';
-import TableStyles from '../styles/TableStyles';
-import {AutoSuggestFormField, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
+import {FormFieldSubmit, FormTable, FormFieldInput} from '../util/FormFieldTable';
 
 class LookupBook extends React.Component{
   static propTypes = {
@@ -49,7 +47,7 @@ class LookupBook extends React.Component{
        alertify.error("Search in progress");
     }
     else if (search.length > 0) {
-      alertify.log("Searching");
+      alertify.success("Searching");
       this.setState({searchedBooks: [], searching: true});
 
       var searchText = search.join(" and ");

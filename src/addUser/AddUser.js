@@ -5,8 +5,7 @@ import _ from 'lodash';
 import firebase from 'firebase';
 
 import FormValidationMixins from '../util/FormValidationMixins';
-import {AutoSuggestFormField, FormFieldCheckBox, FormField, FormFieldSubmit, FormTable, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
-import TableStyles from '../styles/TableStyles';
+import {FormFieldCheckBox, FormFieldSubmit, FormTable, FormFieldInput} from '../util/FormFieldTable';
 
 const INITIAL_VALUES = {
   name:"",

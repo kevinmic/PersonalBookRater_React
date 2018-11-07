@@ -106,6 +106,7 @@ class BookReview extends React.Component{
       addReviewUI = (
           <div>
             <div>
+                {/* eslint-disable-next-line */}
                 {this.props.auth && this.props.auth.loggedIn?<a onClick={this.toggleAddReviewExpanded} ><span className={getArrowClass(this.state.addReviewDirect)}/> {book.reviews[this.props.auth.userid]?"Edit":"Add"} Review</a>:""}
             </div>
             {this.state.addReviewDirect?<AddReviewForm style={_.merge({width:'500px', backgroundColor: '#f0f2f5'},sharedStyles.box)} book={book} auth={this.props.auth} callback={this.toggleAddReviewExpanded}/>:null}
@@ -134,6 +135,7 @@ class BookReview extends React.Component{
               {combinedRatingUI}
             </div>
             {reviewsUI}
+            {/* eslint-disable-next-line */}
             <a onClick={this.toggleExpanded} ><span className={getArrowClass(this.state.expanded)}/> Book Info</a>
             {expandedBookUI}
             {addReviewUI}

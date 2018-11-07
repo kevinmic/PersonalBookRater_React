@@ -1,20 +1,24 @@
 import alertify from 'alertifyjs';
 
+var processFilter = (filter, books) => {
+  return books.filter((book) => {
+    var includeIt = validFilterTypes[filter.type](book, filter.filter);
+    if (filter.negate) {
+      return !includeIt;
+    }
+    return includeIt;
+  });
+}
+
 var filterBooks = function(filterStr, books) {
   if (filterStr) {
     filterStr = filterStr.toLowerCase();
     var filters = filterStr.split(";");
+
     for (var i = 0; i < filters.length; i++) {
       var filter = parseFilter(filters[i]);
-      // console.log("filter", filter);
       if (filter.isValid) {
-        books = books.filter((book) => {
-          var includeIt = validFilterTypes[filter.type](book, filter.filter);
-          if (filter.negate) {
-            return !includeIt;
-          }
-          return includeIt;
-        });
+        books = processFilter(filter, books);
       }
     }
   }
@@ -67,7 +71,7 @@ var parseFilter = function(filter) {
   if (match) {
     var type = match[1];
     var subFilter = match[2].trim();
-    var retFilter = {isValid: false, type: type, filter: subFilter};
+    retFilter = {isValid: false, type: type, filter: subFilter};
     if (subFilter) {
       if (validFilterTypes[type]) {
         retFilter.isValid = true;

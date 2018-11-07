@@ -5,15 +5,6 @@ import RSelect from 'react-select';
 import '../react-select.css';
 import ScaleBadge from './ScaleBadge';
 
-const helpers = {
-  ratingToOption: function(ratingList) {
-    return ratingList.map((rating) => {
-      const {key, description} = rating;
-      return <option key={key} value={key}>{key + ' - ' + description}</option>;
-    });
-  }
-}
-
 class RatingOptions extends React.Component {
   static propTypes = {
     rateList: PropTypes.object.isRequired,
@@ -44,7 +35,7 @@ class RatingOptions extends React.Component {
   }
 
   render() {
-    var {rateList, onChange, value} = this.props;
+    var {rateList, value} = this.props;
 
     var mappedValues = Scales.scaleMapToList(rateList).map((rate) => {return {value:rate.key, label:rate.key + " - " + rate.description}});
     return (

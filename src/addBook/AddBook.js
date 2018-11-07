@@ -4,10 +4,9 @@ import alertify from 'alertifyjs';
 import _ from 'lodash';
 import firebase from 'firebase';
 
-import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
+import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import BookImage from '../book/BookImage';
-import TableStyles from '../styles/TableStyles';
 import GenreConst from '../const/GenreConst';
 import LocationConst from '../const/LocationConst';
 import GoodReads from './GoodReadsBookLookup';
@@ -20,20 +19,6 @@ var bookChanged = function(bookA, bookB) {
   var b = _.pick(bookB, BOOK_PICK_LIST);
 
   return !_.isEqual(a,b);
-}
-
-var getSubGenres = function(genre) {
-  if (genre) {
-    var genreObj = GenreConst.filter((val) => val.value == genre);
-    if (genreObj.length > 0) {
-      var subs = genreObj[0].subs;
-      if (subs && subs.length > 0) {
-        return subs.map((val) => {return {value: val.value, label: val.value}})
-      }
-    }
-  }
-
-  return [];
 }
 
 var saveBook = (bookRef, book, callback) => {
@@ -87,10 +72,10 @@ class AddBook extends React.Component{
       required: {
         title: () => true,
         seriesTitle: function(values) {
-          return values.seriesBookNumber != ""
+          return values.seriesBookNumber !== ""
         },
         seriesBookNumber: function(values) {
-          return values.seriesTitle != ""
+          return values.seriesTitle !== ""
         },
         author: () => true,
         genre: () => true,
@@ -123,7 +108,7 @@ class AddBook extends React.Component{
         }
       });
       this.setState({loading:true});
-      alertify.log("Lookup up synopsis from goodreads");
+      alertify.success("Lookup up synopsis from goodreads");
     }
     else {
       alertify.error("You must specify a goodreads id to load the synopsis");
@@ -134,15 +119,15 @@ class AddBook extends React.Component{
     var isValid = this.validateAllRequiredFields();
 
     if (isValid) {
-      var {values} = this.state;
       var book = _.pick(this.state.values, BOOK_PICK_LIST);
 
       book.changedBy = [{userid: this.props.auth.userid, date: new Date().getTime()}];
       book.reviews = {};
 
       var firebaseRef = firebase.database().ref('/books');
+      var bookRef;
       if (this.props.bookId) {
-        var bookRef = firebaseRef.child(this.props.bookId);
+        bookRef = firebaseRef.child(this.props.bookId);
         bookRef.once("value").then((bookSnapShot) => {
           var data = bookSnapShot.val();
           if (!_.isEmpty(data)) {
@@ -166,7 +151,7 @@ class AddBook extends React.Component{
         });
       }
       else {
-        var bookRef = firebaseRef.push();
+        bookRef = firebaseRef.push();
         book.bookId = bookRef.key;
         saveBook(bookRef, book, () => {
           if (_.get(this.props.auth, 'roles.reviews')) {
@@ -212,7 +197,7 @@ class AddBook extends React.Component{
     }
 
     if (values.title && this.props.books) {
-      var matchingBooks = _.values(this.props.books).filter((book) => values.title == book.title).filter((book) => book.bookId != this.props.bookId);
+      var matchingBooks = _.values(this.props.books).filter((book) => values.title === book.title).filter((book) => book.bookId !== this.props.bookId);
       if (matchingBooks.length > 0) {
         var titleDuplicate = (
           <tr>
@@ -225,7 +210,6 @@ class AddBook extends React.Component{
         )
       }
     }
-    var subGenres = getSubGenres(this.state.values.genre);
 
     return (
       <div style={{width:'800px'}}>
@@ -304,6 +288,7 @@ class AddBook extends React.Component{
                 rows="5"
                 id="synopsis"
                 onChange={this.onChange}/>
+              {/* eslint-disable-next-line */}
               <div style={{float:'right'}}><a onClick={() => this.loadSynopsis(this.state.values.goodreadsId)}>Load Synopsis from GoodReads.com</a></div>
               {this.state.loading?<div><h5>Loading <span className="fa fa-cog fa-spin"/></h5></div>:null}
           </FormField>

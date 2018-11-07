@@ -20,7 +20,7 @@ class BookImage extends React.Component{
 
   render() {
     var {book} = this.props;
-    var image = <img style={imgStyle} width="120px;" src={book.imageUrl} />
+    var image = <img style={imgStyle} width="120px;" src={book.imageUrl} alt="book cover" />
     if (!book.imageUrl) {
       image = <div className="fa fa-ban fa-5x" style={{color: '#FA9D9D', paddingTop: '30px', paddingBottom: '30px', width: '120px', verticalAlign: 'center'}}></div>
     }

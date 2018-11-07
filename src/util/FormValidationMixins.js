@@ -13,13 +13,9 @@ var FormValidationMixins = {
   },
 
   validateAllRequiredFields: function() {
-    var isValid = true;
-    Object.keys(this.state.required).map((key) => {
-      if (!this.isValid(key, true)) {
-        isValid = false;
-      }
-    });
-    return isValid;
+    return Object.keys(this.state.required)
+      .map((key) => this.isValid(key, true))
+      .reduce((valid, curr) => valid && curr);
   },
 
   onChange: function(prop, valid) {

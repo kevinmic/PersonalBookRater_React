@@ -36,7 +36,7 @@ class FormField extends React.Component{
 
   render() {
     var errorStyle = {};
-    var {id, label, data, isValid} = this.props;
+    var {id, label, isValid} = this.props;
 
     if (!isValid(id)) {
       errorStyle = ERROR_STYLE;

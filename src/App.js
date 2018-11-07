@@ -2,8 +2,8 @@ import React from 'react';
 import PubSub from 'pubsub-js';
 import NavBar from './NavBar';
 import Footer from './Footer';
+// eslint-disable-next-line
 import firebaseInit from './util/FireBaseInit';
-import alertify from 'alertifyjs';
 import _ from 'lodash';
 import firebase from 'firebase';
 import SearchMain from './search/SearchMain';

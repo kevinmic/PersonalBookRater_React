@@ -23,7 +23,7 @@ class InnerRow extends React.Component{
     onClick: PropTypes.func,
   }
 
-  defaultProps = {
+  static defaultProps = {
     label: "",
     value: "",
     showExtra: true,
@@ -37,6 +37,7 @@ class InnerRow extends React.Component{
       value = <span dangerouslySetInnerHTML={{__html:marked(value)}}/>
     }
     else if (this.props.onClick) {
+      // eslint-disable-next-line
       value = <a onClick={() => this.props.onClick(this.props.value)}>{this.props.value}</a>
     }
 

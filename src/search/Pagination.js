@@ -54,7 +54,6 @@ class Pagination extends React.Component{
       pages = Math.ceil(length/pageSize);
     }
 
-    var left
     var pagesUI = [];
 
     var startPage = getOrElseMin(currPage - 5, 0);

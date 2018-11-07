@@ -5,10 +5,9 @@ import _ from 'lodash';
 import firebase from 'firebase';
 
 import Scales from '../const/ScaleConst';
-import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from '../util/FormFieldTable';
+import {FormField, FormTable, FormFieldSubmit} from '../util/FormFieldTable';
 import FormValidationMixins from '../util/FormValidationMixins';
 import RatingOptions from '../util/RatingOptions';
-import TableStyles from '../styles/TableStyles';
 
 class RatingOptionsWFormField extends React.Component{
   static propTypes = {

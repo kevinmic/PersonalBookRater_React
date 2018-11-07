@@ -1,10 +1,9 @@
 import React from 'react';
 import libraryIMG from './images/Library.jpg';
 import alertify from 'alertifyjs';
-import _ from 'lodash';
 import firebase from 'firebase';
 
-import {AutoSuggestFormField, FormField, FormTable, FormFieldSubmit, FormFieldInput, stopEnterSubmitting} from './util/FormFieldTable';
+import {FormTable, FormFieldSubmit, FormFieldInput} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';
 import {GoToLastSearch} from './util/GoToHelper';
 
@@ -13,7 +12,6 @@ const loginStyle = {
   height:'150px',
   position:'absolute',
   top:'45%',
-  marginTop:'50%',
   marginTop:'-50px',
   left:'50%',
   marginLeft:'-150px',
@@ -29,7 +27,7 @@ const loginWhiteStyle = {
 }
 
 class Login extends React.Component{
-  defaultProps = {
+  static defaultProps = {
     redirect: true,
   }
 
@@ -76,7 +74,7 @@ class Login extends React.Component{
     return (
       <div>
         <div style={{width:'100%',overflow:'hidden'}} >
-          <img src={libraryIMG} width="100%" minWidth="700px"/>
+          <img src={libraryIMG} width="100%" minWidth="700px" alt=""/>
         </div>
         <div style={loginWhiteStyle}>
           <div style={loginStyle}>

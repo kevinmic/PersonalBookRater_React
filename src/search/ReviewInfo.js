@@ -24,9 +24,7 @@ var printDate = function(date) {
       function (a,y,m,d) {
           return [
               d, // Day
-              ['Jan','Feb','Mar','Apr','May','Jun',  // Month Names
-              'Jul','Ago','Sep','Oct','Nov','Dec']
-              [m-1], // Month
+              ['Jan','Feb','Mar','Apr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dec'][m-1], // Month
               y  // Year
           ].join('-') // Stitch together
       });
@@ -68,10 +66,12 @@ class ReviewInfo extends React.Component{
     if (this.state.expanded) {
       return (
         <div key={review.reviewId}>
+          {/* eslint-disable-next-line */}
           <a onClick={this.toggleShow} ><span className="fa fa-caret-down"/> Hide</a>
           <div style={sharedStyles.box}>
             <table width="100%">
               <tbody>
+                {/* eslint-disable-next-line */}
                 <ReviewRow header="Reviewed By"><a onClick={() => SearchByReviewer(review.reviewId)}>{review.reviewedBy}</a></ReviewRow>
                 <ReviewRow header="Review Date">{printDate(new Date(review.reviewDate))}</ReviewRow>
                 {review.ageAppropriate?<ReviewRow header="Minimum Age">{Scales.AGE_SCALE[review.ageAppropriate].description}</ReviewRow>:null}
@@ -107,6 +107,7 @@ class ReviewInfo extends React.Component{
     else {
       return(
           <div key={review.reviewId}>
+            {/* eslint-disable-next-line */}
             <a onClick={this.toggleShow} ><span className="fa fa-caret-right"/> Show</a>
             &nbsp;
             <span className="miniBadge">
@@ -125,6 +126,7 @@ class ReviewInfo extends React.Component{
               <ScaleBadge rateTypeKey="Violence" rateType="Violence" rateList={Scales.VIOLENCE_SCALE} rateKey={review.violenceRating}/>
             </span>
             &nbsp;
+            {/* eslint-disable-next-line */}
             <a onClick={() => SearchByReviewer(review.reviewId)}>{review.reviewedBy}</a>
             {review.reviewDescription?<span className="fa fa-file-text-o green" title="Has Text Review" style={{marginLeft:'10px'}}/>:""}
           </div>

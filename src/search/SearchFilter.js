@@ -73,6 +73,7 @@ class ExpandableFilter extends React.Component{
 
     var labelUI = (
       <div>
+        {/* eslint-disable-next-line */}
         <a onClick={this.toggleExpand} style={{textDecoration:'none'}}><span className={caretStyle}/>&nbsp;<label style={this.props.data?activeLabelStyle:labelStyle}>{this.props.label}</label></a>
       </div>
     );
@@ -129,6 +130,7 @@ class SearchTips extends React.Component{
 
     return (
       <div style={{textAlign:'right'}}>
+        {/* eslint-disable-next-line */}
         <a onClick={this.onClick}>Search Tips</a>
         {show}
       </div>
@@ -153,7 +155,7 @@ class SearchFilter extends React.Component{
   }
 
   componentWillReceiveProps = (newProps) => {
-    if (newProps.search != this.props.search) {
+    if (newProps.search !== this.props.search) {
       this.setState({search: newProps.search});
     }
   }
@@ -186,8 +188,6 @@ class SearchFilter extends React.Component{
     var {filterOptions, users} = this.props;
     var {search} = this.state;
 
-    var sortOptions = this.props.sortOptions.map((option) => <option key={option.name} value={option.name}>{option.label}</option>)
-
     return (
       <div>
         <div>
@@ -203,7 +203,7 @@ class SearchFilter extends React.Component{
             placeholder="Type in your search"
             data-toggle="tooltip"
             data-placement="bottom"
-            onKeyPress={(e) => { if (e.charCode==13) { this.changeSearch(search, true); } }}
+            onKeyPress={(e) => { if (e.charCode===13) { this.changeSearch(search, true); } }}
             title={"Default Search -- title + author + series \n" +
                    "Specific Fields -- author: title: series:\n" +
                    "Multiple Searches -- seperate with ;\n" +

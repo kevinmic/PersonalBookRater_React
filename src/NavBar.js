@@ -24,6 +24,7 @@ class LoginInfo extends React.Component{
       return (
         <span >
           <span style={{fontSize:'13px'}}><a href="#/changepassword">{auth.username}</a>&nbsp;</span>
+          {/* eslint-disable-next-line */}
           <a onClick={this.unAuth} style={{color: '#344c2d', textDecoration: 'underline'}}>Sign Out</a>
         </span>
       );
@@ -56,10 +57,12 @@ class NavBar extends React.Component{
       <div>
         <div className="hfColor" style={{height:'15px'}}/>
         <div style={{display:'flex', alignItems:'center', flexDirection: 'row', justifyContent: 'space-between', marginRight:'20px', marginLeft:'20px'}}>
+          {/* eslint-disable-next-line */}
           <a onClick={GoToLastSearch}>
-            <img src={logoIMG} />
+            <img src={logoIMG} alt="logo" />
           </a>
           <ul className="navlinks" id="mainnav" style={{marginTop: '0px', marginBottom:'0px'}}>
+            {/* eslint-disable-next-line */}
             <li><a onClick={GoToLastSearch}>LIBRARY</a></li>
             {seperator}
             {addBook}
@@ -71,7 +74,7 @@ class NavBar extends React.Component{
             </li>
           </ul>
         </div>
-        {this.props.showBooksBar?<div><img src={bookHeaderIMG} width="100%"/></div>:''}
+        {this.props.showBooksBar?<div><img src={bookHeaderIMG} width="100%" alt=""/></div>:''}
         {this.props.showBooksBar?<hr style={{marginTop:'10px'}}/>:''}
       </div>
     );

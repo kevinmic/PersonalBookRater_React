@@ -25,7 +25,7 @@ class ScaleBadge extends React.Component {
     }
 
     if (this.props.expanded) {
-      if (rate.key == "?") { // Override the description if unknown
+      if (rate.key === "?") { // Override the description if unknown
         rate.description = "";
       }
       return (

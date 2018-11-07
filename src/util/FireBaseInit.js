@@ -1,4 +1,4 @@
-import firebaseInfo from '../firebase-info-test.js';
+import firebaseInfo from '../config/firebase-info-test.js';
 import firebase from 'firebase';
 
 firebase.initializeApp(firebaseInfo);
