@@ -2,10 +2,12 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "firebase": "^5.5.1"
+  },
   "dependencies": {
     "alertifyjs": "^1.11.2",
     "bootstrap": "^3.3.6",
-    "firebase": "^5.5.1",
     "marked": "^0.3.5",
     "npm": "^6.4.1",
     "prop-types": "15.6.2",

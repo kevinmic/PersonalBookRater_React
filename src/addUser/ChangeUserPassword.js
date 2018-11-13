@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import alertify from 'alertifyjs';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import FormValidationMixins from '../util/FormValidationMixins';
 import {FormFieldSubmit, FormTable, FormFieldInput} from '../util/FormFieldTable';

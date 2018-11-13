@@ -1,7 +1,8 @@
 import React from 'react';
 import libraryIMG from './images/Library.jpg';
 import alertify from 'alertifyjs';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import {FormTable, FormFieldSubmit, FormFieldInput} from './util/FormFieldTable';
 import FormValidationMixins from './util/FormValidationMixins';

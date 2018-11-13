@@ -4,7 +4,8 @@ import logoIMG from './images/Logo.png';
 import PropTypes from 'prop-types';
 import alertify from 'alertifyjs';
 import _ from 'lodash';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import {GoToLastSearch} from './util/GoToHelper';
 

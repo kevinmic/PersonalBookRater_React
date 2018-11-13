@@ -1,5 +1,5 @@
 import firebaseInfo from '../config/firebase-info-test.js';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 firebase.initializeApp(firebaseInfo);
 

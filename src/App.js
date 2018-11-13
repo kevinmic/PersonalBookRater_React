@@ -5,7 +5,9 @@ import Footer from './Footer';
 // eslint-disable-next-line
 import firebaseInit from './util/FireBaseInit';
 import _ from 'lodash';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
 import SearchMain from './search/SearchMain';
 import Login from './Login';
 import AddUser from './addUser/AddUser';
