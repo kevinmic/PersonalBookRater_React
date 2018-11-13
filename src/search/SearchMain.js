@@ -35,11 +35,11 @@ const getInitialState = () => ({
   startIndex: 0,
 });
 
-var setupOverallRating = function(books) {
+var setupOverallRating = function(books, reviewer) {
   return books.map((book) => {
-    var reviews = _.values(book.reviews);
+    var reviews = _.filter(_.values(book.reviews), (review) => !reviewer || review.reviewId == reviewer);
     if (reviews && reviews.length > 0) {
-      var value = _.sum(reviews, (review) => review.recommendRating) / reviews.length;
+      var value = _.sumBy(reviews, (review) => parseInt(review.recommendRating)) / reviews.length;
       book.overallRating = (Math.round(value * 10)/10);
     }
     return book;
@@ -89,7 +89,7 @@ var runFilterBooks = function(books, search, filterOptions, auth) {
     books = filterBooks(search, books);
     if (overallRating) {
       var overallInt = parseInt(overallRating);
-      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) >= overallInt);
+      books = books.filter((book) => book.overallRating && parseInt(book.overallRating) === overallInt);
     }
     if (profanityRating) {
       books = filterByScale('profanityRating', profanityRating, books, Scales.PROFANITY_SCALE);
@@ -205,7 +205,7 @@ class Search extends React.Component{
   }
 
   render() {
-    var books = setupOverallRating(_.values(this.props.books));
+    var books = setupOverallRating(_.values(this.props.books), this.state.filterOptions.reviewer);
     books = setupLatestReviewDate(books);
     books = runFilterBooks(books, this.state.search, this.state.filterOptions, this.props.auth);
     var totalBooks = books.length;
